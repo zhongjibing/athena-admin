@@ -19,7 +19,8 @@ const service = axios.create({
   // 超时
   timeout: 10000,
   validateStatus: status => status >= 200 && status < 300,
-  maxRedirects: 5
+  maxRedirects: 5,
+  withCredentials: true
 })
 
 // request拦截器
@@ -70,7 +71,7 @@ service.interceptors.request.use(config => {
 // 响应拦截器
 service.interceptors.response.use(res => {
     if (res.status === 232) {
-        location.href = res.headers['location'] || res.headers['Location'] + "?redirect_uri=" + location.href
+        location.href = res.headers['location'] || res.headers['Location']
     }
     // 未设置状态码则默认成功状态
     const code = res.data.code || 200;

@@ -25,7 +25,7 @@ export default defineConfig(({mode, command}) => {
                 '/dev': {
                     target: 'http://127.0.0.1:8092',
                     changeOrigin: true,
-                    rewrite: (p) => p.replace(/^\/dev/, ''),
+                    rewrite: (p) => p.replace(/^\/dev/, '')
                 },
                 '/oauth2': {
                     target: 'http://127.0.0.1:8092',
@@ -33,6 +33,7 @@ export default defineConfig(({mode, command}) => {
                     configure: (proxy, options) => {
                         proxy.on('proxyRes', (proxyRes, req, res) => {
                             if (proxyRes.statusCode === 302) {
+                                console.log(proxyRes.headers)
                                 res.writeHead(232, proxyRes.headers)
                             }
                         })
