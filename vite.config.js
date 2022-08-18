@@ -25,11 +25,7 @@ export default defineConfig(({mode, command}) => {
                 '/dev': {
                     target: 'http://127.0.0.1:8092',
                     changeOrigin: true,
-                    rewrite: (p) => p.replace(/^\/dev/, '')
-                },
-                '/oauth2': {
-                    target: 'http://127.0.0.1:8092',
-                    changeOrigin: true,
+                    rewrite: (p) => p.replace(/^\/dev/, ''),
                     configure: (proxy, options) => {
                         proxy.on('proxyRes', (proxyRes, req, res) => {
                             if (proxyRes.statusCode === 302) {
@@ -37,6 +33,14 @@ export default defineConfig(({mode, command}) => {
                                 res.writeHead(232, proxyRes.headers)
                             }
                         })
+                    },
+                    cookieDomainRewrite: {
+                        '127.0.0.1:8092': 'localhost:8090',
+                        '*': ''
+                    },
+                    cookiePathRewrite: {
+                        '/': '/',
+                        '*': ''
                     }
                 }
             }
