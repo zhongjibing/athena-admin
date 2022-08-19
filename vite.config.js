@@ -19,11 +19,16 @@ export default defineConfig(({mode, command}) => {
         },
         server: {
             port: port,
-            host: true,
+            host: "icezhg.cn",
             open: false,
             proxy: {
                 '/dev': {
-                    target: 'http://127.0.0.1:8092',
+                    target: 'http://icezhg.cn:8092',
+                    changeOrigin: true,
+                    rewrite: (p) => p.replace(/^\/dev/, '')
+                },
+                '/oauth2': {
+                    target: 'http://icezhg.cn:8092',
                     changeOrigin: true,
                     rewrite: (p) => p.replace(/^\/dev/, ''),
                     configure: (proxy, options) => {
@@ -35,12 +40,10 @@ export default defineConfig(({mode, command}) => {
                         })
                     },
                     cookieDomainRewrite: {
-                        '127.0.0.1:8092': 'localhost:8090',
-                        '*': ''
+                        '*': 'icezhg.cn'
                     },
                     cookiePathRewrite: {
-                        '/': '/',
-                        '*': ''
+                        '*': '/'
                     }
                 }
             }
