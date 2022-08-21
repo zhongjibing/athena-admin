@@ -23,12 +23,12 @@ export default defineConfig(({mode, command}) => {
             open: false,
             proxy: {
                 '/dev': {
-                    target: 'http://icezhg.cn:8092',
+                    target: 'https://icezhg.com/athena/',
                     changeOrigin: true,
                     rewrite: (p) => p.replace(/^\/dev/, '')
                 },
                 '/oauth2': {
-                    target: 'http://icezhg.cn:8092',
+                    target: 'https://icezhg.com/athena/',
                     changeOrigin: true,
                     rewrite: (p) => p.replace(/^\/dev/, ''),
                     configure: (proxy, options) => {

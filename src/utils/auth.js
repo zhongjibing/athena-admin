@@ -1,5 +1,15 @@
 import store from '@/store'
 
 export function checkLogin() {
-  return Cookies.get(TokenKey)
+  return false
+}
+
+export function getToken() {
+  return ""
+}
+
+export function setToken(token) {
+}
+
+export function removeToken() {
 }
