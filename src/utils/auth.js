@@ -1,6 +1,7 @@
 import store from '@/store'
 
-export function checkLogin() {
+
+export function authenticated() {
   return false
 }
 

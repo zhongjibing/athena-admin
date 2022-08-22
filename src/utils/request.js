@@ -20,7 +20,8 @@ const service = axios.create({
   // 超时
   timeout: 10000,
   validateStatus: status => status >= 200 && status < 300,
-  maxRedirects: 5
+  maxRedirects: 5,
+  withCredentials: true
 })
 
 // request拦截器
@@ -108,9 +109,8 @@ service.interceptors.response.use(res => {
     }
   },
   error => {
-    console.log('err',  error)
     if (error.response.status === 401) {
-      location.href = 'https://icezhg.com/athena/oauth2/authorization/athena'
+        location.href = import.meta.env.VITE_APP_LOGIN_PAGE
     }
     let { message } = error;
     if (message == "Network Error") {
