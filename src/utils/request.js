@@ -11,6 +11,8 @@ let downloadLoadingInstance;
 export let isRelogin = { show: false };
 
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
+axios.defaults.headers['Accept'] = 'application/json'
+axios.defaults.withCredentials = true
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
@@ -18,8 +20,7 @@ const service = axios.create({
   // 超时
   timeout: 10000,
   validateStatus: status => status >= 200 && status < 300,
-  maxRedirects: 5,
-  withCredentials: true
+  maxRedirects: 5
 })
 
 // request拦截器
@@ -65,9 +66,6 @@ service.interceptors.request.use(config => {
 
 // 响应拦截器
 service.interceptors.response.use(res => {
-    if (res.status === 232) {
-        location.href = res.headers['location'] || res.headers['Location']
-    }
     // 未设置状态码则默认成功状态
     const code = res.data.code || 200;
     // 获取错误信息
@@ -110,7 +108,10 @@ service.interceptors.response.use(res => {
     }
   },
   error => {
-    console.log('err' + error)
+    console.log('err',  error)
+    if (error.response.status === 401) {
+      location.href = 'https://icezhg.com/athena/oauth2/authorization/athena'
+    }
     let { message } = error;
     if (message == "Network Error") {
       message = "后端接口连接异常";

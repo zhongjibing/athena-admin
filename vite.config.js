@@ -20,33 +20,7 @@ export default defineConfig(({mode, command}) => {
         server: {
             port: port,
             host: "icezhg.cn",
-            open: false,
-            proxy: {
-                '/dev': {
-                    target: 'https://icezhg.com/athena/',
-                    changeOrigin: true,
-                    rewrite: (p) => p.replace(/^\/dev/, '')
-                },
-                '/oauth2': {
-                    target: 'https://icezhg.com/athena/',
-                    changeOrigin: true,
-                    rewrite: (p) => p.replace(/^\/dev/, ''),
-                    configure: (proxy, options) => {
-                        proxy.on('proxyRes', (proxyRes, req, res) => {
-                            if (proxyRes.statusCode === 302) {
-                                console.log(proxyRes.headers)
-                                res.writeHead(232, proxyRes.headers)
-                            }
-                        })
-                    },
-                    cookieDomainRewrite: {
-                        '*': 'icezhg.cn'
-                    },
-                    cookiePathRewrite: {
-                        '*': '/'
-                    }
-                }
-            }
+            open: false
         }
     }
 })
