@@ -7,16 +7,18 @@ import {isRelogin} from '@/utils/request'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
+import { authenticated } from "./utils/auth.js";
 
 NProgress.configure({showSpinner: false})
 
 const whiteList = []
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     NProgress.start()
-    if (useUserStore().authenticated()) {
+    debugger
+    if (await authenticated() === 1) {
         to.meta.title && useSettingsStore().setTitle(to.meta.title)
-        if (useUserStore().roles.length < 0) {
+        if (useUserStore().roles.length === 0) {
             isRelogin.show = true
             // 判断当前用户是否已拉取完user_info信息
             useUserStore().getInfo().then(() => {
@@ -41,13 +43,10 @@ router.beforeEach((to, from, next) => {
             next()
         }
     } else {
-        // 没有token
         if (whiteList.indexOf(to.path) !== -1) {
-            // 在免登录白名单，直接进入
             next()
         } else {
             NProgress.done()
-            // 否则全部重定向到登录页
             location.href = import.meta.env.VITE_APP_LOGIN_PAGE
         }
     }

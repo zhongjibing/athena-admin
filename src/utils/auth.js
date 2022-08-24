@@ -1,8 +1,12 @@
-import store from '@/store'
+import userStore from "../store/modules/user"
 
 
-export function authenticated() {
-  return false
+export async function authenticated() {
+    const store = userStore()
+    if (store.status === -1) {
+        await store.getInfo()
+    }
+    return store.status
 }
 
 export function getToken() {
