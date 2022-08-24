@@ -20,7 +20,6 @@ const service = axios.create({
 service.interceptors.request.use(config => {
     // 是否需要防止数据重复提交
     const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
-    debugger
     if (config.method === 'get' && config.params) {
         let url = config.url + '?' + tansParams(config.params);
         url = url.slice(0, -1);

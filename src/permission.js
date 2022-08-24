@@ -15,7 +15,6 @@ const whiteList = []
 
 router.beforeEach(async (to, from, next) => {
     NProgress.start()
-    debugger
     if (await authenticated() === 1) {
         to.meta.title && useSettingsStore().setTitle(to.meta.title)
         if (useUserStore().roles.length === 0) {
