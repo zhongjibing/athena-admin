@@ -91,7 +91,7 @@ service.interceptors.response.use(response => {
         }
 
         ElMessage({
-            message: message,
+            message: "message",
             type: 'error',
             duration: 5 * 1000
         })
