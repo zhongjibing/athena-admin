@@ -13,9 +13,9 @@ NProgress.configure({showSpinner: false})
 
 const whiteList = []
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
     NProgress.start()
-    if (await authenticated() === 1) {
+    if (authenticated()) {
         to.meta.title && useSettingsStore().setTitle(to.meta.title)
         if (useUserStore().roles.length === 0) {
             isRelogin.show = true
@@ -26,7 +26,9 @@ router.beforeEach(async (to, from, next) => {
                     // 根据roles权限生成可访问的路由表
                     accessRoutes.forEach(route => {
                         if (!isHttp(route.path)) {
-                            router.addRoute(route) // 动态添加可访问路由表
+                            // console.log(router.getRoutes(), route)
+
+                            // router.addRoute(route) // 动态添加可访问路由表
                         }
                     })
                     next({...to, replace: true}) // hack方法 确保addRoutes已完成
