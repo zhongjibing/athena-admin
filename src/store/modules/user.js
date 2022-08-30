@@ -21,7 +21,7 @@ const userStore = defineStore('user', {
                     this.avatar = res.data['picture'] || defAva
                     this.roles = res.data['authorities'] || ['ROLE_DEFAULT']
                     this.csrf = res.headers['x-csrf-token'] || ''
-                    this.permissions = ['system:user:edit', 'system:dict:list', 'system:role:edit', 'system:user:edit']
+                    this.permissions = ['*:*:*']
                     resolve(res.data)
                 }).catch(error => {
                     reject(error)
