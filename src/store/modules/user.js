@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { authenticated, logOut, userInfo } from '@/api/user'
+import { logOut, userInfo } from '@/api/user'
 import defAva from '@/assets/images/profile.jpg'
 
 const userStore = defineStore('user', {
@@ -21,6 +21,7 @@ const userStore = defineStore('user', {
                     this.avatar = res.data['picture'] || defAva
                     this.roles = res.data['authorities'] || ['ROLE_DEFAULT']
                     this.csrf = res.headers['x-csrf-token'] || ''
+                    this.permissions = ['system:user:edit', 'system:dict:list', 'system:role:edit', 'system:user:edit']
                     resolve(res.data)
                 }).catch(error => {
                     reject(error)

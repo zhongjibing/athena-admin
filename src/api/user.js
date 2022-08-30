@@ -1,10 +1,12 @@
 import request from '@/utils/request'
+import ajax from '@/utils/ajax';
 
 export function authenticated() {
-    return request({
-        url: '/authenticated',
+    const result = ajax({
+        url: import.meta.env.VITE_APP_BASE_API + '/authenticated',
         method: 'get'
     })
+    return result === 'true'
 }
 
 export function userInfo() {

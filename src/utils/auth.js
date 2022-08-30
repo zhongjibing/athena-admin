@@ -1,16 +1,11 @@
-import userStore from "../store/modules/user"
+import { authenticated as isLogin } from '@/api/user'
 
-
-export async function authenticated() {
-    const store = userStore()
-    if (store.status === -1) {
-        await store.getInfo()
-    }
-    return store.status
+export function authenticated() {
+    return isLogin()
 }
 
 export function getToken() {
-  return ""
+    return ""
 }
 
 export function setToken(token) {

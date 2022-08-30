@@ -58,7 +58,6 @@ service.interceptors.request.use(config => {
 })
 
 service.interceptors.response.use(response => {
-        console.log(response)
         return Promise.resolve(response)
     },
     error => {
