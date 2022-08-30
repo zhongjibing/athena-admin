@@ -6,27 +6,27 @@
           领取阿里云通用云产品1888优惠券
           <br />
           <el-link
-            href="https://www.aliyun.com/minisite/goods?userCode=brki8iof"
+            href="https://icezhg.com"
             type="primary"
             target="_blank"
-            >https://www.aliyun.com/minisite/goods?userCode=brki8iof</el-link
+            >https://icezhg.com</el-link
           >
           <br />
           领取腾讯云通用云产品2860优惠券
           <br />
           <el-link
-            href="https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console"
+            href="https://icezhg.com"
             type="primary"
             target="_blank"
-            >https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console</el-link
+            >htt</el-link
           >
           <br />
           阿里云服务器折扣区
-          <el-link href="http://aly.ruoyi.vip" type="primary" target="_blank"
+          <el-link href="https://icezhg.com" type="primary" target="_blank"
             >>☛☛点我进入☚☚</el-link
           >
           &nbsp;&nbsp;&nbsp; 腾讯云服务器秒杀区
-          <el-link href="http://txy.ruoyi.vip" type="primary" target="_blank"
+          <el-link href="https://icezhg.com" type="primary" target="_blank"
             >>☛☛点我进入☚☚</el-link
           ><br />
           <h4 class="text-danger">
@@ -60,7 +60,7 @@
           <el-button
             icon="HomeFilled"
             plain
-            @click="goTarget('http://ruoyi.vip')"
+            @click="goTarget('http://https://icezhg.com')"
             >访问主页</el-button
           >
         </p>
@@ -112,18 +112,15 @@
           <div class="body">
             <p>
               <i class="el-icon-s-promotion"></i> 官网：<el-link
-                href="http://www.ruoyi.vip"
+                href="https://icezhg.com"
                 target="_blank"
-                >http://www.ruoyi.vip</el-link
+                >https://icezhg.com</el-link
               >
             </p>
             <p>
               <i class="el-icon-user-solid"></i> QQ群：<s>满937441</s> <s>满887144332</s>
               <s>满180251782</s> <s>满104180207</s> <s>满186866453</s> <s>满201396349</s>
-              <s>满101456076</s> <s>满101539465</s> <s>满264312783</s> <s>满167385320</s> 
-              <s>满139821253</s> <a href="https://jq.qq.com/?_wv=1027&k=96Dkdq0k" target="_blank">
-                104748341</a
-              >
+              <s>满101456076</s> <s>满101539465</s> <s>满264312783</s> <s>满167385320</s>
             </p>
             <p>
               <i class="el-icon-chat-dot-round"></i> 微信：<a
