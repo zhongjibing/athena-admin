@@ -5,7 +5,7 @@
         <el-card>
           <template #header><span>CPU</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <table cellspacing="0" style="width: 100%;">
+            <table v-loading="!server.cpu" cellspacing="0" style="width: 100%;">
               <thead>
                 <tr>
                   <th class="el-table__cell is-leaf"><div class="cell">属性</div></th>
@@ -39,7 +39,7 @@
         <el-card>
           <template #header><span>内存</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <table cellspacing="0" style="width: 100%;">
+            <table v-loading="!server.mem || !server.jvm" cellspacing="0" style="width: 100%;">
               <thead>
                 <tr>
                   <th class="el-table__cell is-leaf"><div class="cell">属性</div></th>
@@ -78,7 +78,7 @@
         <el-card>
           <template #header><span>服务器信息</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <table cellspacing="0" style="width: 100%;">
+            <table v-loading="!server.sys" cellspacing="0" style="width: 100%;">
               <tbody>
                 <tr>
                   <td class="el-table__cell is-leaf"><div class="cell">服务器名称</div></td>
@@ -102,7 +102,7 @@
         <el-card>
           <template #header><span>Java虚拟机信息</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <table cellspacing="0" style="width: 100%;table-layout:fixed;">
+            <table v-loading="!server.sys || !server.jvm" cellspacing="0" style="width: 100%;table-layout:fixed;">
               <tbody>
                 <tr>
                   <td class="el-table__cell is-leaf"><div class="cell">Java名称</div></td>
@@ -138,7 +138,7 @@
         <el-card>
           <template #header><span>磁盘状态</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <table cellspacing="0" style="width: 100%;">
+            <table v-loading="!server.fileSys" cellspacing="0" style="width: 100%;">
               <thead>
                 <tr>
                   <th class="el-table__cell el-table__cell is-leaf"><div class="cell">盘符路径</div></th>
@@ -150,8 +150,8 @@
                   <th class="el-table__cell is-leaf"><div class="cell">已用百分比</div></th>
                 </tr>
               </thead>
-              <tbody v-if="server.sysFiles">
-                <tr v-for="(sysFile, index) in server.sysFiles" :key="index">
+              <tbody v-if="server.fileSys">
+                <tr v-for="(sysFile, index) in server.fileSys" :key="index">
                   <td class="el-table__cell is-leaf"><div class="cell">{{ sysFile.dirName }}</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell">{{ sysFile.sysTypeName }}</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell">{{ sysFile.typeName }}</div></td>
@@ -169,19 +169,33 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { getServer } from '@/api/monitor/server'
 
-const server = ref([]);
-const { proxy } = getCurrentInstance();
-
-function getList() {
-  proxy.$modal.loading("正在加载服务监控数据，请稍候！");
-  getServer().then(response => {
-    server.value = response.data;
-    proxy.$modal.closeLoading();
-  });
+export default {
+    data() {
+        return {
+            server: {}
+        }
+    },
+    mounted() {
+        this.loadInfo()
+        setInterval(() => this.loadInfo(), 300 * 1000)
+    },
+    methods: {
+        getInfo(name) {
+            return getServer(name).then(res => {
+                this.server[name] = res.data
+                return res.data
+            })
+        },
+        loadInfo() {
+            this.getInfo("cpu")
+            this.getInfo("mem")
+            this.getInfo("jvm")
+            this.getInfo("sys")
+            this.getInfo("fileSys")
+        }
+    }
 }
-
-getList();
 </script>

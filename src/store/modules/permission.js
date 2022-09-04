@@ -51,7 +51,6 @@ const usePermissionStore = defineStore(
                         this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
                         this.setDefaultRoutes(sidebarRoutes)
                         this.setTopbarRoutes(defaultRoutes)
-                        console.log(rewriteRoutes)
                         resolve(rewriteRoutes)
                     })
                 })

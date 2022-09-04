@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { logOut, userInfo } from '@/api/user'
+import { authenticated, logOut, userInfo } from '@/api/user'
 import defAva from '@/assets/images/profile.jpg'
 
 const userStore = defineStore('user', {
     state: () => ({
-        status: -1,
+        status: authenticated(),
         name: '',
         avatar: '',
         roles: [],

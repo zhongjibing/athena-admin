@@ -1,7 +1,7 @@
-import { authenticated as isLogin } from '@/api/user'
+import useUserStore from '@/store/modules/user'
 
 export function authenticated() {
-    return isLogin()
+    return useUserStore().status
 }
 
 export function getToken() {

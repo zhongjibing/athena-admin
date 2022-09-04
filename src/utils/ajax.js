@@ -1,10 +1,7 @@
 /**
  * Created by zhongjibing on 2017/8/18.
  */
-
-"use strict"
-
-const ajax = function (options) {
+export default function ajax(options) {
 
     function encodeParam(data, parent) {
         const params = []
@@ -102,6 +99,4 @@ const ajax = function (options) {
 
     return rtnData
 }
-
-export default ajax
 

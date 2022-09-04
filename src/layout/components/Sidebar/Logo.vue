@@ -25,7 +25,7 @@ defineProps({
   }
 })
 
-const title = ref('若依管理系统');
+const title = ref('Athena');
 const settingsStore = useSettingsStore();
 const sideTheme = computed(() => settingsStore.sideTheme);
 </script>
@@ -54,8 +54,8 @@ const sideTheme = computed(() => settingsStore.sideTheme);
     width: 100%;
 
     & .sidebar-logo {
-      width: 32px;
-      height: 32px;
+      width: 16px;
+      height: 16px;
       vertical-align: middle;
       margin-right: 12px;
     }
