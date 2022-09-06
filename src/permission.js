@@ -6,7 +6,7 @@ import { isRelogin } from '@/utils/request'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
-import { authenticated } from './utils/auth'
+import { authenticated } from '@/utils/auth'
 
 NProgress.configure({showSpinner: false})
 
