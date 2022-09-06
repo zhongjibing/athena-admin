@@ -4,7 +4,7 @@ import defAva from '@/assets/images/profile.jpg'
 
 const userStore = defineStore('user', {
     state: () => ({
-        status: authenticated(),
+        status: null,
         name: '',
         avatar: '',
         roles: [],
@@ -12,6 +12,13 @@ const userStore = defineStore('user', {
         csrf: ''
     }),
     actions: {
+        async authenticated() {
+            if (this.status === null) {
+                const res = await authenticated()
+                this.status = res.data
+            }
+            return this.status
+        },
         // 获取用户信息
         getInfo() {
             return new Promise((resolve, reject) => {
