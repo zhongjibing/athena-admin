@@ -16,6 +16,9 @@ const userStore = defineStore('user', {
             if (this.status === null) {
                 const res = await authenticated()
                 this.status = res.data
+                if (this.status) {
+                    this.csrf = res.headers['x-csrf-token'] || ''
+                }
             }
             return this.status
         },
@@ -27,7 +30,6 @@ const userStore = defineStore('user', {
                     this.name = res.data['name']
                     this.avatar = res.data['picture'] || defAva
                     this.roles = res.data['authorities'] || ['ROLE_DEFAULT']
-                    this.csrf = res.headers['x-csrf-token'] || ''
                     this.permissions = ['*:*:*']
                     resolve(res.data)
                 }).catch(error => {
