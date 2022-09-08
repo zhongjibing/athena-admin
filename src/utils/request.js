@@ -26,7 +26,7 @@ service.interceptors.request.use(config => {
         config.params = {};
         config.url = url;
     }
-    if (config.method === 'post' || config.method === 'put') {
+    if (config.method === 'post' || config.method === 'put' || config.method === 'delete') {
         config.headers['X-CSRF-TOKEN'] = useUserStore().csrf
     }
     if (!isRepeatSubmit && (config.method === 'post' || config.method === 'put')) {
@@ -82,19 +82,21 @@ service.interceptors.response.use(response => {
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         }
         if (code === 500) {
+            const msg = "系统未知错误，请反馈给管理员"
             ElMessage({
-                message: "msg",
+                message: msg,
                 type: 'error'
             })
-            return Promise.reject(new Error("msg"))
+            return Promise.reject(new Error(msg))
         }
 
+        const msg = error.response.data || '后端接口异常'
         ElMessage({
-            message: "message",
+            message: msg,
             type: 'error',
             duration: 5 * 1000
         })
-        return Promise.reject(error)
+        return Promise.reject(msg)
     }
 )
 

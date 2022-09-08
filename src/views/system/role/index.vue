@@ -296,7 +296,7 @@ const data = reactive({
     },
     rules: {
         name: [{required: true, message: "角色名称不能为空", trigger: "blur"}],
-        description: [{required: true, message: "权限字符不能为空", trigger: "blur"}],
+        description: [{required: true, message: "角色描述不能为空", trigger: "blur"}],
         orderNum: [{required: true, message: "角色顺序不能为空", trigger: "blur"}]
     },
 });
@@ -328,7 +328,7 @@ function resetQuery() {
 
 /** 删除按钮操作 */
 function handleDelete(row) {
-    const roleIds = row.roleId || ids.value;
+    const roleIds = row.id ? [row.id] : ids.value
     proxy.$modal.confirm('是否确认删除角色编号为"' + roleIds + '"的数据项?').then(function () {
         return delRole(roleIds);
     }).then(() => {
@@ -347,8 +347,8 @@ function handleExport() {
 
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-    ids.value = selection.map(item => item.roleId);
-    single.value = selection.length != 1;
+    ids.value = selection.map(item => item.id);
+    single.value = selection.length !== 1;
     multiple.value = !selection.length;
 }
 
@@ -402,7 +402,7 @@ function getDeptAllCheckedKeys() {
 
 /** 重置新增的表单以及其他数据  */
 function reset() {
-    if (menuRef.value != undefined) {
+    if (menuRef.value !== null && menuRef.value !== undefined) {
         menuRef.value.setCheckedKeys([]);
     }
     menuExpand.value = false;
@@ -410,9 +410,9 @@ function reset() {
     deptExpand.value = true;
     deptNodeAll.value = false;
     form.value = {
-        roleId: undefined,
+        id: undefined,
         name: undefined,
-        roleKey: undefined,
+        description: undefined,
         orderNum: 1,
         status: "0",
         menuIds: [],
@@ -428,6 +428,9 @@ function reset() {
 function handleAdd() {
     reset();
     getMenuTreeselect();
+    if (roleList.value != null && roleList.value.length > 0) {
+        form.value.orderNum = roleList.value[roleList.value.length - 1]['orderNum'] + 1
+    }
     open.value = true;
     title.value = "添加角色";
 }
@@ -435,7 +438,7 @@ function handleAdd() {
 /** 修改角色 */
 function handleUpdate(row) {
     reset();
-    const roleId = row.roleId || ids.value;
+    const roleId = row.id || ids.value;
     const roleMenu = getRoleMenuTreeselect(roleId);
     getRole(roleId).then(response => {
         form.value = response.data;
@@ -458,8 +461,8 @@ function handleUpdate(row) {
 /** 根据角色ID查询菜单树结构 */
 function getRoleMenuTreeselect(roleId) {
     return roleMenuTreeselect(roleId).then(response => {
-        menuOptions.value = response.menus;
-        return response;
+        menuOptions.value = response.data.menus;
+        return response.data;
     });
 }
 
@@ -518,7 +521,7 @@ function getMenuAllCheckedKeys() {
 function submitForm() {
     proxy.$refs["roleRef"].validate(valid => {
         if (valid) {
-            if (form.value.roleId !== undefined) {
+            if (form.value.id !== null && form.value.id !== undefined) {
                 form.value.menuIds = getMenuAllCheckedKeys();
                 updateRole(form.value).then(response => {
                     proxy.$modal.msgSuccess("修改成功");
@@ -553,8 +556,8 @@ function dataScopeSelectChange(value) {
 /** 分配数据权限操作 */
 function handleDataScope(row) {
     reset();
-    const deptTreeSelect = getDeptTree(row.roleId);
-    getRole(row.roleId).then(response => {
+    const deptTreeSelect = getDeptTree(row.id);
+    getRole(row.id).then(response => {
         form.value = response.data;
         openDataScope.value = true;
         nextTick(() => {
