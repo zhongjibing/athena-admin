@@ -60,15 +60,15 @@
                     v-hasPermi="['system:role:remove']"
                 >删除</el-button>
             </el-col>
-            <el-col :span="1.5">
-                <el-button
-                    type="warning"
-                    plain
-                    icon="Download"
-                    @click="handleExport"
-                    v-hasPermi="['system:role:export']"
-                >导出</el-button>
-            </el-col>
+<!--            <el-col :span="1.5">-->
+<!--                <el-button-->
+<!--                    type="warning"-->
+<!--                    plain-->
+<!--                    icon="Download"-->
+<!--                    @click="handleExport"-->
+<!--                    v-hasPermi="['system:role:export']"-->
+<!--                >导出</el-button>-->
+<!--            </el-col>-->
             <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
@@ -77,8 +77,8 @@
             <el-table-column type="selection" width="55" align="center"/>
             <el-table-column label="角色编号" prop="id" min-width="80"/>
             <el-table-column label="角色名称" prop="name" :show-overflow-tooltip="true" min-width="120"/>
-            <el-table-column label="描述" prop="description" :show-overflow-tooltip="true" min-width="180"/>
-            <el-table-column label="显示顺序" prop="orderNum" min-width="80"/>
+            <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" min-width="180"/>
+            <el-table-column label="显示顺序" prop="roleSort" min-width="80"/>
             <el-table-column label="状态" align="center" min-width="100">
                 <template #default="scope">
                     <el-switch
@@ -139,23 +139,23 @@
         <!-- 添加或修改角色配置对话框 -->
         <el-dialog :title="title" v-model="open" width="500px" append-to-body>
             <el-form ref="roleRef" :model="form" :rules="rules" label-width="100px">
-                <el-form-item label="角色描述" prop="description">
-                    <el-input v-model="form.description" placeholder="请输入角色描述"/>
+                <el-form-item label="角色名称" prop="name">
+                    <el-input v-model="form.name" placeholder="请输入角色名称"/>
                 </el-form-item>
-                <el-form-item prop="name">
+                <el-form-item prop="roleKey">
                     <template #label>
                   <span>
                      <el-tooltip content="控制器中定义的权限字符，如：'admin'"
                                  placement="top">
                         <el-icon><question-filled/></el-icon>
                      </el-tooltip>
-                     角色名称
+                     权限字符
                   </span>
                     </template>
-                    <el-input v-model="form.name" placeholder="请输入角色名称"/>
+                    <el-input v-model="form.roleKey" placeholder="请输入权限字符"/>
                 </el-form-item>
-                <el-form-item label="角色顺序" prop="orderNum">
-                    <el-input-number v-model="form.orderNum" controls-position="right" :min="0"/>
+                <el-form-item label="角色顺序" prop="roleSort">
+                    <el-input-number v-model="form.roleSort" controls-position="right" :min="0"/>
                 </el-form-item>
                 <el-form-item label="状态">
                     <el-radio-group v-model="form.status">
@@ -245,14 +245,35 @@
                 </div>
             </template>
         </el-dialog>
+
+        <el-upload
+            class="upload-demo"
+            drag
+            action="http://icezhg.cn:8092/athena/picture/upload"
+            with-credentials="true"
+            :headers="headers"
+            multiple
+        >
+            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+            <div class="el-upload__text">
+                Drop file here or <em>click to upload</em>
+            </div>
+            <template #tip>
+                <div class="el-upload__tip">
+                    jpg/png files with a size less than 500kb
+                </div>
+            </template>
+        </el-upload>
     </div>
 </template>
 
 <script setup name="Role">
+import { UploadFilled } from '@element-plus/icons-vue'
 import RightToolbar from '@/components/RightToolbar'
 import { addRole, changeRoleStatus, dataScope, delRole, getRole, listRole, updateRole, deptTreeSelect } from "@/api/system/role";
 import { roleMenuTreeselect, treeselect as menuTreeselect } from "@/api/system/menu";
 import { reactive, toRefs } from 'vue';
+import useUserStore from '@/store/modules/user'
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
@@ -276,14 +297,15 @@ const deptOptions = ref([]);
 const openDataScope = ref(false);
 const menuRef = ref(null);
 const deptRef = ref(null);
+const headers = ref({})
 
 /** 数据范围选项*/
 const dataScopeOptions = ref([
-    {value: "1", label: "全部数据权限"},
-    {value: "2", label: "自定数据权限"},
-    {value: "3", label: "本部门数据权限"},
-    {value: "4", label: "本部门及以下数据权限"},
-    {value: "5", label: "仅本人数据权限"}
+    {value: 1, label: "全部数据权限"},
+    {value: 2, label: "自定数据权限"},
+    {value: 3, label: "本部门数据权限"},
+    {value: 4, label: "本部门及以下数据权限"},
+    {value: 5, label: "仅本人数据权限"}
 ]);
 
 const data = reactive({
@@ -296,10 +318,17 @@ const data = reactive({
     },
     rules: {
         name: [{required: true, message: "角色名称不能为空", trigger: "blur"}],
-        description: [{required: true, message: "角色描述不能为空", trigger: "blur"}],
-        orderNum: [{required: true, message: "角色顺序不能为空", trigger: "blur"}]
+        roleKey: [{required: true, message: "权限字符不能为空", trigger: "blur"}],
+        roleSort: [{required: true, message: "角色顺序不能为空", trigger: "blur"}]
     },
 });
+
+
+function buildHeaders() {
+    headers.value = {'X-CSRF-TOKEN' : useUserStore().csrf}
+}
+
+buildHeaders()
 
 const { queryParams, form, rules } = toRefs(data);
 
@@ -356,7 +385,7 @@ function handleSelectionChange(selection) {
 function handleStatusChange(row) {
     let text = row.status === "0" ? "启用" : "停用";
     proxy.$modal.confirm('确认要"' + text + '""' + row.name + '"角色吗?').then(function () {
-        return changeRoleStatus(row.roleId, row.status);
+        return changeRoleStatus(row.id, row.status);
     }).then(() => {
         proxy.$modal.msgSuccess(text + "成功");
     }).catch(function () {
@@ -380,7 +409,7 @@ function handleCommand(command, row) {
 
 /** 分配用户 */
 function handleAuthUser(row) {
-    router.push("/system/role-auth/user/" + row.roleId);
+    router.push('/system/auth/role/' + row.id)
 }
 
 /** 查询菜单树结构 */
@@ -412,8 +441,8 @@ function reset() {
     form.value = {
         id: undefined,
         name: undefined,
-        description: undefined,
-        orderNum: 1,
+        roleKey: undefined,
+        roleSort: 1,
         status: "0",
         menuIds: [],
         deptIds: [],
@@ -429,7 +458,7 @@ function handleAdd() {
     reset();
     getMenuTreeselect();
     if (roleList.value != null && roleList.value.length > 0) {
-        form.value.orderNum = roleList.value[roleList.value.length - 1]['orderNum'] + 1
+        form.value.roleSort = roleList.value[roleList.value.length - 1]['roleSort'] + 1
     }
     open.value = true;
     title.value = "添加角色";
@@ -442,7 +471,7 @@ function handleUpdate(row) {
     const roleMenu = getRoleMenuTreeselect(roleId);
     getRole(roleId).then(response => {
         form.value = response.data;
-        form.value.orderNum = Number(form.value.orderNum);
+        form.value.roleSort = Number(form.value.roleSort);
         open.value = true;
         nextTick(() => {
             roleMenu.then((res) => {

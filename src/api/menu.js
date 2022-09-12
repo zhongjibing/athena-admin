@@ -52,30 +52,6 @@ const menus = [
                 }
             },
             {
-                "name": "Dept",
-                "path": "dept",
-                "hidden": false,
-                "component": "system/dept/index",
-                "meta": {
-                    "title": "部门管理",
-                    "icon": "tree",
-                    "noCache": false,
-                    "link": null
-                }
-            },
-            {
-                "name": "Post",
-                "path": "post",
-                "hidden": false,
-                "component": "system/post/index",
-                "meta": {
-                    "title": "岗位管理",
-                    "icon": "post",
-                    "noCache": false,
-                    "link": null
-                }
-            },
-            {
                 "name": "Dict",
                 "path": "dict",
                 "hidden": false,

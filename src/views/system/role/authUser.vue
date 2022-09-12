@@ -11,15 +11,6 @@
                @keyup.enter="handleQuery"
             />
          </el-form-item>
-         <el-form-item label="手机号码" prop="phonenumber">
-            <el-input
-               v-model="queryParams.phonenumber"
-               placeholder="请输入手机号码"
-               clearable
-               style="width: 240px"
-               @keyup.enter="handleQuery"
-            />
-         </el-form-item>
          <el-form-item>
             <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
             <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -47,9 +38,9 @@
             >批量取消授权</el-button>
          </el-col>
          <el-col :span="1.5">
-            <el-button 
-               type="warning" 
-               plain 
+            <el-button
+               type="warning"
+               plain
                icon="Close"
                @click="handleClose"
             >关闭</el-button>
@@ -111,18 +102,17 @@ const multiple = ref(true);
 const total = ref(0);
 const userIds = ref([]);
 
+const roleId = route.params.roleId
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 10,
-  roleId: route.params.roleId,
-  userName: undefined,
-  phonenumber: undefined,
+  userName: undefined
 });
 
 /** 查询授权用户列表 */
 function getList() {
   loading.value = true;
-  allocatedUserList(queryParams).then(response => {
+  allocatedUserList(roleId, queryParams).then(response => {
     userList.value = response.rows;
     total.value = response.total;
     loading.value = false;
