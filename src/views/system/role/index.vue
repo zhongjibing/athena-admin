@@ -60,15 +60,6 @@
                     v-hasPermi="['system:role:remove']"
                 >删除</el-button>
             </el-col>
-<!--            <el-col :span="1.5">-->
-<!--                <el-button-->
-<!--                    type="warning"-->
-<!--                    plain-->
-<!--                    icon="Download"-->
-<!--                    @click="handleExport"-->
-<!--                    v-hasPermi="['system:role:export']"-->
-<!--                >导出</el-button>-->
-<!--            </el-col>-->
             <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
@@ -245,30 +236,10 @@
                 </div>
             </template>
         </el-dialog>
-
-        <el-upload
-            class="upload-demo"
-            drag
-            action="http://icezhg.cn:8092/athena/picture/upload"
-            with-credentials="true"
-            :headers="headers"
-            multiple
-        >
-            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-            <div class="el-upload__text">
-                Drop file here or <em>click to upload</em>
-            </div>
-            <template #tip>
-                <div class="el-upload__tip">
-                    jpg/png files with a size less than 500kb
-                </div>
-            </template>
-        </el-upload>
     </div>
 </template>
 
 <script setup name="Role">
-import { UploadFilled } from '@element-plus/icons-vue'
 import RightToolbar from '@/components/RightToolbar'
 import { addRole, changeRoleStatus, dataScope, delRole, getRole, listRole, updateRole, deptTreeSelect } from "@/api/system/role";
 import { roleMenuTreeselect, treeselect as menuTreeselect } from "@/api/system/menu";
@@ -367,13 +338,6 @@ function handleDelete(row) {
     });
 }
 
-/** 导出按钮操作 */
-function handleExport() {
-    proxy.download("system/role/export", {
-        ...queryParams.value,
-    }, `role_${new Date().getTime()}.xlsx`);
-}
-
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
     ids.value = selection.map(item => item.id);
@@ -391,20 +355,6 @@ function handleStatusChange(row) {
     }).catch(function () {
         row.status = row.status === "0" ? "1" : "0";
     });
-}
-
-/** 更多操作 */
-function handleCommand(command, row) {
-    switch (command) {
-        case "handleDataScope":
-            handleDataScope(row);
-            break;
-        case "handleAuthUser":
-            handleAuthUser(row);
-            break;
-        default:
-            break;
-    }
 }
 
 /** 分配用户 */

@@ -268,18 +268,6 @@ const menus = [
                 }
             }
         ]
-    },
-    {
-        "name": "Http://ruoyi.vip",
-        "path": "http://ruoyi.vip",
-        "hidden": false,
-        "component": "Layout",
-        "meta": {
-            "title": "若依官网",
-            "icon": "guide",
-            "noCache": false,
-            "link": "http://ruoyi.vip"
-        }
     }
 ]
 // 获取路由

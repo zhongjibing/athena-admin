@@ -81,6 +81,9 @@ service.interceptors.response.use(response => {
             }
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         }
+        if (code === 403) {
+            return Promise.reject(new Error(error.response.msg || ''))
+        }
         if (code === 500) {
             const msg = "系统未知错误，请反馈给管理员"
             ElMessage({
