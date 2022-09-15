@@ -1,14 +1,14 @@
-import {defineConfig, loadEnv} from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import createVitePlugins from './vite/plugins'
 import path from 'path'
 
 // https://vitejs.cn/config/
 export default defineConfig(({mode, command}) => {
     const env = loadEnv(mode, process.cwd())
-    const {VITE_APP_ENV, VITE_APP_SERVER_PORT} = env
+    const { VITE_APP_SERVER_PORT, VITE_APP_SERVER_BASE } = env
     const port = VITE_APP_SERVER_PORT || 8080
     return {
-        base: VITE_APP_ENV === 'production' ? '/' : '/',
+        base: VITE_APP_SERVER_BASE,
         plugins: createVitePlugins(env, command === 'build'),
         resolve: {
             alias: {
