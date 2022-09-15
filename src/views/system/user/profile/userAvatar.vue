@@ -24,7 +24,7 @@
     <br/>
     <el-row>
       <el-col :lg="2" :md="2">
-        <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">
+        <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload" :accept="accept">
           <el-button>
             选择
             <el-icon class="el-icon--right"><Upload /></el-icon>
@@ -51,87 +51,105 @@
 </template>
 
 <script setup>
-import "vue-cropper/dist/index.css";
-import { VueCropper } from "vue-cropper";
-import { uploadAvatar } from "@/api/system/user";
+import "vue-cropper/dist/index.css"
+import { VueCropper } from "vue-cropper"
+import { uploadAvatar } from "@/api/system/user"
 import useUserStore from '@/store/modules/user'
 
 const userStore = useUserStore()
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()
 
-const open = ref(false);
-const visible = ref(false);
-const title = ref("修改头像");
+const open = ref(false)
+const visible = ref(false)
+const title = ref("修改头像")
+
+const accept = ref(".png,.jpg,.jpeg,.bmp")
 
 //图片裁剪数据
 const options = reactive({
-  img: userStore.avatar, // 裁剪图片的地址
-  autoCrop: true, // 是否默认生成截图框
-  autoCropWidth: 200, // 默认生成截图框宽度
-  autoCropHeight: 200, // 默认生成截图框高度
-  fixedBox: true, // 固定截图框大小 不允许改变
-  previews: {} //预览数据
-});
+    img: userStore.avatar, // 裁剪图片的地址
+    name: undefined, // 图片名称
+    autoCrop: true, // 是否默认生成截图框
+    autoCropWidth: 200, // 默认生成截图框宽度
+    autoCropHeight: 200, // 默认生成截图框高度
+    fixedBox: true, // 固定截图框大小 不允许改变
+    previews: {} //预览数据
+})
 
 /** 编辑头像 */
 function editCropper() {
-  open.value = true;
-};
+    open.value = true
+}
+
 /** 打开弹出层结束时的回调 */
 function modalOpened() {
-  visible.value = true;
-};
+    visible.value = true
+}
+
 /** 覆盖默认上传行为 */
 function requestUpload() {
-};
+}
+
 /** 向左旋转 */
 function rotateLeft() {
-  proxy.$refs.cropper.rotateLeft();
-};
+    proxy.$refs.cropper.rotateLeft()
+}
+
 /** 向右旋转 */
 function rotateRight() {
-  proxy.$refs.cropper.rotateRight();
-};
+    proxy.$refs.cropper.rotateRight()
+}
+
 /** 图片缩放 */
 function changeScale(num) {
-  num = num || 1;
-  proxy.$refs.cropper.changeScale(num);
-};
+    num = num || 1
+    proxy.$refs.cropper.changeScale(num)
+}
+
 /** 上传预处理 */
 function beforeUpload(file) {
-  if (file.type.indexOf("image/") == -1) {
-    proxy.$modal.msgError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。");
-  } else {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      options.img = reader.result;
-    };
-  }
-};
+    console.log(file)
+    if (file.type.indexOf("image/") === -1) {
+        proxy.$modal.msgError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。")
+    } else if (file.size > 2097152) {
+        proxy.$modal.msgError("文件太大，请上传不大于2M的文件。")
+    } else {
+        const reader = new FileReader()
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            options.img = reader.result
+            options.name = file.name
+        }
+    }
+}
+
 /** 上传图片 */
 function uploadImg() {
-  proxy.$refs.cropper.getCropBlob(data => {
-    let formData = new FormData();
-    formData.append("avatarfile", data);
-    uploadAvatar(formData).then(response => {
-      open.value = false;
-      options.img = import.meta.env.VITE_APP_BASE_API + response.imgUrl;
-      userStore.avatar = options.img;
-      proxy.$modal.msgSuccess("修改成功");
-      visible.value = false;
-    });
-  });
-};
+    proxy.$refs.cropper.getCropBlob(data => {
+        let formData = new FormData()
+        console.log(data)
+        formData.append("file", data, options.name)
+        console.log(formData)
+        uploadAvatar(formData).then(response => {
+            open.value = false
+            options.img = import.meta.env.VITE_APP_PIC_VIEW_PREFIX + response.data.avatar
+            userStore.avatar = options.img + '?' + new Date().getTime()
+            proxy.$modal.msgSuccess("修改成功")
+            visible.value = false
+        })
+    })
+}
+
 /** 实时预览 */
 function realTime(data) {
-  options.previews = data;
-};
+    options.previews = data
+}
+
 /** 关闭窗口 */
 function closeDialog() {
-  options.img = userStore.avatar;
-  options.visible = false;
-};
+    options.img = userStore.avatar
+    options.visible = false
+}
 </script>
 
 <style lang='scss' scoped>

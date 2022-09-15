@@ -28,7 +28,7 @@ const userStore = defineStore('user', {
                 userInfo().then(res => {
                     this.status = res.data['name'] === 'anonymousUser' ? 0 : 1
                     this.name = res.data['name']
-                    this.avatar = res.data['picture'] || defAva
+                    this.avatar = res.data['picture'] ? import.meta.env.VITE_APP_PIC_VIEW_PREFIX + res.data['picture'] : defAva
                     this.roles = res.data['authorities'] || ['ROLE_DEFAULT']
                     this.permissions = ['*:*:*']
                     resolve(res.data)
