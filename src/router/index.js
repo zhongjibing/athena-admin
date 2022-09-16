@@ -107,7 +107,7 @@ export const dynamicRoutes = [
         ]
     },
     {
-        path: '/system/dict-data',
+        path: '/system/dict/data',
         component: Layout,
         hidden: true,
         permissions: ['system:dict:list'],
