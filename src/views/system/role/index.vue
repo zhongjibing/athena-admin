@@ -88,32 +88,28 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" min-width="480">
                 <template #default="scope">
                     <el-button
-                        type="primary"
+                        type="text"
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
                         v-hasPermi="['system:role:edit']"
-                        text
                     >修改</el-button>
                     <el-button
-                        type="primary"
+                        type="text"
                         icon="Delete"
                         @click="handleDelete(scope.row)"
                         v-hasPermi="['system:role:remove']"
-                        text
                     >删除</el-button>
                     <el-button
-                        type="primary"
+                        type="text"
                         icon="CircleCheck"
                         @click="handleDataScope(scope.row)"
                         v-hasPermi="['system:role:edit']"
-                        text
                     >数据权限</el-button>
                     <el-button
-                        type="primary"
+                        type="text"
                         icon="User"
                         @click="handleAuthUser(scope.row)"
                         v-hasPermi="['system:role:edit']"
-                        text
                     >分配用户</el-button>
                 </template>
             </el-table-column>

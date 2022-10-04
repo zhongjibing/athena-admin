@@ -169,6 +169,7 @@ export function handleTree(data, id, parentId, children) {
     if (childrenListMap[parentId] == null) {
       childrenListMap[parentId] = [];
     }
+    d[config.childrenList] = []
     nodeIds[d[config.id]] = d;
     childrenListMap[parentId].push(d);
   }
@@ -186,7 +187,7 @@ export function handleTree(data, id, parentId, children) {
 
   function adaptToChildrenList(o) {
     if (childrenListMap[o[config.id]] !== null) {
-      o[config.childrenList] = childrenListMap[o[config.id]];
+      o[config.childrenList] = childrenListMap[o[config.id]] || [];
     }
     if (o[config.childrenList]) {
       for (let c of o[config.childrenList]) {

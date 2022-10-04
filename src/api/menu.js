@@ -271,6 +271,14 @@ const menus = [
     }
 ]
 // 获取路由
-export const getRouters = () => {
+export const getRouters2 = () => {
   return new Promise(resolve => resolve({data: menus}))
+}
+
+// 获取路由
+export const getRouters = () => {
+    return request({
+        url: '/system/menu/tree',
+        method: 'get'
+    })
 }

@@ -37,6 +37,7 @@ const usePermissionStore = defineStore(
                 return new Promise(resolve => {
                     // 向后端请求路由数据
                     getRouters().then(res => {
+                        console.log('getRouters: ', res)
                         const sdata = JSON.parse(JSON.stringify(res.data))
                         const rdata = JSON.parse(JSON.stringify(res.data))
                         const defaultData = JSON.parse(JSON.stringify(res.data))
@@ -60,6 +61,9 @@ const usePermissionStore = defineStore(
 
 // 遍历后台传来的路由字符串，转换为组件对象
 function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
+    // children
+    // component
+    // path
     return asyncRouterMap.filter(route => {
         if (type && route.children) {
             route.children = filterChildren(route.children)

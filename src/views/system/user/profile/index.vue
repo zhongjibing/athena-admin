@@ -14,27 +14,27 @@
                   </div>
                   <ul class="list-group list-group-striped">
                      <li class="list-group-item">
-                        <svg-icon icon-class="user" />用户名称
+                        <svg-icon class="mr10" icon-class="user" />用户名称
                         <div class="pull-right">{{ state.user.username }}</div>
                      </li>
                      <li class="list-group-item">
-                        <svg-icon icon-class="phone" />手机号码
+                        <svg-icon class="mr10" icon-class="phone" />手机号码
                         <div class="pull-right">{{ state.user.mobile }}</div>
                      </li>
                      <li class="list-group-item">
-                        <svg-icon icon-class="email" />用户邮箱
+                        <svg-icon class="mr10" icon-class="email" />用户邮箱
                         <div class="pull-right">{{ state.user.email }}</div>
                      </li>
                      <li class="list-group-item">
-                        <svg-icon icon-class="tree" />出生日期
+                        <svg-icon class="mr10" icon-class="tree" />出生日期
                         <div class="pull-right">{{ state.user.birthdate }}</div>
                      </li>
                      <li class="list-group-item">
-                        <svg-icon icon-class="peoples" />所属角色
+                        <svg-icon class="mr10" icon-class="peoples" />所属角色
                         <div class="pull-right">{{ state.user.roles }}</div>
                      </li>
                      <li class="list-group-item">
-                        <svg-icon icon-class="date" />创建日期
+                        <svg-icon class="mr10" icon-class="date" />创建日期
                         <div class="pull-right">{{ parseTime(state.user.createTime) }}</div>
                      </li>
                   </ul>

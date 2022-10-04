@@ -108,7 +108,6 @@ function changeScale(num) {
 
 /** 上传预处理 */
 function beforeUpload(file) {
-    console.log(file)
     if (file.type.indexOf("image/") === -1) {
         proxy.$modal.msgError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。")
     } else if (file.size > 2097152) {
@@ -127,9 +126,7 @@ function beforeUpload(file) {
 function uploadImg() {
     proxy.$refs.cropper.getCropBlob(data => {
         let formData = new FormData()
-        console.log(data)
         formData.append("file", data, options.name)
-        console.log(formData)
         uploadAvatar(formData).then(response => {
             open.value = false
             options.img = import.meta.env.VITE_APP_PIC_VIEW_PREFIX + response.data.avatar
