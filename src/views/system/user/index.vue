@@ -60,23 +60,22 @@
        </el-row>
 
        <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
-           <el-table-column type="selection" width="55" align="center"/>
-           <el-table-column label="用户编号" align="center" key="id" prop="id" width="80" v-if="columns[0].visible"/>
-           <el-table-column label="用户名称" align="center" key="username" prop="username" width="120" v-if="columns[1].visible" :show-overflow-tooltip="true"/>
-           <el-table-column label="用户昵称" align="center" key="nickname" prop="nickname" width="120" v-if="columns[2].visible" :show-overflow-tooltip="true"/>
-           <el-table-column label="邮箱" align="center" key="email" prop="email" min-width="120" v-if="columns[2].visible" :show-overflow-tooltip="true"/>
+           <el-table-column type="selection" width="55" align="center" fixed="left"/>
+           <el-table-column label="用户编号" align="center" key="id" prop="id" width="80" fixed="left" v-if="columns[0].visible"/>
+           <el-table-column label="用户名称" align="center" key="username" prop="username" min-width="100" fixed="left" v-if="columns[1].visible" :show-overflow-tooltip="true"/>
+           <el-table-column label="用户昵称" align="center" key="nickname" prop="nickname" min-width="100" v-if="columns[2].visible" :show-overflow-tooltip="true"/>
+           <el-table-column label="邮箱" align="center" key="email" prop="email" min-width="120" v-if="columns[3].visible" :show-overflow-tooltip="true"/>
            <el-table-column label="手机号码" align="center" key="mobile" prop="mobile" width="120" v-if="columns[4].visible">
                <template #default="scope">
                    <span>{{ formatMobile(scope.row) }}</span>
                </template>
            </el-table-column>
-           <el-table-column label="性别" align="center" key="gender" prop="gender" width="100" v-if="columns[2].visible">
+           <el-table-column label="性别" align="center" key="gender" prop="gender" width="80" v-if="columns[5].visible">
                <template #default="scope">
                    <span>{{ scope.row.gender === '0' ? '女' : '男' }}</span>
                </template>
            </el-table-column>
-           <el-table-column label="生日" align="center" key="birthdate" prop="birthdate" width="120" v-if="columns[2].visible" :show-overflow-tooltip="true"/>
-           <el-table-column label="用户冻结" align="center" key="accountLocked" prop="accountLocked" width="100" v-if="columns[5].visible">
+           <el-table-column label="用户冻结" align="center" key="accountLocked" prop="accountLocked" width="100">
                <template #default="scope">
                    <el-switch
                        v-model="scope.row.accountLocked"
@@ -91,23 +90,24 @@
                    <span>{{ parseTime(scope.row.createTime) }}</span>
                </template>
            </el-table-column>
-           <el-table-column label="用户有效时间" align="center" key="deadline" prop="deadline" width="160" v-if="columns[4].visible">
+           <el-table-column label="用户有效期" align="center" key="deadline" prop="deadline" width="160" v-if="columns[7].visible">
                <template #default="scope">
                    <span>{{ parseTime(scope.row.deadline) }}</span>
                </template>
            </el-table-column>
-           <el-table-column label="密码已过期" align="center" key="archived" width="100" v-if="columns[5].visible">
+           <el-table-column label="密码已过期" align="center" key="archived" width="100" v-if="columns[8].visible">
                <template #default="scope">
-                   <span>{{ scope.row.credentialsExpired ? '是' : '否' }}</span>
+                   <span v-if="scope.row.credentialsExpired" style="color: red">是</span>
+                   <span v-else>否</span>
                </template>
            </el-table-column>
-           <el-table-column label="最近登录时间" align="center" prop="lastLoginTime" width="160" v-if="columns[6].visible">
+           <el-table-column label="最近登录时间" align="center" prop="lastLoginTime" width="160" v-if="columns[9].visible">
                <template #default="scope">
                    <span>{{ parseTime(scope.row.lastLoginTime) }}</span>
                </template>
            </el-table-column>
-           <el-table-column label="备注" align="center" key="remark" prop="remark" min-width="180" v-if="columns[4].visible" :show-overflow-tooltip="true"/>
-           <el-table-column label="操作" align="center" min-width="280" class-name="small-padding fixed-width">
+           <el-table-column label="备注" align="center" key="remark" prop="remark" min-width="160" v-if="columns[10].visible" :show-overflow-tooltip="true"/>
+           <el-table-column label="操作" align="center" min-width="280" fixed="right" class-name="small-padding fixed-width">
                <template #default="scope">
                    <el-button
                        type="text"
@@ -230,10 +230,14 @@ const columns = ref([
     {key: 0, label: `用户编号`, visible: true},
     {key: 1, label: `用户名称`, visible: true},
     {key: 2, label: `用户昵称`, visible: true},
-    {key: 3, label: `部门`, visible: true},
+    {key: 3, label: `邮箱`, visible: false},
     {key: 4, label: `手机号码`, visible: true},
-    {key: 5, label: `状态`, visible: true},
-    {key: 6, label: `创建时间`, visible: true}
+    {key: 5, label: `性别`, visible: false},
+    {key: 6, label: `创建时间`, visible: true},
+    {key: 7, label: `用户有效期`, visible: true},
+    {key: 8, label: `密码已过期`, visible: true},
+    {key: 9, label: `最近登录时间`, visible: true},
+    {key: 10, label: `备注`, visible: true}
 ])
 
 const data = reactive({
