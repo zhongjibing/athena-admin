@@ -55,37 +55,37 @@
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
         >
             <el-table-column prop="name" label="菜单名称" :show-overflow-tooltip="true" min-width="160" />
-            <el-table-column prop="icon" label="图标" align="center" width="100">
+            <el-table-column prop="icon" label="图标" align="center" width="80">
                 <template #default="scope">
                     <svg-icon :icon-class="scope.row.icon"/>
                 </template>
             </el-table-column>
-            <el-table-column prop="orderNum" label="排序" min-width="80" />
+            <el-table-column prop="orderNum" label="排序" align="center" min-width="80" />
             <el-table-column prop="perms" label="权限标识" :show-overflow-tooltip="true" min-width="180" />
             <el-table-column prop="path" label="路由地址" :show-overflow-tooltip="true" min-width="180" />
-            <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true" min-width="260" />
-            <el-table-column prop="type" label="类型" align="center" min-width="100">
+            <el-table-column prop="component" label="组件路径" :show-overflow-tooltip="true" min-width="180" />
+            <el-table-column prop="type" label="类型" align="center" min-width="80">
                 <template #default="scope">
                     <el-tag :type="menuType[scope.row.type].type">{{ menuType[scope.row.type].name }}</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="visible" label="可见" align="center" min-width="100">
+            <el-table-column prop="visible" label="可见" align="center" min-width="80">
                 <template #default="scope">
                     <dict-tag :options="sys_show_hide" :value="scope.row.visible"/>
                 </template>
             </el-table-column>
-            <el-table-column prop="status" label="状态" align="center" min-width="100">
+            <el-table-column prop="status" label="状态" align="center" min-width="80">
                 <template #default="scope">
                     <dict-tag :options="sys_normal_disable" :value="scope.row.status"/>
                 </template>
             </el-table-column>
-            <el-table-column label="备注" align="center" prop="remark" min-width="200" :show-overflow-tooltip="true"/>
-            <el-table-column label="创建时间" align="center" prop="createTime" min-width="180">
+            <el-table-column label="备注" align="center" prop="remark" min-width="160" :show-overflow-tooltip="true"/>
+            <el-table-column label="创建时间" align="center" prop="createTime" min-width="160">
                 <template #default="scope">
                     <span>{{ parseTime(scope.row.createTime) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" min-width="300">
+            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" min-width="260">
                 <template #default="scope">
                     <el-button
                         type="text"
@@ -184,8 +184,8 @@
                         </span>
                             </template>
                             <el-radio-group v-model="form.isFrame">
-                                <el-radio :label="0">是</el-radio>
-                                <el-radio :label="1">否</el-radio>
+                                <el-radio :label="0">否</el-radio>
+                                <el-radio :label="1">是</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -257,8 +257,8 @@
                         </span>
                             </template>
                             <el-radio-group v-model="form.isCache">
-                                <el-radio :label="0">缓存</el-radio>
-                                <el-radio :label="1">不缓存</el-radio>
+                                <el-radio :label="1">缓存</el-radio>
+                                <el-radio :label="0">不缓存</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -389,8 +389,8 @@ function reset() {
         icon: undefined,
         type: "M",
         orderNum: undefined,
-        isFrame: 1,
-        isCache: 0,
+        isFrame: 0,
+        isCache: 1,
         visible: "0",
         status: "0"
     }
