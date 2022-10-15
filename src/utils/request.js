@@ -63,6 +63,7 @@ service.interceptors.response.use(response => {
     error => {
         const code = error.response.status
         if (code === 401) {
+            console.log(error)
             if (!isRelogin.show) {
                 isRelogin.show = true
                 ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
@@ -71,12 +72,11 @@ service.interceptors.response.use(response => {
                         type: 'warning'
                     }
                 ).then(() => {
-                    isRelogin.show = false;
-                    useUserStore().logOut().then(() => {
-                        location.href = import.meta.env.VITE_APP_LOGIN_PAGE
-                    })
+                    isRelogin.show = false
+                    useUserStore().logOut().catch(() => {})
+                    location.href = import.meta.env.VITE_APP_LOGIN_PAGE
                 }).catch(() => {
-                    isRelogin.show = false;
+                    isRelogin.show = false
                 });
             }
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')

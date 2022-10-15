@@ -65,11 +65,7 @@
            <el-table-column label="用户名称" align="center" key="username" prop="username" min-width="100" fixed="left" v-if="columns[1].visible" :show-overflow-tooltip="true"/>
            <el-table-column label="用户昵称" align="center" key="nickname" prop="nickname" min-width="100" v-if="columns[2].visible" :show-overflow-tooltip="true"/>
            <el-table-column label="邮箱" align="center" key="email" prop="email" min-width="120" v-if="columns[3].visible" :show-overflow-tooltip="true"/>
-           <el-table-column label="手机号码" align="center" key="mobile" prop="mobile" width="120" v-if="columns[4].visible">
-               <template #default="scope">
-                   <span>{{ formatMobile(scope.row) }}</span>
-               </template>
-           </el-table-column>
+           <el-table-column label="手机号码" align="center" key="mobile" prop="mobile" width="120" v-if="columns[4].visible" />
            <el-table-column label="性别" align="center" key="gender" prop="gender" width="80" v-if="columns[5].visible">
                <template #default="scope">
                    <span>{{ scope.row.gender === '0' ? '女' : '男' }}</span>
@@ -90,15 +86,14 @@
                    <span>{{ parseTime(scope.row.createTime) }}</span>
                </template>
            </el-table-column>
-           <el-table-column label="用户有效期" align="center" key="deadline" prop="deadline" width="160" v-if="columns[7].visible">
+           <el-table-column label="用户有效期截止" align="center" key="deadline" prop="deadline" width="160" v-if="columns[7].visible">
                <template #default="scope">
                    <span>{{ parseTime(scope.row.deadline) }}</span>
                </template>
            </el-table-column>
            <el-table-column label="密码已过期" align="center" key="archived" width="100" v-if="columns[8].visible">
                <template #default="scope">
-                   <span v-if="scope.row.credentialsExpired" style="color: red">是</span>
-                   <span v-else>否</span>
+                   <span>{{ scope.row.credentialsExpired ? '是' : '否' }}</span>
                </template>
            </el-table-column>
            <el-table-column label="最近登录时间" align="center" prop="lastLoginTime" width="160" v-if="columns[9].visible">
@@ -391,20 +386,6 @@ function submitForm() {
             }
         }
     })
-}
-
-function formatMobile(row) {
-    if (row.mobile === null || row.mobile === "" || row.mobile === undefined) {
-        return ""
-    }
-
-    if (row.mobile.length < 5) {
-        return "*******" + row.mobile.substring(row.mobile.length - 1)
-    }
-    if (row.mobile.length < 8) {
-        return row.mobile.substring(0, 1) + "****" + row.mobile.substring(row.mobile.length - 3)
-    }
-    return row.mobile.substring(0, 3) + "****" + row.mobile.substring(row.mobile.length - 4)
 }
 
 getList()

@@ -50,21 +50,32 @@
 
       <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
          <el-table-column type="selection" width="55" align="center" />
-         <el-table-column label="用户名称" prop="userName" :show-overflow-tooltip="true" />
-         <el-table-column label="用户昵称" prop="nickName" :show-overflow-tooltip="true" />
-         <el-table-column label="邮箱" prop="email" :show-overflow-tooltip="true" />
-         <el-table-column label="手机" prop="phonenumber" :show-overflow-tooltip="true" />
-         <el-table-column label="状态" align="center" prop="status">
-            <template #default="scope">
-               <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
-            </template>
-         </el-table-column>
-         <el-table-column label="创建时间" align="center" prop="createTime" width="180">
-            <template #default="scope">
-               <span>{{ parseTime(scope.row.createTime) }}</span>
-            </template>
-         </el-table-column>
-         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <el-table-column label="用户编号" align="center" key="id" prop="id" width="80" fixed="left" />
+          <el-table-column label="用户名称" align="center" key="username" prop="username" min-width="100" fixed="left" :show-overflow-tooltip="true"/>
+          <el-table-column label="用户昵称" align="center" key="nickname" prop="nickname" min-width="100" :show-overflow-tooltip="true"/>
+          <el-table-column label="手机号码" align="center" key="mobile" prop="mobile" min-width="120" />
+          <el-table-column label="性别" align="center" key="gender" prop="gender" min-width="80">
+              <template #default="scope">
+                  <span>{{ scope.row.gender === '0' ? '女' : '男' }}</span>
+              </template>
+          </el-table-column>
+          <el-table-column label="创建时间" align="center" prop="createTime" min-width="160">
+              <template #default="scope">
+                  <span>{{ parseTime(scope.row.createTime) }}</span>
+              </template>
+          </el-table-column>
+          <el-table-column label="用户有效期" align="center" key="deadline" prop="deadline" min-width="160">
+              <template #default="scope">
+                  <span>{{ parseTime(scope.row.deadline) }}</span>
+              </template>
+          </el-table-column>
+          <el-table-column label="密码已过期" align="center" key="archived" min-width="100">
+              <template #default="scope">
+                  <span>{{ scope.row.credentialsExpired ? '是' : '否' }}</span>
+              </template>
+          </el-table-column>
+          <el-table-column label="备注" align="center" key="remark" prop="remark" min-width="160" :show-overflow-tooltip="true"/>
+         <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="280">
             <template #default="scope">
                <el-button
                   type="text"
@@ -113,8 +124,8 @@ const queryParams = reactive({
 function getList() {
   loading.value = true;
   allocatedUserList(roleId, queryParams).then(response => {
-    userList.value = response.rows;
-    total.value = response.total;
+    userList.value = response.data.data;
+    total.value = response.data.total;
     loading.value = false;
   });
 }

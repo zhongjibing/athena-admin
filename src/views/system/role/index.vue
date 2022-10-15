@@ -65,7 +65,7 @@
 
         <!-- 表格数据 -->
         <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" align="center"/>
+            <el-table-column type="selection" width="55" align="center" :selectable="checkRole"/>
             <el-table-column label="角色编号" prop="id" min-width="80"/>
             <el-table-column label="角色名称" prop="name" :show-overflow-tooltip="true" min-width="120"/>
             <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" min-width="180"/>
@@ -85,25 +85,28 @@
                     <span>{{ parseTime(scope.row.createTime) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" min-width="480">
+            <el-table-column label="操作" align="left" class-name="small-padding fixed-width" min-width="480">
                 <template #default="scope">
                     <el-button
                         type="text"
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
                         v-hasPermi="['system:role:edit']"
+                        v-if="!scope.row.admin"
                     >修改</el-button>
                     <el-button
                         type="text"
                         icon="Delete"
                         @click="handleDelete(scope.row)"
                         v-hasPermi="['system:role:remove']"
+                        v-if="!scope.row.admin"
                     >删除</el-button>
                     <el-button
                         type="text"
                         icon="CircleCheck"
                         @click="handleDataScope(scope.row)"
                         v-hasPermi="['system:role:edit']"
+                        v-if="!scope.row.admin"
                     >数据权限</el-button>
                     <el-button
                         type="text"
@@ -564,6 +567,10 @@ function submitDataScope() {
 function cancelDataScope() {
     openDataScope.value = false;
     reset();
+}
+
+function checkRole(row) {
+    return !row['admin']
 }
 
 getList();
