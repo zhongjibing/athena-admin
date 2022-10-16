@@ -76,38 +76,29 @@ export function allocatedUserList(roleId, query) {
 }
 
 // 查询角色未授权用户列表
-export function unallocatedUserList(query) {
+export function unallocatedUserList(roleId, query) {
     return request({
-        url: '/system/role/authUser/unallocatedList',
+        url: '/system/role/' + roleId + '/unallocatedUsers',
         method: 'get',
         params: query
     })
 }
 
 // 取消用户授权角色
-export function authUserCancel(data) {
+export function authUserCancel(roleId, userIds) {
     return request({
-        url: '/system/role/authUser/cancel',
-        method: 'put',
-        data: data
-    })
-}
-
-// 批量取消用户授权角色
-export function authUserCancelAll(data) {
-    return request({
-        url: '/system/role/authUser/cancelAll',
-        method: 'put',
-        params: data
+        url: '/system/role/' + roleId + '/authUser',
+        method: 'delete',
+        data: userIds
     })
 }
 
 // 授权用户选择
-export function authUserSelectAll(data) {
+export function authUserSelect(roleId, userIds) {
     return request({
-        url: '/system/role/authUser/selectAll',
-        method: 'put',
-        params: data
+        url: '/system/role/' + roleId + '/authUser',
+        method: 'post',
+        data: userIds
     })
 }
 
