@@ -32,7 +32,7 @@
                     <span>{{ (pageNum - 1) * pageSize + scope.$index + 1 }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="会话编号" align="center" prop="sessionId" min-width="160" :show-overflow-tooltip="true"/>
+            <el-table-column label="会话编号" align="center" prop="sessionId" min-width="180" :show-overflow-tooltip="true"/>
             <el-table-column label="登录名称" align="center" prop="username" min-width="100" :show-overflow-tooltip="true"/>
             <el-table-column label="用户昵称" align="center" prop="nickname" min-width="100" :show-overflow-tooltip="true"/>
             <el-table-column label="邮箱" align="center" key="email" prop="email" min-width="120" :show-overflow-tooltip="true"/>
@@ -42,23 +42,18 @@
                     <span>{{ scope.row.gender === '0' ? '女' : '男' }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="主机" align="center" prop="loginIp" min-width="100" :show-overflow-tooltip="true"/>
-            <el-table-column label="登录地点" align="center" prop="loginLocation" min-width="100" :show-overflow-tooltip="true"/>
-            <el-table-column label="操作系统" align="center" prop="os" min-width="100" :show-overflow-tooltip="true"/>
-            <el-table-column label="浏览器" align="center" prop="browser" min-width="120" :show-overflow-tooltip="true"/>
-            <el-table-column label="登录时间" align="center" prop="loginTime" min-width="160">
+            <el-table-column label="主机" align="center" prop="loginIp" width="120" :show-overflow-tooltip="true"/>
+            <el-table-column label="登录地点" align="center" prop="loginLocation" min-width="120" :show-overflow-tooltip="true"/>
+            <el-table-column label="操作系统" align="center" prop="os" width="120" :show-overflow-tooltip="true"/>
+            <el-table-column label="浏览器" align="center" prop="browser" width="120" :show-overflow-tooltip="true"/>
+            <el-table-column label="登录时间" align="center" prop="loginTime" width="180">
                 <template #default="scope">
                     <span>{{ parseTime(scope.row.loginTime) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" align="center" min-width="180" class-name="small-padding fixed-width">
+            <el-table-column label="最新访问时间" align="center" prop="lastAccessedTime" width="180">
                 <template #default="scope">
-                    <el-button
-                        type="text"
-                        icon="Delete"
-                        @click="handleForceLogout(scope.row)"
-                        v-hasPermi="['monitor:online:forceLogout']"
-                    >强退</el-button>
+                    <span>{{ parseTime(scope.row.lastAccessedTime) }}</span>
                 </template>
             </el-table-column>
         </el-table>
@@ -112,17 +107,6 @@ function handleQuery() {
 function resetQuery() {
     proxy.resetForm("queryRef")
     handleQuery()
-}
-
-/** 强退按钮操作 */
-function handleForceLogout(row) {
-    proxy.$modal.confirm('是否确认强退名称为"' + row.userName + '"的用户?').then(function () {
-        return forceLogout(row.tokenId)
-    }).then(() => {
-        getList()
-        proxy.$modal.msgSuccess("删除成功")
-    }).catch(() => {
-    })
 }
 
 getList()

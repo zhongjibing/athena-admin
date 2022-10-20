@@ -121,16 +121,16 @@ export const dynamicRoutes = [
         ]
     },
     {
-        path: '/monitor/job-log',
+        path: '/monitor/task-log',
         component: Layout,
         hidden: true,
-        permissions: ['monitor:job:list'],
+        permissions: ['monitor:task:list'],
         children: [
             {
                 path: 'index',
-                component: () => import('@/views/monitor/job/log'),
-                name: 'JobLog',
-                meta: {title: '调度日志', activeMenu: '/monitor/job'}
+                component: () => import('@/views/monitor/task/log'),
+                name: 'TaskLog',
+                meta: {title: '调度日志', activeMenu: '/monitor/task'}
             }
         ]
     },

@@ -1,18 +1,18 @@
 <template>
    <div class="app-container">
       <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-         <el-form-item label="任务名称" prop="jobName">
+         <el-form-item label="任务名称" prop="taskName">
             <el-input
-               v-model="queryParams.jobName"
+               v-model="queryParams.taskName"
                placeholder="请输入任务名称"
                clearable
                @keyup.enter="handleQuery"
             />
          </el-form-item>
-         <el-form-item label="任务组名" prop="jobGroup">
-            <el-select v-model="queryParams.jobGroup" placeholder="请选择任务组名" clearable>
+         <el-form-item label="任务组名" prop="taskGroup">
+            <el-select v-model="queryParams.taskGroup" placeholder="请选择任务组名" clearable>
                <el-option
-                  v-for="dict in sys_job_group"
+                  v-for="dict in sys_task_group"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -22,7 +22,7 @@
          <el-form-item label="任务状态" prop="status">
             <el-select v-model="queryParams.status" placeholder="请选择任务状态" clearable>
                <el-option
-                  v-for="dict in sys_job_status"
+                  v-for="dict in sys_task_status"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -67,15 +67,6 @@
          </el-col>
          <el-col :span="1.5">
             <el-button
-               type="warning"
-               plain
-               icon="Download"
-               @click="handleExport"
-               v-hasPermi="['monitor:job:export']"
-            >导出</el-button>
-         </el-col>
-         <el-col :span="1.5">
-            <el-button
                type="info"
                plain
                icon="Operation"
@@ -86,18 +77,18 @@
          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
 
-      <el-table v-loading="loading" :data="jobList" @selection-change="handleSelectionChange">
+      <el-table v-loading="loading" :data="taskList" @selection-change="handleSelectionChange">
          <el-table-column type="selection" width="55" align="center" />
-         <el-table-column label="任务编号" width="100" align="center" prop="jobId" />
-         <el-table-column label="任务名称" align="center" prop="jobName" :show-overflow-tooltip="true" />
-         <el-table-column label="任务组名" align="center" prop="jobGroup">
+         <el-table-column label="任务编号" width="100" align="center" prop="id" />
+         <el-table-column label="任务名称" align="left" prop="taskName" min-width="180" :show-overflow-tooltip="true" />
+         <el-table-column label="任务组名" align="center" prop="taskGroup" width="160">
             <template #default="scope">
-               <dict-tag :options="sys_job_group" :value="scope.row.jobGroup" />
+               <dict-tag :options="sys_task_group" :value="scope.row.taskGroup" />
             </template>
          </el-table-column>
-         <el-table-column label="调用目标字符串" align="center" prop="invokeTarget" :show-overflow-tooltip="true" />
-         <el-table-column label="cron执行表达式" align="center" prop="cronExpression" :show-overflow-tooltip="true" />
-         <el-table-column label="状态" align="center">
+         <el-table-column label="调用目标字符串" align="left" prop="invokeTarget" min-width="220" :show-overflow-tooltip="true" />
+         <el-table-column label="cron执行表达式" align="center" prop="cronExpression" min-width="180" :show-overflow-tooltip="true" />
+         <el-table-column label="状态" align="center" min-width="120">
             <template #default="scope">
                <el-switch
                   v-model="scope.row.status"
@@ -107,45 +98,55 @@
                ></el-switch>
             </template>
          </el-table-column>
-         <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
+         <el-table-column label="操作" align="center" width="360" class-name="small-padding fixed-width">
             <template #default="scope">
-               <el-tooltip content="修改" placement="top">
+               <el-tooltip content="修改" placement="top" effect="light" :visible="toolTips.edit[scope.row.id]">
                   <el-button
                      type="text"
                      icon="Edit"
                      @click="handleUpdate(scope.row)"
+                     @mouseenter="toolTips.edit[scope.row.id] = true"
+                     @mouseleave="toolTips.edit[scope.row.id] = false"
                      v-hasPermi="['monitor:job:edit']"
                   ></el-button>
                </el-tooltip>
-               <el-tooltip content="删除" placement="top">
+               <el-tooltip content="删除" placement="top" effect="light" :visible="toolTips.remove[scope.row.id]">
                   <el-button
                      type="text"
                      icon="Delete"
                      @click="handleDelete(scope.row)"
+                     @mouseenter="toolTips.remove[scope.row.id] = true"
+                     @mouseleave="toolTips.remove[scope.row.id] = false"
                      v-hasPermi="['monitor:job:remove']"
                   ></el-button>
                </el-tooltip>
-               <el-tooltip content="执行一次" placement="top">
+               <el-tooltip content="执行一次" placement="top" effect="light" :visible="toolTips.run[scope.row.id]">
                   <el-button
                      type="text"
                      icon="CaretRight"
                      @click="handleRun(scope.row)"
+                     @mouseenter="toolTips.run[scope.row.id] = true"
+                     @mouseleave="toolTips.run[scope.row.id] = false"
                      v-hasPermi="['monitor:job:changeStatus']"
                   ></el-button>
                </el-tooltip>
-               <el-tooltip content="任务详细" placement="top">
+               <el-tooltip content="任务详细" placement="top" effect="light" :visible="toolTips.view[scope.row.id]">
                   <el-button
                      type="text"
                      icon="View"
                      @click="handleView(scope.row)"
+                     @mouseenter="toolTips.view[scope.row.id] = true"
+                     @mouseleave="toolTips.view[scope.row.id] = false"
                      v-hasPermi="['monitor:job:query']"
                   ></el-button>
                </el-tooltip>
-               <el-tooltip content="调度日志" placement="top">
+               <el-tooltip content="调度日志" placement="top" effect="light" :visible="toolTips.log[scope.row.id]">
                   <el-button
                      type="text"
                      icon="Operation"
                      @click="handleJobLog(scope.row)"
+                     @mouseenter="toolTips.log[scope.row.id] = true"
+                     @mouseleave="toolTips.log[scope.row.id] = false"
                      v-hasPermi="['monitor:job:query']"
                   ></el-button>
                </el-tooltip>
@@ -163,18 +164,18 @@
 
       <!-- 添加或修改定时任务对话框 -->
       <el-dialog :title="title" v-model="open" width="800px" append-to-body>
-         <el-form ref="jobRef" :model="form" :rules="rules" label-width="120px">
+         <el-form ref="taskRef" :model="form" :rules="rules" label-width="120px">
             <el-row>
                <el-col :span="12">
-                  <el-form-item label="任务名称" prop="jobName">
-                     <el-input v-model="form.jobName" placeholder="请输入任务名称" />
+                  <el-form-item label="任务名称" prop="taskName">
+                     <el-input v-model="form.taskName" placeholder="请输入任务名称" />
                   </el-form-item>
                </el-col>
                <el-col :span="12">
-                  <el-form-item label="任务分组" prop="jobGroup">
-                     <el-select v-model="form.jobGroup" placeholder="请选择">
+                  <el-form-item label="任务分组" prop="taskGroup">
+                     <el-select v-model="form.taskGroup" placeholder="请选择">
                         <el-option
-                           v-for="dict in sys_job_group"
+                           v-for="dict in sys_task_group"
                            :key="dict.value"
                            :label="dict.label"
                            :value="dict.value"
@@ -204,7 +205,7 @@
                </el-col>
                <el-col :span="24">
                   <el-form-item label="cron表达式" prop="cronExpression">
-                     <el-input v-model="form.cronExpression" placeholder="请输入cron执行表达式">
+                     <el-input v-model="form.cronExpression" placeholder="请输入cron执行表达式" readonly>
                         <template #append>
                            <el-button type="primary" @click="handleShowCron">
                               生成表达式
@@ -235,7 +236,7 @@
                   <el-form-item label="状态">
                      <el-radio-group v-model="form.status">
                         <el-radio
-                           v-for="dict in sys_job_status"
+                           v-for="dict in sys_task_status"
                            :key="dict.value"
                            :label="dict.value"
                         >{{ dict.label }}</el-radio>
@@ -251,17 +252,21 @@
             </div>
          </template>
       </el-dialog>
- 
+
+       <el-dialog title="Cron表达式生成器" v-model="openCron" append-to-body destroy-on-close>
+           <crontab ref="crontabRef" @hide="openCron=false" @fill="crontabFill" :expression="expression"></crontab>
+       </el-dialog>
+
       <!-- 任务日志详细 -->
       <el-dialog title="任务详细" v-model="openView" width="700px" append-to-body>
          <el-form :model="form" label-width="120px">
             <el-row>
                <el-col :span="12">
-                  <el-form-item label="任务编号：">{{ form.jobId }}</el-form-item>
-                  <el-form-item label="任务名称：">{{ form.jobName }}</el-form-item>
+                  <el-form-item label="任务编号：">{{ form.taskId }}</el-form-item>
+                  <el-form-item label="任务名称：">{{ form.taskName }}</el-form-item>
                </el-col>
                <el-col :span="12">
-                  <el-form-item label="任务分组：">{{ jobGroupFormat(form) }}</el-form-item>
+                  <el-form-item label="任务分组：">{{ taskGroupFormat(form) }}</el-form-item>
                   <el-form-item label="创建时间：">{{ form.createTime }}</el-form-item>
                </el-col>
                <el-col :span="12">
@@ -304,200 +309,233 @@
    </div>
 </template>
 
-<script setup name="Job">
-import { listJob, getJob, delJob, addJob, updateJob, runJob, changeJobStatus } from "@/api/monitor/job";
+<script setup name="Task">
+import { listTask, getTask, delTask, addTask, updateTask, runTask, changeTaskStatus } from "@/api/monitor/task"
+import Crontab from '@/components/Crontab'
 
-const router = useRouter();
-const { proxy } = getCurrentInstance();
-const { sys_job_group, sys_job_status } = proxy.useDict("sys_job_group", "sys_job_status");
+const router = useRouter()
+const { proxy } = getCurrentInstance()
+const { sys_task_group, sys_task_status } = proxy.useDict("sys_task_group", "sys_task_status")
 
-const jobList = ref([]);
-const open = ref(false);
-const loading = ref(true);
-const showSearch = ref(true);
-const ids = ref([]);
-const single = ref(true);
-const multiple = ref(true);
-const total = ref(0);
-const title = ref("");
-const openView = ref(false);
-const openCron = ref(false);
-const expression = ref("");
+const taskList = ref([])
+const open = ref(false)
+const loading = ref(true)
+const showSearch = ref(true)
+const ids = ref([])
+const single = ref(true)
+const multiple = ref(true)
+const total = ref(0)
+const title = ref("")
+const openView = ref(false)
+const openCron = ref(false)
+const expression = ref("")
+const toolTips = ref({
+    edit: [],
+    remove: [],
+    run: [],
+    view: [],
+    log: []
+})
 
 const data = reactive({
-  form: {},
-  queryParams: {
-    pageNum: 1,
-    pageSize: 10,
-    jobName: undefined,
-    jobGroup: undefined,
-    status: undefined
-  },
-  rules: {
-    jobName: [{ required: true, message: "任务名称不能为空", trigger: "blur" }],
-    invokeTarget: [{ required: true, message: "调用目标字符串不能为空", trigger: "blur" }],
-    cronExpression: [{ required: true, message: "cron执行表达式不能为空", trigger: "blur" }]
-  }
-});
+    form: {},
+    queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        taskName: undefined,
+        taskGroup: undefined,
+        status: undefined
+    },
+    rules: {
+        taskName: [{required: true, message: "任务名称不能为空", trigger: "blur"}],
+        invokeTarget: [{required: true, message: "调用目标字符串不能为空", trigger: "blur"}],
+        cronExpression: [{required: true, message: "cron执行表达式不能为空", trigger: "blur"}]
+    }
+})
 
-const { queryParams, form, rules } = toRefs(data);
+const { queryParams, form, rules } = toRefs(data)
 
 /** 查询定时任务列表 */
 function getList() {
-  loading.value = true;
-  listJob(queryParams.value).then(response => {
-    jobList.value = response.rows;
-    total.value = response.total;
-    loading.value = false;
-  });
-}
-/** 任务组名字典翻译 */
-function jobGroupFormat(row, column) {
-  return proxy.selectDictLabel(sys_job_group.value, row.jobGroup);
-}
-/** 取消按钮 */
-function cancel() {
-  open.value = false;
-  reset();
-}
-/** 表单重置 */
-function reset() {
-  form.value = {
-    jobId: undefined,
-    jobName: undefined,
-    jobGroup: undefined,
-    invokeTarget: undefined,
-    cronExpression: undefined,
-    misfirePolicy: 1,
-    concurrent: 1,
-    status: "0"
-  };
-  proxy.resetForm("jobRef");
-}
-/** 搜索按钮操作 */
-function handleQuery() {
-  queryParams.value.pageNum = 1;
-  getList();
-}
-/** 重置按钮操作 */
-function resetQuery() {
-  proxy.resetForm("queryRef");
-  handleQuery();
-}
-// 多选框选中数据
-function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.jobId);
-  single.value = selection.length != 1;
-  multiple.value = !selection.length;
-}
-// 更多操作触发
-function handleCommand(command, row) {
-  switch (command) {
-    case "handleRun":
-      handleRun(row);
-      break;
-    case "handleView":
-      handleView(row);
-      break;
-    case "handleJobLog":
-      handleJobLog(row);
-      break;
-    default:
-      break;
-  }
-}
-// 任务状态修改
-function handleStatusChange(row) {
-  let text = row.status === "0" ? "启用" : "停用";
-  proxy.$modal.confirm('确认要"' + text + '""' + row.jobName + '"任务吗?').then(function () {
-    return changeJobStatus(row.jobId, row.status);
-  }).then(() => {
-    proxy.$modal.msgSuccess(text + "成功");
-  }).catch(function () {
-    row.status = row.status === "0" ? "1" : "0";
-  });
-}
-/* 立即执行一次 */
-function handleRun(row) {
-  proxy.$modal.confirm('确认要立即执行一次"' + row.jobName + '"任务吗?').then(function () {
-    return runJob(row.jobId, row.jobGroup);
-  }).then(() => {
-    proxy.$modal.msgSuccess("执行成功");})
-  .catch(() => {});
-}
-/** 任务详细信息 */
-function handleView(row) {
-  getJob(row.jobId).then(response => {
-    form.value = response.data;
-    openView.value = true;
-  });
-}
-/** cron表达式按钮操作 */
-function handleShowCron() {
-  expression.value = form.value.cronExpression;
-  openCron.value = true;
-}
-/** 确定后回传值 */
-function crontabFill(value) {
-  form.value.cronExpression = value;
-}
-/** 任务日志列表查询 */
-function handleJobLog(row) {
-  const jobId = row.jobId || 0;
-  router.push({ path: "/monitor/job-log/index", query: { jobId: jobId } });
-}
-/** 新增按钮操作 */
-function handleAdd() {
-  reset();
-  open.value = true;
-  title.value = "添加任务";
-}
-/** 修改按钮操作 */
-function handleUpdate(row) {
-  reset();
-  const jobId = row.jobId || ids.value;
-  getJob(jobId).then(response => {
-    form.value = response.data;
-    open.value = true;
-    title.value = "修改任务";
-  });
-}
-/** 提交按钮 */
-function submitForm() {
-  proxy.$refs["jobRef"].validate(valid => {
-    if (valid) {
-      if (form.value.jobId != undefined) {
-        updateJob(form.value).then(response => {
-          proxy.$modal.msgSuccess("修改成功");
-          open.value = false;
-          getList();
-        });
-      } else {
-        addJob(form.value).then(response => {
-          proxy.$modal.msgSuccess("新增成功");
-          open.value = false;
-          getList();
-        });
-      }
-    }
-  });
-}
-/** 删除按钮操作 */
-function handleDelete(row) {
-  const jobIds = row.jobId || ids.value;
-  proxy.$modal.confirm('是否确认删除定时任务编号为"' + jobIds + '"的数据项?').then(function () {
-    return delJob(jobIds);
-  }).then(() => {
-    getList();
-    proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
-}
-/** 导出按钮操作 */
-function handleExport() {
-  proxy.download("monitor/job/export", {
-    ...queryParams.value,
-  }, `job_${new Date().getTime()}.xlsx`);
+    loading.value = true
+    listTask(queryParams.value).then(response => {
+        taskList.value = response.data.data
+        total.value = response.data.total
+        loading.value = false
+    })
 }
 
-getList();
+/** 任务组名字典翻译 */
+function taskGroupFormat(row, column) {
+    return proxy.selectDictLabel(sys_task_group.value, row.taskGroup)
+}
+
+/** 取消按钮 */
+function cancel() {
+    open.value = false
+    reset()
+}
+
+/** 表单重置 */
+function reset() {
+    form.value = {
+        id: undefined,
+        taskName: undefined,
+        taskGroup: undefined,
+        invokeTarget: undefined,
+        cronExpression: undefined,
+        misfirePolicy: 1,
+        concurrent: 1,
+        status: "0"
+    }
+    proxy.resetForm("taskRef")
+}
+
+/** 搜索按钮操作 */
+function handleQuery() {
+    queryParams.value.pageNum = 1
+    getList()
+}
+
+/** 重置按钮操作 */
+function resetQuery() {
+    proxy.resetForm("queryRef")
+    handleQuery()
+}
+
+// 多选框选中数据
+function handleSelectionChange(selection) {
+    ids.value = selection.map(item => item.id)
+    single.value = selection.length !== 1
+    multiple.value = !selection.length
+}
+
+// 更多操作触发
+function handleCommand(command, row) {
+    switch (command) {
+        case "handleRun":
+            handleRun(row)
+            break
+        case "handleView":
+            handleView(row)
+            break
+        case "handleJobLog":
+            handleJobLog(row)
+            break
+        default:
+            break
+    }
+}
+
+// 任务状态修改
+function handleStatusChange(row) {
+    let text = row.status === "0" ? "启用" : "停用"
+    proxy.$modal.confirm('确认要"' + text + '""' + row.taskName + '"任务吗?').then(function () {
+        return changeTaskStatus(row.taskId, row.status)
+    }).then(() => {
+        proxy.$modal.msgSuccess(text + "成功")
+    }).catch(function () {
+        row.status = row.status === "0" ? "1" : "0"
+    })
+}
+
+/* 立即执行一次 */
+function handleRun(row) {
+    proxy.$modal.confirm('确认要立即执行一次"' + row.taskName + '"任务吗?').then(function () {
+        return runTask(row.taskId, row.taskGroup)
+    }).then(() => {
+        proxy.$modal.msgSuccess("执行成功")
+    })
+        .catch(() => {
+        })
+}
+
+/** 任务详细信息 */
+function handleView(row) {
+    getTask(row.taskId).then(response => {
+        form.value = response.data
+        openView.value = true
+    })
+}
+
+/** cron表达式按钮操作 */
+function handleShowCron() {
+    expression.value = form.value.cronExpression
+    openCron.value = true
+}
+
+/** 确定后回传值 */
+function crontabFill(value) {
+    form.value.cronExpression = value
+}
+
+/** 任务日志列表查询 */
+function handleJobLog(row) {
+    const taskId = row.taskId || 0
+    router.push({path: "/monitor/task-log/index", query: {taskId: taskId}})
+}
+
+/** 新增按钮操作 */
+function handleAdd() {
+    reset()
+    open.value = true
+    title.value = "添加任务"
+}
+
+/** 修改按钮操作 */
+function handleUpdate(row) {
+    reset()
+    const taskId = row.id || ids.value
+    getTask(taskId).then(response => {
+        form.value = response.data
+        open.value = true
+        title.value = "修改任务"
+    })
+}
+
+/** 提交按钮 */
+function submitForm() {
+    proxy.$refs["taskRef"].validate(valid => {
+        if (valid) {
+            if (form.value.taskId != undefined) {
+                updateTask(form.value).then(response => {
+                    proxy.$modal.msgSuccess("修改成功")
+                    open.value = false
+                    getList()
+                })
+            } else {
+                addTask(form.value).then(response => {
+                    proxy.$modal.msgSuccess("新增成功")
+                    open.value = false
+                    getList()
+                })
+            }
+        }
+    })
+}
+
+/** 删除按钮操作 */
+function handleDelete(row) {
+    const taskIds = row.taskId || ids.value
+    proxy.$modal.confirm('是否确认删除定时任务编号为"' + taskIds + '"的数据项?').then(function () {
+        return delTask(taskIds)
+    }).then(() => {
+        getList()
+        proxy.$modal.msgSuccess("删除成功")
+    }).catch(() => {
+    })
+}
+
+getList()
 </script>
+
+<style lang="scss" scoped>
+.el-button--text {
+    padding-right: 1rem;
+}
+
+.el-input-group__append button.el-button {
+    color: var(--el-radio-button-checked-text-color, var(--el-color-white));
+    background-color: var(--el-radio-button-checked-bg-color, var(--el-color-primary));
+}
+</style>

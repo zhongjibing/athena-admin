@@ -86,9 +86,9 @@
             >导出</el-button>
          </el-col>
          <el-col :span="1.5">
-            <el-button 
-               type="warning" 
-               plain 
+            <el-button
+               type="warning"
+               plain
                icon="Close"
                @click="handleClose"
             >关闭</el-button>
@@ -176,8 +176,8 @@
 </template>
 
 <script setup name="JobLog">
-import { getJob } from "@/api/monitor/job";
-import { listJobLog, delJobLog, cleanJobLog } from "@/api/monitor/jobLog";
+import { getJob } from "@/api/monitor/task";
+import { listJobLog, delJobLog, cleanJobLog } from "@/api/monitor/taskLog";
 
 const { proxy } = getCurrentInstance();
 const { sys_common_status, sys_job_group } = proxy.useDict("sys_common_status", "sys_job_group");
