@@ -156,7 +156,7 @@ function expressionChange() {
                 }
 
                 // 判断日期的合法性，不合法的话也是跳出当前循环
-                if (checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true && dayRule.value !== 'workDay' && dayRule !== 'lastWeek' && dayRule.value !== 'lastDay') {
+                if (checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true && dayRule.value !== 'workDay' && dayRule.value !== 'lastWeek' && dayRule.value !== 'lastDay') {
                     resetDay();
                     continue goMonth;
                 }
