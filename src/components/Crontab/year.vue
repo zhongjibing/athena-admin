@@ -32,7 +32,7 @@
 		<el-form-item>
 			<el-radio :label="5" v-model='radioValue'>
 				指定
-				<el-select clearable v-model="checkboxList" placeholder="可多选" multiple>
+				<el-select clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="8">
 					<el-option v-for="item in 9" :key="item" :value="item - 1 + fullYear" :label="item -1 + fullYear" />
 				</el-select>
 			</el-radio>
@@ -71,6 +71,7 @@ const cycle02 = ref(0)
 const average01 = ref(0)
 const average02 = ref(1)
 const checkboxList = ref([])
+const checkCopy = ref([])
 
 const cycleTotal = computed(() => {
     cycle01.value = props.check(cycle01.value, fullYear.value, maxFullYear.value - 1)
@@ -85,9 +86,6 @@ const averageTotal = computed(() => {
 })
 
 const checkboxString = computed(() => {
-    if (radioValue.value === 5 && checkboxList.value.length === 0) {
-        checkboxList.value.push(fullYear.value)
-    }
     return checkboxList.value.join(',')
 })
 
@@ -97,23 +95,25 @@ watch([radioValue, cycleTotal, averageTotal, checkboxString], () => onRadioChang
 
 
 function changeRadioValue(value) {
-    if (value === "*") {
-        radioValue.value = 2;
+    if (value === '') {
+        radioValue.value = 1
+    } else if (value === "*") {
+        radioValue.value = 2
     } else if (value.indexOf("-") > -1) {
         const indexArr = value.split('-')
         cycle01.value = Number(indexArr[0])
         cycle02.value = Number(indexArr[1])
 
-        radioValue.value = 3;
+        radioValue.value = 3
     } else if (value.indexOf("/") > -1) {
         const indexArr = value.split('#')
         average01.value = Number(indexArr[1])
         average02.value = Number(indexArr[0])
 
-        radioValue.value = 4;
+        radioValue.value = 4
     } else {
         checkboxList.value = [...new Set(value.split(',').map(item => Number(item)))]
-        radioValue.value = 5;
+        radioValue.value = 5
     }
 }
 
@@ -133,7 +133,9 @@ function onRadioChange() {
             break
         case 5:
             if (checkboxList.value.length === 0) {
-                checkboxList.value.push(fullYear.value)
+                checkboxList.value.push(checkCopy.value[0])
+            } else {
+                checkCopy.value = checkboxList.value
             }
             emit('update', 'year', checkboxString.value, 'year')
             break
@@ -146,6 +148,17 @@ onMounted(() => {
     cycle01.value = fullYear.value
     cycle02.value = cycle01.value + 1
     average01.value = fullYear.value
+    checkCopy.value = [fullYear.value]
 })
 
 </script>
+
+<style lang="scss" scoped>
+.el-input-number--small, .el-input-number--small, .el-select, .el-select--small {
+    margin: 0 0.2rem;
+}
+
+.el-select, .el-select--small {
+    width: 18.8rem;
+}
+</style>

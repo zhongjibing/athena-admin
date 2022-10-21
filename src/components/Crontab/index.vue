@@ -70,33 +70,41 @@
                 <p class="title">时间表达式</p>
                 <table>
                     <thead>
-                        <th v-for="item of tabTitles" width="60" :key="item">{{item}}</th>
+                        <th v-for="item of tabTitles" :key="item">{{item}}</th>
                         <th>Cron 表达式</th>
                     </thead>
                     <tbody>
                         <td>
-                            <span>{{crontabValueObj.second}}</span>
+                            <span v-if="crontabValueObj.second.length < 10">{{crontabValueObj.second}}</span>
+                            <el-tooltip v-else :content="crontabValueObj.second" placement="top"><span>{{crontabValueObj.second}}</span></el-tooltip>
                         </td>
                         <td>
-                            <span>{{crontabValueObj.min}}</span>
+                            <span v-if="crontabValueObj.min.length < 10">{{crontabValueObj.min}}</span>
+                            <el-tooltip v-else :content="crontabValueObj.min" placement="top"><span>{{crontabValueObj.min}}</span></el-tooltip>
                         </td>
                         <td>
-                            <span>{{crontabValueObj.hour}}</span>
+                            <span v-if="crontabValueObj.hour.length < 10">{{crontabValueObj.hour}}</span>
+                            <el-tooltip v-else :content="crontabValueObj.hour" placement="top"><span>{{crontabValueObj.hour}}</span></el-tooltip>
                         </td>
                         <td>
-                            <span>{{crontabValueObj.day}}</span>
+                            <span v-if="crontabValueObj.day.length < 10">{{crontabValueObj.day}}</span>
+                            <el-tooltip v-else :content="crontabValueObj.day" placement="top"><span>{{crontabValueObj.day}}</span></el-tooltip>
                         </td>
                         <td>
-                            <span>{{crontabValueObj.month}}</span>
+                            <span v-if="crontabValueObj.month.length < 10">{{crontabValueObj.month}}</span>
+                            <el-tooltip v-else :content="crontabValueObj.month" placement="top"><span>{{crontabValueObj.month}}</span></el-tooltip>
                         </td>
                         <td>
-                            <span>{{crontabValueObj.week}}</span>
+                            <span v-if="crontabValueObj.week.length < 10">{{crontabValueObj.week}}</span>
+                            <el-tooltip v-else :content="crontabValueObj.week" placement="top"><span>{{crontabValueObj.week}}</span></el-tooltip>
                         </td>
                         <td>
-                            <span>{{crontabValueObj.year}}</span>
+                            <span v-if="crontabValueObj.year.length < 10">{{crontabValueObj.year}}</span>
+                            <el-tooltip v-else :content="crontabValueObj.year" placement="top"><span>{{crontabValueObj.year}}</span></el-tooltip>
                         </td>
-                        <td>
-                            <span>{{crontabValueString}}</span>
+                        <td class="result">
+                            <span v-if="crontabValueString.length < 90">{{crontabValueString}}</span>
+                            <el-tooltip v-else :content="crontabValueString" placement="top"><span>{{crontabValueString}}</span></el-tooltip>
                         </td>
                     </tbody>
                 </table>
@@ -163,7 +171,7 @@ const crontabValueString = computed(() => {
         + obj.month
         + " "
         + obj.week
-        + (obj.year === "" ? "" : " " + obj.year);
+        + (obj.year === "" ? "" : " " + obj.year)
 })
 
 watch(expression, () => resolveExp())
@@ -193,7 +201,7 @@ function resolveExp() {
         }
     } else {
         // 没有传入的表达式 则还原
-        clearCron();
+        clearCron()
     }
 }
 // tab切换值
@@ -209,24 +217,24 @@ function updateCrontabValue(name, value, from) {
 // 表单选项的子组件校验数字格式（通过-props传递）
 function checkNumber(value, minLimit, maxLimit) {
     // 检查必须为整数
-    value = Math.floor(value);
+    value = Math.floor(value)
     if (value < minLimit) {
-        value = minLimit;
+        value = minLimit
     } else if (value > maxLimit) {
-        value = maxLimit;
+        value = maxLimit
     }
-    return value;
+    return value
 }
 
 // 隐藏弹窗
 function hidePopup() {
-    emit("hide");
+    emit("hide")
 }
 
 // 填充表达式
 function submitFill() {
-    emit("fill", crontabValueString);
-    hidePopup();
+    emit("fill", crontabValueString.value)
+    hidePopup()
 }
 
 function clearCron() {
@@ -249,63 +257,77 @@ onMounted(() => {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .pop_btn {
-  text-align: center;
-  margin-top: 20px;
+    text-align: center;
+    margin-top: 20px;
 }
+
 .popup-main {
-  position: relative;
-  margin: 10px auto;
-  background: #fff;
-  border-radius: 5px;
-  font-size: 12px;
-  overflow: hidden;
+    position: relative;
+    margin: 10px auto;
+    background: #fff;
+    border-radius: 5px;
+    font-size: 12px;
+    overflow: hidden;
 }
+
 .popup-title {
-  overflow: hidden;
-  line-height: 34px;
-  padding-top: 6px;
-  background: #f2f2f2;
+    overflow: hidden;
+    line-height: 34px;
+    padding-top: 6px;
+    background: #f2f2f2;
 }
+
 .popup-result {
-  box-sizing: border-box;
-  line-height: 24px;
-  margin: 25px auto;
-  padding: 15px 10px 10px;
-  border: 1px solid #ccc;
-  position: relative;
+    box-sizing: border-box;
+    line-height: 24px;
+    margin: 25px auto;
+    padding: 15px 10px 10px;
+    border: 1px solid #ccc;
+    position: relative;
 }
+
 .popup-result .title {
-  position: absolute;
-  top: -28px;
-  left: 50%;
-  width: 140px;
-  font-size: 14px;
-  margin-left: -70px;
-  text-align: center;
-  line-height: 30px;
-  background: #fff;
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    width: 140px;
+    font-size: 14px;
+    margin-left: -70px;
+    text-align: center;
+    line-height: 30px;
+    background: #fff;
 }
+
 .popup-result table {
-  text-align: center;
-  width: 100%;
-  margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
 }
+
+.popup-result table td:not(.result) {
+    width: 3.5rem;
+    min-width: 3.5rem;
+    max-width: 3.5rem;
+}
+
 .popup-result table span {
-  display: block;
-  width: 100%;
-  font-family: arial;
-  line-height: 30px;
-  height: 30px;
-  white-space: nowrap;
-  overflow: hidden;
-  border: 1px solid #e8e8e8;
+    display: block;
+    width: 100%;
+    font-family: arial;
+    line-height: 30px;
+    height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
 }
+
 .popup-result-scroll {
-  font-size: 12px;
-  line-height: 24px;
-  height: 10em;
-  overflow-y: auto;
+    font-size: 12px;
+    line-height: 24px;
+    height: 10em;
+    overflow-y: auto;
 }
+
 </style>

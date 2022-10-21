@@ -24,7 +24,7 @@
             <el-radio v-model='radioValue' :label="4">
                 从
                 <el-input-number v-model='average01' :min="1" :max="30" /> 号开始，每
-                <el-input-number v-model='average02' :min="1" :max="1000" /> 日执行一次
+                <el-input-number v-model='average02' :min="1" :max="31 - average01" /> 日执行一次
             </el-radio>
         </el-form-item>
 
@@ -44,8 +44,8 @@
         <el-form-item>
             <el-radio v-model='radioValue' :label="7">
                 指定
-                <el-select clearable v-model="checkboxList" placeholder="可多选" multiple style="width:100%">
-                    <el-option v-for="item in 31" :key="item" :value="item">{{item}}</el-option>
+                <el-select clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="10">
+                    <el-option v-for="item in 31" :key="item" :label="item" :value="item" />
                 </el-select>
             </el-radio>
         </el-form-item>
@@ -81,6 +81,7 @@ const average01 = ref(1)
 const average02 = ref(1)
 const workday = ref(1)
 const checkboxList = ref([])
+const checkCopy = ref([1])
 
 const cycleTotal = computed(() => {
     cycle01.value = props.check(cycle01.value, 1, 30)
@@ -90,7 +91,7 @@ const cycleTotal = computed(() => {
 
 const averageTotal = computed(() => {
     average01.value = props.check(average01.value, 1, 30)
-    average02.value = props.check(average02.value, 1, 1000)
+    average02.value = props.check(average02.value, 1, 31 - average01.value)
     return average01.value + '/' + average02.value
 })
 
@@ -100,9 +101,6 @@ const workdayTotal = computed(() => {
 })
 
 const checkboxString = computed(() => {
-    if (radioValue.value === 7 && checkboxList.value.length === 0) {
-        checkboxList.value.push(1)
-    }
     return checkboxList.value.join(',')
 })
 
@@ -112,33 +110,32 @@ watch([radioValue, cycleTotal, averageTotal, workdayTotal, checkboxString], () =
 
 
 function changeRadioValue(value) {
-    console.log("hour: change radio value by index")
     if (value === "*") {
-        radioValue.value = 1;
+        radioValue.value = 1
     } else if (value === "?") {
-        radioValue.value = 2;
+        radioValue.value = 2
     } else if (value.indexOf("-") > -1) {
         const indexArr = value.split('-')
         cycle01.value = Number(indexArr[0])
         cycle02.value = Number(indexArr[1])
 
-        radioValue.value = 3;
+        radioValue.value = 3
     } else if (value.indexOf("/") > -1) {
         const indexArr = value.split('/')
         average01.value = Number(indexArr[0])
         average02.value = Number(indexArr[1])
 
-        radioValue.value = 4;
+        radioValue.value = 4
     } else if (value.indexOf("W") > -1) {
-        const indexArr = value.split("W");
-        workday.value = Number(indexArr[0]);
+        const indexArr = value.split("W")
+        workday.value = Number(indexArr[0])
 
-        radioValue.value = 5;
+        radioValue.value = 5
     } else if (value === "L") {
-        radioValue.value = 6;
+        radioValue.value = 6
     } else {
         checkboxList.value = [...new Set(value.split(',').map(item => Number(item)))]
-        radioValue.value = 7;
+        radioValue.value = 7
     }
 }
 
@@ -172,7 +169,9 @@ function onRadioChange() {
             break
         case 7:
             if (checkboxList.value.length === 0) {
-                checkboxList.value.push(1)
+                checkboxList.value.push(checkCopy.value[0])
+            } else {
+                checkCopy.value = checkboxList.value
             }
             emit('update', 'day', checkboxString.value, 'day')
             break
@@ -180,3 +179,13 @@ function onRadioChange() {
 }
 
 </script>
+
+<style lang="scss" scoped>
+.el-input-number--small, .el-input-number--small, .el-select, .el-select--small {
+    margin: 0 0.2rem;
+}
+
+.el-select, .el-select--small {
+    width: 18.8rem;
+}
+</style>

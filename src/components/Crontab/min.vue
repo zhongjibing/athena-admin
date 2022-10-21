@@ -17,16 +17,16 @@
         <el-form-item>
             <el-radio v-model='radioValue' :label="3">
                 从
-                <el-input-number v-model='average01' :min="0" :max="59" /> 分钟开始，每
-                <el-input-number v-model='average02' :min="1" :max="1000" /> 分钟执行一次
+                <el-input-number v-model='average01' :min="0" :max="58" /> 分钟开始， 每
+                <el-input-number v-model='average02' :min="1" :max="59 - average01" /> 分钟执行一次
             </el-radio>
         </el-form-item>
 
         <el-form-item>
             <el-radio v-model='radioValue' :label="4">
                 指定
-                <el-select clearable v-model="checkboxList" placeholder="可多选" multiple style="width:100%">
-                    <el-option v-for="item in 60" :key="item" :value="item-1">{{item-1}}</el-option>
+                <el-select clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="10">
+                    <el-option v-for="item in 60" :key="item" :label="item - 1" :value="item - 1" />
                 </el-select>
             </el-radio>
         </el-form-item>
@@ -61,6 +61,7 @@ const cycle02 = ref(1)
 const average01 = ref(0)
 const average02 = ref(1)
 const checkboxList = ref([])
+const checkCopy = ref([0])
 
 const cycleTotal = computed(() => {
     cycle01.value = props.check(cycle01.value, 0, 58)
@@ -69,15 +70,12 @@ const cycleTotal = computed(() => {
 })
 
 const averageTotal = computed(() => {
-    average01.value = props.check(average01.value, 0, 59)
-    average02.value = props.check(average02.value, 1, 1000)
+    average01.value = props.check(average01.value, 0, 58)
+    average02.value = props.check(average02.value, 1, 59 - average01.value)
     return average01.value + '/' + average02.value
 })
 
 const checkboxString = computed(() => {
-    if (radioValue.value === 4 && checkboxList.value.length === 0) {
-        checkboxList.value.push(0)
-    }
     return checkboxList.value.join(',')
 })
 
@@ -120,7 +118,9 @@ function onRadioChange() {
             break
         case 4:
             if (checkboxList.value.length === 0) {
-                checkboxList.value.push(0)
+                checkboxList.value.push(checkCopy.value[0])
+            } else {
+                checkCopy.value = checkboxList.value
             }
             emit('update', 'min', checkboxString.value, 'min')
             break
@@ -128,3 +128,13 @@ function onRadioChange() {
 }
 
 </script>
+
+<style lang="scss" scoped>
+.el-input-number--small, .el-input-number--small, .el-select, .el-select--small {
+    margin: 0 0.2rem;
+}
+
+.el-select, .el-select--small {
+    width: 19.8rem;
+}
+</style>

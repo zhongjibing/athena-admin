@@ -10,23 +10,23 @@
             <el-radio v-model='radioValue' :label="2">
                 周期从
                 <el-input-number v-model='cycle01' :min="0" :max="22" /> -
-                <el-input-number v-model='cycle02' :min="cycle01 + 1" :max="23" /> 小时
+                <el-input-number v-model='cycle02' :min="cycle01 + 1" :max="23" /> 时
             </el-radio>
         </el-form-item>
 
         <el-form-item>
             <el-radio v-model='radioValue' :label="3">
                 从
-                <el-input-number v-model='average01' :min="0" :max="23" /> 小时开始，每
-                <el-input-number v-model='average02' :min="1" :max="1000" /> 小时执行一次
+                <el-input-number v-model='average01' :min="0" :max="22" /> 时开始，每
+                <el-input-number v-model='average02' :min="1" :max="23 - average01" /> 小时执行一次
             </el-radio>
         </el-form-item>
 
         <el-form-item>
             <el-radio v-model='radioValue' :label="4">
                 指定
-                <el-select clearable v-model="checkboxList" placeholder="可多选" multiple style="width:100%">
-                    <el-option v-for="item in 24" :key="item" :value="item-1">{{item-1}}</el-option>
+                <el-select clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="10">
+                    <el-option v-for="item in 24" :key="item" :label="item - 1" :value="item - 1" />
                 </el-select>
             </el-radio>
         </el-form-item>
@@ -62,6 +62,7 @@ const cycle02 = ref(1)
 const average01 = ref(0)
 const average02 = ref(1)
 const checkboxList = ref([])
+const checkCopy = ref([0])
 
 const cycleTotal = computed(() => {
     cycle01.value = props.check(cycle01.value, 0, 22)
@@ -70,15 +71,12 @@ const cycleTotal = computed(() => {
 })
 
 const averageTotal = computed(() => {
-    average01.value = props.check(average01.value, 0, 23)
-    average02.value = props.check(average02.value, 1, 1000)
+    average01.value = props.check(average01.value, 0, 22)
+    average02.value = props.check(average02.value, 1, 23 - average01.value)
     return average01.value + '/' + average02.value
 })
 
 const checkboxString = computed(() => {
-    if (radioValue.value === 4 && checkboxList.value.length === 0) {
-        checkboxList.value.push(0)
-    }
     return checkboxList.value.join(',')
 })
 
@@ -121,7 +119,9 @@ function onRadioChange() {
             break
         case 4:
             if (checkboxList.value.length === 0) {
-                checkboxList.value.push(0)
+                checkboxList.value.push(checkCopy.value[0])
+            } else {
+                checkCopy.value = checkboxList.value
             }
             emit('update', 'hour', checkboxString.value, 'hour')
             break
@@ -129,3 +129,13 @@ function onRadioChange() {
 }
 
 </script>
+
+<style lang="scss" scoped>
+.el-input-number--small, .el-input-number--small, .el-select, .el-select--small {
+    margin: 0 0.2rem;
+}
+
+.el-select, .el-select--small {
+    width: 18.8rem;
+}
+</style>

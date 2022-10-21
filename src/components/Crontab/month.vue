@@ -18,14 +18,14 @@
             <el-radio v-model='radioValue' :label="3">
                 从
                 <el-input-number v-model='average01' :min="1" :max="11" /> 月开始，每
-                <el-input-number v-model='average02' :min="1" :max="100" /> 月月执行一次
+                <el-input-number v-model='average02' :min="1" :max="12 - average01" /> 月月执行一次
             </el-radio>
         </el-form-item>
 
         <el-form-item>
             <el-radio v-model='radioValue' :label="4">
                 指定
-                <el-select clearable v-model="checkboxList" placeholder="可多选" multiple style="width:100%">
+                <el-select clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="8">
                     <el-option v-for="item in monthList" :key="item.key" :label="item.value" :value="item.key" />
                 </el-select>
             </el-radio>
@@ -62,6 +62,7 @@ const cycle02 = ref(2)
 const average01 = ref(1)
 const average02 = ref(1)
 const checkboxList = ref([])
+const checkCopy = ref([1])
 const monthList = ref([
     {key: 1, value: '一月'},
     {key: 2, value: '二月'},
@@ -85,14 +86,11 @@ const cycleTotal = computed(() => {
 
 const averageTotal = computed(() => {
     average01.value = props.check(average01.value, 1, 11)
-    average02.value = props.check(average02.value, 1, 100)
+    average02.value = props.check(average02.value, 1, 12 - average01.value)
     return average01.value + '/' + average02.value
 })
 
 const checkboxString = computed(() => {
-    if (radioValue.value === 4 && checkboxList.value.length === 0) {
-        checkboxList.value.push(1)
-    }
     return checkboxList.value.join(',')
 })
 
@@ -125,21 +123,33 @@ function changeRadioValue(value) {
 function onRadioChange() {
     switch (radioValue.value) {
         case 1:
-            emit('update', 'month', '*', 'month');
-            break;
+            emit('update', 'month', '*', 'month')
+            break
         case 2:
-            emit('update', 'month', cycleTotal.value, 'month');
-            break;
+            emit('update', 'month', cycleTotal.value, 'month')
+            break
         case 3:
-            emit('update', 'month', averageTotal.value, 'month');
-            break;
+            emit('update', 'month', averageTotal.value, 'month')
+            break
         case 4:
             if (checkboxList.value.length === 0) {
-                checkboxList.value.push(1)
+                checkboxList.value.push(checkCopy.value[0])
+            } else {
+                checkCopy.value = checkboxList.value
             }
-            emit('update', 'month', checkboxString.value, 'month');
-            break;
+            emit('update', 'month', checkboxString.value, 'month')
+            break
     }
 }
 
 </script>
+
+<style lang="scss" scoped>
+.el-input-number--small, .el-input-number--small, .el-select, .el-select--small {
+    margin: 0 0.2rem;
+}
+
+.el-select, .el-select--small {
+    width: 18.8rem;
+}
+</style>

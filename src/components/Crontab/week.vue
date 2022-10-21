@@ -14,7 +14,7 @@
 
         <el-form-item>
             <el-radio v-model='radioValue' :label="3">
-                周期从星期
+                周期从
                 <el-select clearable v-model="cycle01">
                     <el-option
                         v-for="(item,index) of weekList"
@@ -40,18 +40,18 @@
         <el-form-item>
             <el-radio v-model='radioValue' :label="4">
                 第
-                <el-input-number v-model='average01' :min="1" :max="4" /> 周的星期
+                <el-input-number v-model='average01' :min="1" :max="4" /> 周的
                 <el-select clearable v-model="average02">
-                    <el-option v-for="(item,index) of weekList" :key="index" :label="item.value" :value="item.key">{{item.value}}</el-option>
+                    <el-option v-for="item in weekList" :key="item.key" :label="item.value" :value="item.key" />
                 </el-select>
             </el-radio>
         </el-form-item>
 
         <el-form-item>
             <el-radio v-model='radioValue' :label="5">
-                本月最后一个星期
+                本月最后一个
                 <el-select clearable v-model="weekday">
-                    <el-option v-for="(item,index) of weekList" :key="index" :label="item.value" :value="item.key">{{item.value}}</el-option>
+                    <el-option v-for="item in weekList" :key="item.key" :label="item.value" :value="item.key" />
                 </el-select>
             </el-radio>
         </el-form-item>
@@ -59,7 +59,7 @@
         <el-form-item>
             <el-radio v-model='radioValue' :label="6">
                 指定
-                <el-select clearable v-model="checkboxList" placeholder="可多选" multiple style="width:100%">
+                <el-select class="multiselect" clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="6">
                     <el-option v-for="item in weekList" :key="item.key" :label="item.value" :value="item.key" />
                 </el-select>
             </el-radio>
@@ -98,6 +98,7 @@ const average01 = ref(1)
 const average02 = ref(2)
 const weekday = ref(2)
 const checkboxList = ref([])
+const checkCopy = ref([2])
 const weekList = ref([
     {key: 1, value: '星期日'},
     {key: 2, value: '星期一'},
@@ -115,8 +116,8 @@ const cycleTotal = computed(() => {
 })
 
 const averageTotal = computed(() => {
-    average01.value = props.check(average01.value, 1, 4);
-    average02.value = props.check(average02.value, 1, 7);
+    average01.value = props.check(average01.value, 1, 4)
+    average02.value = props.check(average02.value, 1, 7)
     return average02.value + '#' + average01.value
 })
 
@@ -126,9 +127,6 @@ const weekdayTotal = computed(() => {
 })
 
 const checkboxString = computed(() => {
-    if (radioValue.value === 6 && checkboxList.value.length === 0) {
-        checkboxList.value.push(2)
-    }
     return checkboxList.value.join(',')
 })
 
@@ -139,29 +137,29 @@ watch([radioValue, cycleTotal, averageTotal, weekdayTotal, checkboxString], () =
 
 function changeRadioValue(value) {
     if (value === "*") {
-        radioValue.value = 1;
+        radioValue.value = 1
     } else if (value === "?") {
-        radioValue.value = 2;
+        radioValue.value = 2
     } else if (value.indexOf("-") > -1) {
         const indexArr = value.split('-')
         cycle01.value = Number(indexArr[0])
         cycle02.value = Number(indexArr[1])
 
-        radioValue.value = 3;
+        radioValue.value = 3
     } else if (value.indexOf("#") > -1) {
         const indexArr = value.split('#')
         average01.value = Number(indexArr[1])
         average02.value = Number(indexArr[0])
 
-        radioValue.value = 4;
+        radioValue.value = 4
     } else if (value.indexOf("L") > -1) {
-        const indexArr = value.split("L");
+        const indexArr = value.split("L")
         weekday.value = Number(indexArr[0])
 
-        radioValue.value = 5;
+        radioValue.value = 5
     } else {
         checkboxList.value = [...new Set(value.split(',').map(item => Number(item)))]
-        radioValue.value = 6;
+        radioValue.value = 6
     }
 }
 
@@ -191,7 +189,9 @@ function onRadioChange() {
             break
         case 6:
             if (checkboxList.value.length === 0) {
-                checkboxList.value.push(2)
+                checkboxList.value.push(checkCopy.value[0])
+            } else {
+                checkCopy.value = checkboxList.value
             }
             emit('update', 'week', checkboxString.value, 'week')
             break
@@ -199,3 +199,17 @@ function onRadioChange() {
 }
 
 </script>
+
+<style lang="scss" scoped>
+.el-input-number--small, .el-input-number--small, .el-select, .el-select--small {
+    margin: 0 0.5rem;
+}
+
+.el-select, .el-select--small {
+    width: 8rem;
+}
+
+.el-select.multiselect, .el-select--small.multiselect {
+    width: 17.8rem;
+}
+</style>
