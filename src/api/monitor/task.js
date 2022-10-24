@@ -46,8 +46,8 @@ export function delTask(taskId) {
 // 任务状态修改
 export function changeTaskStatus(taskId, status) {
   const data = {
-    taskId,
-    status
+    id: taskId,
+    status: status
   }
   return request({
     url: '/monitor/task/changeStatus',
@@ -58,14 +58,13 @@ export function changeTaskStatus(taskId, status) {
 
 
 // 定时任务立即执行一次
-export function runTask(taskId, taskGroup) {
+export function runTask(taskId) {
   const data = {
-    taskId,
-    taskGroup
+    taskId
   }
   return request({
     url: '/monitor/task/run',
-    method: 'put',
-    data: data
+    method: 'post',
+    params: data
   })
 }

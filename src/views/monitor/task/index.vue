@@ -262,7 +262,7 @@
          <el-form :model="form" label-width="120px">
             <el-row>
                <el-col :span="12">
-                  <el-form-item label="任务编号：">{{ form.taskId }}</el-form-item>
+                  <el-form-item label="任务编号：">{{ form.id }}</el-form-item>
                   <el-form-item label="任务名称：">{{ form.taskName }}</el-form-item>
                </el-col>
                <el-col :span="12">
@@ -349,7 +349,7 @@ const data = reactive({
     rules: {
         taskName: [{required: true, message: "任务名称不能为空", trigger: "blur"}],
         invokeTarget: [{required: true, message: "调用目标字符串不能为空", trigger: "blur"}],
-        cronExpression: [{required: true, message: "cron执行表达式不能为空", trigger: "blur"}]
+        cronExpression: [{required: true, message: "cron执行表达式不能为空", trigger: "change"}]
     }
 })
 
@@ -431,7 +431,7 @@ function handleCommand(command, row) {
 function handleStatusChange(row) {
     let text = row.status === "0" ? "启用" : "停用"
     proxy.$modal.confirm('确认要"' + text + '""' + row.taskName + '"任务吗?').then(function () {
-        return changeTaskStatus(row.taskId, row.status)
+        return changeTaskStatus(row.id, row.status)
     }).then(() => {
         proxy.$modal.msgSuccess(text + "成功")
     }).catch(function () {
@@ -442,17 +442,16 @@ function handleStatusChange(row) {
 /* 立即执行一次 */
 function handleRun(row) {
     proxy.$modal.confirm('确认要立即执行一次"' + row.taskName + '"任务吗?').then(function () {
-        return runTask(row.taskId, row.taskGroup)
+        return runTask(row.id)
     }).then(() => {
         proxy.$modal.msgSuccess("执行成功")
+    }).catch(() => {
     })
-        .catch(() => {
-        })
 }
 
 /** 任务详细信息 */
 function handleView(row) {
-    getTask(row.taskId).then(response => {
+    getTask(row.id).then(response => {
         form.value = response.data
         openView.value = true
     })
@@ -471,7 +470,7 @@ function crontabFill(value) {
 
 /** 任务日志列表查询 */
 function handleJobLog(row) {
-    const taskId = row.taskId || 0
+    const taskId = row.id
     router.push({path: "/monitor/task-log/index", query: {taskId: taskId}})
 }
 
@@ -497,7 +496,7 @@ function handleUpdate(row) {
 function submitForm() {
     proxy.$refs["taskRef"].validate(valid => {
         if (valid) {
-            if (form.value.taskId != undefined) {
+            if (form.value.id !== undefined) {
                 updateTask(form.value).then(response => {
                     proxy.$modal.msgSuccess("修改成功")
                     open.value = false
@@ -516,7 +515,7 @@ function submitForm() {
 
 /** 删除按钮操作 */
 function handleDelete(row) {
-    const taskIds = row.taskId || ids.value
+    const taskIds = row.id || ids.value
     proxy.$modal.confirm('是否确认删除定时任务编号为"' + taskIds + '"的数据项?').then(function () {
         return delTask(taskIds)
     }).then(() => {

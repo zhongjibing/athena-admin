@@ -75,9 +75,7 @@ service.interceptors.response.use(response => {
                     isRelogin.show = false
                     useUserStore().logOut().catch(() => {})
                     location.href = import.meta.env.VITE_APP_LOGIN_PAGE
-                }).catch(() => {
-                    isRelogin.show = false
-                });
+                })
             }
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         }
