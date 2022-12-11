@@ -11,7 +11,7 @@ import router from './router'
 import directive from './directive' // directive
 // 注册指令
 import plugins from './plugins' // plugins
-import {download} from '@/utils/request'
+import { download } from '@/utils/request'
 
 // svg图标
 import 'virtual:svg-icons-register'
@@ -19,8 +19,8 @@ import SvgIcon from '@/components/SvgIcon'
 import elementIcons from '@/components/SvgIcon/svgicon'
 
 import './permission' // permission control
-import {useDict} from '@/utils/dict'
-import {addDateRange, handleTree, parseTime, resetForm, selectDictLabel, selectDictLabels} from '@/utils/ruoyi'
+import { useDict } from '@/utils/dict'
+import { addDateRange, handleTree, parseTime, resetForm, selectDictLabel, selectDictLabels } from '@/utils/common'
 
 // 分页组件
 import Pagination from '@/components/Pagination'

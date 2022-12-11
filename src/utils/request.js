@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {ElLoading, ElMessage, ElMessageBox} from 'element-plus'
 import errorCode from '@/utils/errorCode'
-import {blobValidate, tansParams} from '@/utils/ruoyi'
+import {blobValidate, tansParams} from '@/utils/common'
 import cache from '@/plugins/cache'
 import {saveAs} from 'file-saver'
 import useUserStore from '@/store/modules/user'

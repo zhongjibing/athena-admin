@@ -91,7 +91,6 @@ function clickRow(row) {
 // 多选框选中数据
 function handleSelectionChange(selection) {
     userIds.value = selection.map(item => item.id)
-    console.log(userIds.value)
 }
 
 // 查询表数据

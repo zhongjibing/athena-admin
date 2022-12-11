@@ -90,7 +90,6 @@ const queryParams = ref({
 function getList() {
     loading.value = true
     initData(queryParams.value).then(response => {
-        console.log(response)
         onlineList.value = response.data.data
         total.value = response.data.total
         loading.value = false
