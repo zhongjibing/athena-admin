@@ -1,24 +1,24 @@
 <template>
    <div class="app-container">
       <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-         <el-form-item label="任务名称" prop="jobName">
+         <el-form-item label="任务名称" prop="taskName" v-if="!queryParams.taskId">
             <el-input
-               v-model="queryParams.jobName"
+               v-model="queryParams.taskName"
                placeholder="请输入任务名称"
                clearable
                style="width: 240px"
                @keyup.enter="handleQuery"
             />
          </el-form-item>
-         <el-form-item label="任务组名" prop="jobGroup">
+         <el-form-item label="任务组名" prop="taskGroup" v-if="!queryParams.taskId">
             <el-select
-               v-model="queryParams.jobGroup"
+               v-model="queryParams.taskGroup"
                placeholder="请选择任务组名"
                clearable
                style="width: 240px"
             >
                <el-option
-                  v-for="dict in sys_job_group"
+                  v-for="dict in sys_task_group"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -59,34 +59,6 @@
       <el-row :gutter="10" class="mb8">
          <el-col :span="1.5">
             <el-button
-               type="danger"
-               plain
-               icon="Delete"
-               :disabled="multiple"
-               @click="handleDelete"
-               v-hasPermi="['monitor:job:remove']"
-            >删除</el-button>
-         </el-col>
-         <el-col :span="1.5">
-            <el-button
-               type="danger"
-               plain
-               icon="Delete"
-               @click="handleClean"
-               v-hasPermi="['monitor:job:remove']"
-            >清空</el-button>
-         </el-col>
-         <el-col :span="1.5">
-            <el-button
-               type="warning"
-               plain
-               icon="Download"
-               @click="handleExport"
-               v-hasPermi="['monitor:job:export']"
-            >导出</el-button>
-         </el-col>
-         <el-col :span="1.5">
-            <el-button
                type="warning"
                plain
                icon="Close"
@@ -95,29 +67,27 @@
          </el-col>
          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
-
-      <el-table v-loading="loading" :data="jobLogList" @selection-change="handleSelectionChange">
-         <el-table-column type="selection" width="55" align="center" />
-         <el-table-column label="日志编号" width="80" align="center" prop="jobLogId" />
-         <el-table-column label="任务名称" align="center" prop="jobName" :show-overflow-tooltip="true" />
-         <el-table-column label="任务组名" align="center" prop="jobGroup" :show-overflow-tooltip="true">
+      <el-table v-loading="loading" :data="jobLogList">
+         <el-table-column label="日志编号" width="100" align="center" prop="id" />
+         <el-table-column label="任务名称" align="center" prop="taskName" min-width="180" :show-overflow-tooltip="true" />
+         <el-table-column label="任务组名" align="center" prop="taskGroup" min-width="160" :show-overflow-tooltip="true">
             <template #default="scope">
-               <dict-tag :options="sys_job_group" :value="scope.row.jobGroup" />
+               <dict-tag :options="sys_task_group" :value="scope.row.taskGroup" />
             </template>
          </el-table-column>
-         <el-table-column label="调用目标字符串" align="center" prop="invokeTarget" :show-overflow-tooltip="true" />
-         <el-table-column label="日志信息" align="center" prop="jobMessage" :show-overflow-tooltip="true" />
-         <el-table-column label="执行状态" align="center" prop="status">
+         <el-table-column label="调用目标字符串" align="center" prop="invokeTarget" min-width="220" :show-overflow-tooltip="true" />
+         <el-table-column label="日志信息" align="center" prop="message" min-width="360" :show-overflow-tooltip="true" />
+         <el-table-column label="执行状态" align="center" prop="status" min-width="120" >
             <template #default="scope">
                <dict-tag :options="sys_common_status" :value="scope.row.status" />
             </template>
          </el-table-column>
-         <el-table-column label="执行时间" align="center" prop="createTime" width="180">
+         <el-table-column label="执行时间" align="center" prop="createTime" min-width="160">
             <template #default="scope">
                <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
          </el-table-column>
-         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+         <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="120" >
             <template #default="scope">
                <el-button
                   type="text"
@@ -142,27 +112,27 @@
          <el-form :model="form" label-width="100px">
             <el-row>
                <el-col :span="12">
-                  <el-form-item label="日志序号：">{{ form.jobLogId }}</el-form-item>
-                  <el-form-item label="任务名称：">{{ form.jobName }}</el-form-item>
+                  <el-form-item label="日志序号：">{{ form.id }}</el-form-item>
+                  <el-form-item label="任务名称：">{{ form.taskName }}</el-form-item>
                </el-col>
                <el-col :span="12">
-                  <el-form-item label="任务分组：">{{ form.jobGroup }}</el-form-item>
-                  <el-form-item label="执行时间：">{{ form.createTime }}</el-form-item>
+                  <el-form-item label="任务分组：">{{ selectDictLabel(sys_task_group, form.taskGroup) }}</el-form-item>
+                  <el-form-item label="执行时间：">{{ parseTime(form.createTime) }}</el-form-item>
                </el-col>
                <el-col :span="24">
                   <el-form-item label="调用方法：">{{ form.invokeTarget }}</el-form-item>
                </el-col>
                <el-col :span="24">
-                  <el-form-item label="日志信息：">{{ form.jobMessage }}</el-form-item>
+                  <el-form-item label="日志信息：">{{ form.message }}</el-form-item>
                </el-col>
                <el-col :span="24">
                   <el-form-item label="执行状态：">
-                     <div v-if="form.status == 0">正常</div>
-                     <div v-else-if="form.status == 1">失败</div>
+                     <div v-if="form.status === '0'">正常</div>
+                     <div v-else-if="form.status === '1'">失败</div>
                   </el-form-item>
                </el-col>
                <el-col :span="24">
-                  <el-form-item label="异常信息：" v-if="form.status == 1">{{ form.exceptionInfo }}</el-form-item>
+                  <el-form-item label="异常信息：" v-if="form.status === '1'" style="white-space: pre-line">{{ form.exceptionInfo }}</el-form-item>
                </el-col>
             </el-row>
          </el-form>
@@ -176,107 +146,74 @@
 </template>
 
 <script setup name="JobLog">
-import { getJob } from "@/api/monitor/task";
-import { listJobLog, delJobLog, cleanJobLog } from "@/api/monitor/taskLog";
+import { listLogs } from "@/api/monitor/taskLog"
 
-const { proxy } = getCurrentInstance();
-const { sys_common_status, sys_job_group } = proxy.useDict("sys_common_status", "sys_job_group");
+const { proxy } = getCurrentInstance()
+const { sys_task_group, sys_common_status } = proxy.useDict("sys_task_group", "sys_common_status")
 
-const jobLogList = ref([]);
-const open = ref(false);
-const loading = ref(true);
-const showSearch = ref(true);
-const ids = ref([]);
-const multiple = ref(true);
-const total = ref(0);
-const dateRange = ref([]);
-const route = useRoute();
+const jobLogList = ref([])
+const open = ref(false)
+const loading = ref(true)
+const showSearch = ref(true)
+const total = ref(0)
+const dateRange = ref([])
+const route = useRoute()
 
 const data = reactive({
-  form: {},
-  queryParams: {
-    pageNum: 1,
-    pageSize: 10,
-    dictName: undefined,
-    dictType: undefined,
-    status: undefined
-  }
-});
+    form: {},
+    queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        taskId: undefined,
+        taskName: undefined,
+        taskGroup: undefined,
+        status: undefined
+    }
+})
 
-const { queryParams, form, rules } = toRefs(data);
+const { queryParams, form, rules } = toRefs(data)
 
 /** 查询调度日志列表 */
 function getList() {
-  loading.value = true;
-  listJobLog(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    jobLogList.value = response.rows;
-    total.value = response.total;
-    loading.value = false;
-  });
+    loading.value = true
+    listLogs(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
+        jobLogList.value = response.data.data
+        total.value = response.data.total
+        loading.value = false
+    })
 }
+
 // 返回按钮
 function handleClose() {
-  const obj = { path: "/monitor/job" };
-  proxy.$tab.closeOpenPage(obj);
+    const obj = {path: "/monitor/task"}
+    proxy.$tab.closeOpenPage(obj)
 }
+
 /** 搜索按钮操作 */
 function handleQuery() {
-  queryParams.value.pageNum = 1;
-  getList();
+    queryParams.value.pageNum = 1
+    getList()
 }
+
 /** 重置按钮操作 */
 function resetQuery() {
-  dateRange.value = [];
-  proxy.resetForm("queryRef");
-  handleQuery();
+    dateRange.value = []
+    proxy.resetForm("queryRef")
+    handleQuery()
 }
-// 多选框选中数据
-function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.jobLogId);
-  multiple.value = !selection.length;
-}
+
 /** 详细按钮操作 */
 function handleView(row) {
-  open.value = true;
-  form.value = row;
-}
-/** 删除按钮操作 */
-function handleDelete(row) {
-  proxy.$modal.confirm('是否确认删除调度日志编号为"' + ids.value + '"的数据项?').then(function () {
-    return delJobLog(ids.value);
-  }).then(() => {
-    getList();
-    proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
-}
-/** 清空按钮操作 */
-function handleClean() {
-  proxy.$modal.confirm("是否确认清空所有调度日志数据项?").then(function () {
-    return cleanJobLog();
-  }).then(() => {
-    getList();
-    proxy.$modal.msgSuccess("清空成功");
-  }).catch(() => {});
-}
-/** 导出按钮操作 */
-function handleExport() {
-  proxy.download("monitor/jobLog/export", {
-    ...queryParams.value,
-  }, `job_log_${new Date().getTime()}.xlsx`);
+    open.value = true
+    form.value = row
 }
 
 (() => {
-  const jobId = route.query.jobId;
-  if (jobId !== undefined && jobId != 0) {
-    getJob(jobId).then(response => {
-      queryParams.value.jobName = response.data.jobName;
-      queryParams.value.jobGroup = response.data.jobGroup;
-      getList();
-    });
-  } else {
-    getList();
-  }
-})();
+    const taskId = route.query.taskId;
+    if (taskId !== undefined && taskId !== '') {
+        queryParams.value.taskId = taskId
+    }
+})()
 
-getList();
+getList()
 </script>
