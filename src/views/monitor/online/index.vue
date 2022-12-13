@@ -35,23 +35,16 @@
             <el-table-column label="会话编号" align="center" prop="sessionId" min-width="180" :show-overflow-tooltip="true"/>
             <el-table-column label="登录名称" align="center" prop="username" min-width="100" :show-overflow-tooltip="true"/>
             <el-table-column label="用户昵称" align="center" prop="nickname" min-width="100" :show-overflow-tooltip="true"/>
-            <el-table-column label="邮箱" align="center" key="email" prop="email" min-width="120" :show-overflow-tooltip="true"/>
-            <el-table-column label="手机号码" align="center" key="mobile" prop="mobile" width="120" />
-            <el-table-column label="性别" align="center" key="gender" prop="gender" width="80">
-                <template #default="scope">
-                    <span>{{ scope.row.gender === '0' ? '女' : '男' }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="主机" align="center" prop="loginIp" width="120" :show-overflow-tooltip="true"/>
+            <el-table-column label="主机" align="center" prop="loginIp" min-width="120" :show-overflow-tooltip="true"/>
             <el-table-column label="登录地点" align="center" prop="loginLocation" min-width="120" :show-overflow-tooltip="true"/>
-            <el-table-column label="操作系统" align="center" prop="os" width="120" :show-overflow-tooltip="true"/>
-            <el-table-column label="浏览器" align="center" prop="browser" width="120" :show-overflow-tooltip="true"/>
-            <el-table-column label="登录时间" align="center" prop="loginTime" width="180">
+            <el-table-column label="操作系统" align="center" prop="os" min-width="120" :show-overflow-tooltip="true"/>
+            <el-table-column label="浏览器" align="center" prop="browser" min-width="120" :show-overflow-tooltip="true"/>
+            <el-table-column label="登录时间" align="center" prop="loginTime" min-width="180">
                 <template #default="scope">
                     <span>{{ parseTime(scope.row.loginTime) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="最新访问时间" align="center" prop="lastAccessedTime" width="180">
+            <el-table-column label="最新访问时间" align="center" prop="lastAccessedTime" min-width="180">
                 <template #default="scope">
                     <span>{{ parseTime(scope.row.lastAccessedTime) }}</span>
                 </template>
