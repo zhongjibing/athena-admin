@@ -103,13 +103,6 @@
                     >删除</el-button>
                     <el-button
                         type="text"
-                        icon="CircleCheck"
-                        @click="handleDataScope(scope.row)"
-                        v-hasPermi="['system:role:edit']"
-                        v-if="!scope.row.admin"
-                    >数据权限</el-button>
-                    <el-button
-                        type="text"
                         icon="User"
                         @click="handleAuthUser(scope.row)"
                         v-hasPermi="['system:role:edit']"
