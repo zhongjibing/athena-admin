@@ -8,17 +8,17 @@
       <template v-if="appStore.device !== 'mobile'">
         <header-search id="header-search" class="right-menu-item" />
 
-        <el-tooltip content="源码地址" effect="dark" placement="bottom">
+        <el-tooltip v-if="appStore.device !== 'desktop'" content="源码地址" effect="dark" placement="bottom">
           <project-git id="project-git" class="right-menu-item hover-effect" />
         </el-tooltip>
 
-        <el-tooltip content="文档地址" effect="dark" placement="bottom">
+        <el-tooltip v-if="appStore.device !== 'desktop'" content="文档地址" effect="dark" placement="bottom">
           <project-doc id="project-doc" class="right-menu-item hover-effect" />
         </el-tooltip>
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
-        <el-tooltip content="布局大小" effect="dark" placement="bottom">
+        <el-tooltip v-if="appStore.device !== 'desktop'" content="布局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
       </template>
@@ -26,7 +26,7 @@
         <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">
           <div class="avatar-wrapper">
             <img :src="userStore.avatar" class="user-avatar" />
-            <el-icon><caret-bottom /></el-icon>
+             <el-icon><caret-bottom /></el-icon>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
@@ -164,7 +164,7 @@ function setLayout() {
     }
 
     .avatar-container {
-      margin-right: 40px;
+      margin-right: 10px;
 
       .avatar-wrapper {
         margin-top: 5px;
@@ -174,15 +174,15 @@ function setLayout() {
           cursor: pointer;
           width: 40px;
           height: 40px;
-          border-radius: 10px;
+          border-radius: 20px;
         }
 
         i {
           cursor: pointer;
           position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
+          right: -2px;
+          top: 30px;
+          font-size: 8px;
         }
       }
     }

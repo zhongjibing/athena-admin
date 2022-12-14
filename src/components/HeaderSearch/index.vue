@@ -160,10 +160,11 @@ watch(searchPool, (list) => {
     vertical-align: middle;
 
     :deep(.el-input__inner) {
+      cursor: auto;
       border-radius: 0;
       border: 0;
-      padding-left: 0;
-      padding-right: 0;
+      padding-left: 5px;
+      padding-right: 5px;
       box-shadow: none !important;
       border-bottom: 1px solid #d9d9d9;
       vertical-align: middle;
