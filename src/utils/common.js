@@ -192,6 +192,7 @@ export function handleTree(data, id, parentId, children) {
                 adaptToChildrenList(c)
             }
         }
+        o[config.childrenList].sort((a, b) => a.orderNum - b.orderNum)
     }
 
     return tree
