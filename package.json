@@ -22,6 +22,7 @@
     "fuse.js": "6.6.2",
     "js-cookie": "3.0.1",
     "jsencrypt": "3.2.1",
+    "jssm4": "1.0.3",
     "nprogress": "0.2.0",
     "pinia": "2.0.18",
     "vue": "3.2.37",
