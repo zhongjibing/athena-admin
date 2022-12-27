@@ -95,15 +95,15 @@ export function selectDictLabels(datas, value, separator) {
         var match = false
         Object.keys(datas).some((key) => {
             if (datas[key].value === ('' + temp[val])) {
-                actions.push(datas[key].label + currentSeparator)
+                actions.push(datas[key].label)
                 match = true
             }
         })
         if (!match) {
-            actions.push(temp[val] + currentSeparator)
+            actions.push(temp[val])
         }
     })
-    return actions.join('').substring(0, actions.join('').length - 1)
+    return actions.join(currentSeparator)
 }
 
 // 字符串格式化(%s )
