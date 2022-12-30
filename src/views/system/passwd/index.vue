@@ -140,7 +140,7 @@
                     <el-col :span="24">
                         <el-form-item label="备注" prop="remark">
                             <el-input v-model="form.remark" type="textarea"
-                                      @blur="form.remark = form.remark.trim()"
+                                      @blur="form.remark = form.remark ? form.remark.trim() : form.remark"
                                       placeholder="请输入内容"/>
                         </el-form-item>
                     </el-col>
