@@ -12,7 +12,7 @@ export let isRelogin = {show: false};
 
 const service = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API,
-    headers: {'Accept': 'application/json'},
+    headers: {'Accept': 'application/json;test=test', 'Content-Type': 'application/json'},
     timeout: 10000,
     withCredentials: true
 })
