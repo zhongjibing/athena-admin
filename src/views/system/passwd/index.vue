@@ -51,7 +51,7 @@
                     type="success"
                     plain
                     icon="Key"
-                    @click="openPasswd = true"
+                    @click="openGenerate"
                     v-hasPermi="['system:passwd:generate']"
                 >生成密码</el-button>
             </el-col>
@@ -130,10 +130,20 @@
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="24">
+                    <el-col :span="17">
                         <el-form-item label="密码" prop="passwd">
                             <el-input v-model="form.passwd" placeholder="请输入密码" maxlength="20"/>
                         </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <div style="margin: 0 10px;">
+                            <el-button type="primary" @click="handleFormGenerate">生成密码</el-button>
+                        </div>
+                    </el-col>
+                    <el-col :span="3">
+                        <div>
+                            <el-input-number v-model="genSize" class="pws" :min="6" :max="32" controls-position="right"/>
+                        </div>
                     </el-col>
                 </el-row>
                 <el-row>
@@ -195,12 +205,12 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="密码长度">
-                            <el-input-number v-model="size" min="6" max="32" placeholder="请输入密码长度" controls="false"/>
+                            <el-input-number v-model="size" :min="6" :max="64" placeholder="请输入密码长度" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item>
-                            <el-button type="primary" @click="handleGenerate" :blur="size <= 6 ? size = 6 : size">确 定</el-button>
+                            <el-button type="primary" @click="handleGenerate">确 定</el-button>
                         </el-form-item>
                     </el-col>
 
@@ -228,13 +238,13 @@ const { proxy } = getCurrentInstance()
 
 const recordList = ref([])
 const open = ref(false)
-const openEdit = ref(false)
 const openView = ref(false)
 const openPasswd = ref(false)
 const loading = ref(true)
 const showSearch = ref(true)
 const secret = ref("")
-const size = ref(10)
+const genSize = ref(20)
+const size = ref(20)
 const pwds = ref([])
 const ids = ref([])
 const single = ref(true)
@@ -304,10 +314,20 @@ function closeView() {
     reset()
 }
 
+function openGenerate() {
+    openPasswd.value = true
+    handleGenerate()
+}
+
 function handleGenerate() {
     generate(size.value).then(res => {
-        console.log(res)
         pwds.value = res.data
+    })
+}
+
+function handleFormGenerate() {
+    generate(genSize.value).then(res => {
+        form.value.passwd = res.data && res.data.length ? res.data[Math.floor(res.data.length * Math.random())] : ''
     })
 }
 
@@ -408,3 +428,8 @@ function handleDelete(row) {
 getList()
 </script>
 
+<style lang="scss" scoped>
+.pws {
+    width: 75px;
+}
+</style>
