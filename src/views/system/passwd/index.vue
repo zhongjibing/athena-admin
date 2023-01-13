@@ -93,7 +93,7 @@
                         icon="View"
                         @click="handleView(scope.row, scope.index)"
                         v-hasPermi="['system:passwd:view']"
-                    >查看密码</el-button>
+                    >查看</el-button>
                     <el-button
                         type="text"
                         icon="Delete"
@@ -165,7 +165,7 @@
         </el-dialog>
 
         <!-- 查看详细 -->
-        <el-dialog title="查看密码" v-model="openView" width="700px" destroy-on-close>
+        <el-dialog title="查看" v-model="openView" width="700px" destroy-on-close>
             <el-form :model="form" label-width="120px">
                 <el-row>
                     <el-col :span="24">
