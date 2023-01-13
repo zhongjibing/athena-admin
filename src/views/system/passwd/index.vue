@@ -183,7 +183,10 @@
                                 <el-input type="password" v-if="!form.passwd" v-model="secret" placeholder="密码" />
                             </div>
                             <div style="margin-left: 20px">
-                                <el-button type="primary" v-if="!form.passwd" @click="handleDecrypt" >显 示</el-button>
+                                <el-button type="primary" v-if="!form.passwd" icon="View" @click="handleDecrypt" >显 示</el-button>
+                                <el-tooltip content="复制成功" placement="top" effect="light" :visible="copied" v-if="form.passwd">
+                                    <el-button id="copy-btn" type="primary" v-if="form.passwd" icon="CopyDocument" @click="handleCopy" >复 制</el-button>
+                                </el-tooltip>
                             </div>
                         </el-form-item>
                     </el-col>
@@ -243,6 +246,7 @@ const openPasswd = ref(false)
 const loading = ref(true)
 const showSearch = ref(true)
 const secret = ref("")
+const copied = ref(false)
 const genSize = ref(20)
 const size = ref(20)
 const pwds = ref([])
@@ -297,6 +301,10 @@ function handleView(row) {
 }
 
 function handleDecrypt() {
+    if (!secret.value) {
+        return
+    }
+
     const proc = encrypt(secret.value)
     secret.value = ''
     proc.then(enc => {
@@ -306,6 +314,46 @@ function handleDecrypt() {
             })
         })
     })
+}
+
+function handleCopy() {
+    const value = form.value.passwd
+    if (!value) {
+        return
+    }
+
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(value).then(() => {
+            copySuccess()
+        }, () => {
+            unsafeCopy(value)
+        })
+    } else {
+        unsafeCopy(value)
+    }
+}
+
+function copySuccess() {
+    copied.value = true
+    document.getElementById("copy-btn").focus()
+    setTimeout(() => copied.value = false, 500)
+}
+
+function unsafeCopy(data) {
+    let textArea = document.createElement("textarea")
+    textArea.value = data
+    textArea.style.position = "absolute"
+    textArea.style.opacity = "0"
+    textArea.style.zIndex = "-100"
+    textArea.style.left = "-999999px"
+    textArea.style.top = "-999999px"
+    document.body.appendChild(textArea)
+    textArea.focus()
+    textArea.select()
+    if (document.execCommand('copy')) {
+        copySuccess()
+    }
+    textArea.remove()
 }
 
 function closeView() {
