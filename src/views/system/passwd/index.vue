@@ -60,9 +60,9 @@
 
         <el-table ref="recordRef" v-loading="loading" :data="recordList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center"/>
-            <el-table-column label="编号" align="center" prop="id" min-width="260"/>
-            <el-table-column label="主题" align="center" prop="title" min-width="220" />
-            <el-table-column label="密码" align="center" prop="passwd" min-width="220">
+            <el-table-column label="编号" align="center" prop="id" min-width="235"/>
+            <el-table-column label="主题" align="center" prop="title" min-width="200" />
+            <el-table-column label="密码" align="center" prop="passwd" min-width="160">
                 <template #default="scope">
                     <span>{{ '**********' }}</span>
                 </template>
@@ -80,7 +80,7 @@
                     <span>{{ parseTime(scope.row.updateTime) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" align="center" min-width="300" class-name="small-padding fixed-width">
+            <el-table-column label="操作" align="center" min-width="220" class-name="small-padding fixed-width">
                 <template #default="scope">
                     <el-button
                         type="text"
