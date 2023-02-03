@@ -83,7 +83,7 @@
             <el-table-column label="参数主键" align="center" prop="id" min-width="80"/>
             <el-table-column label="参数名称" align="center" prop="name" :show-overflow-tooltip="true" min-width="160"/>
             <el-table-column label="参数键名" align="center" prop="key" :show-overflow-tooltip="true" min-width="160"/>
-            <el-table-column label="参数键值" align="center" prop="value" min-width="160"/>
+            <el-table-column label="参数键值" align="center" prop="value" :show-overflow-tooltip="true" min-width="180"/>
             <el-table-column label="系统内置" align="center" prop="type" min-width="100">
                 <template #default="scope">
                     <dict-tag :options="sys_yes_no" :value="scope.row.type"/>
@@ -95,7 +95,7 @@
                     <span>{{ parseTime(scope.row.createTime) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" min-width="220">
+            <el-table-column label="操作" align="center" class-name="small-padding fixed-width" min-width="180">
                 <template #default="scope">
                     <el-button
                         type="text"
