@@ -1,6 +1,6 @@
 <template>
     <div class="app-container">
-        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px" @submit.prevent>
             <el-form-item label="主题" prop="name">
                 <el-input
                     v-model="queryParams.name"
@@ -132,7 +132,7 @@
                 <el-row>
                     <el-col :span="17">
                         <el-form-item label="密码" prop="passwd">
-                            <el-input v-model="form.passwd" placeholder="请输入密码" maxlength="20"/>
+                            <el-input v-model="form.passwd" placeholder="请输入密码" maxlength="64"/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="4">
