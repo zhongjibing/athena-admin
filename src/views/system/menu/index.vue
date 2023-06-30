@@ -88,22 +88,25 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" min-width="260">
                 <template #default="scope">
                     <el-button
-                        type="text"
+                        type="primary"
+                        link
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
                         v-hasPermi="['system:menu:edit']"
                     >修改</el-button>
                     <el-button
-                        type="text"
+                        type="primary"
+                        link
                         icon="Plus"
                         @click="handleAdd(scope.row)"
                         v-hasPermi="['system:menu:add']"
                     >新增</el-button>
                     <el-button
-                        type="text"
+                        type="primary"
+                        link
                         icon="Delete"
                         @click="handleDelete(scope.row)"
-                        v-hasPermi="['system:menu:remove']"
+                        v-hasPermi="['system:menu:delete']"
                     >删除</el-button>
                 </template>
             </el-table-column>
@@ -121,7 +124,6 @@
                                 :props="{ value: 'id', label: 'name', children: 'children' }"
                                 value-key="id"
                                 placeholder="选择上级菜单"
-                                highlight-current
                                 check-strictly
                             />
                         </el-form-item>
@@ -145,7 +147,7 @@
                                 @show="showSelectIcon"
                             >
                                 <template #reference>
-                                    <el-input v-model="form.icon" placeholder="点击选择图标" @click="showSelectIcon"
+                                    <el-input v-model="form.icon" placeholder="点击选择图标" @blur="showSelectIcon"
                                               v-click-outside="hideSelectIcon" readonly>
                                         <template #prefix>
                                             <svg-icon
@@ -160,7 +162,7 @@
                                         </template>
                                     </el-input>
                                 </template>
-                                <icon-select ref="iconSelectRef" @selected="selected"/>
+                                <icon-select ref="iconSelectRef" @selected="selected" :active-icon="form.icon"/>
                             </el-popover>
                         </el-form-item>
                     </el-col>
@@ -315,10 +317,10 @@
 </template>
 
 <script setup name="Menu">
-import {addMenu, delMenu, getMenu, listMenu, updateMenu} from "@/api/system/menu"
+import { addMenu, delMenu, getMenu, listMenu, updateMenu } from "@/api/system/menu"
 import SvgIcon from "@/components/SvgIcon"
 import IconSelect from "@/components/IconSelect"
-import {ClickOutside as vClickOutside} from 'element-plus'
+import { ClickOutside as vClickOutside } from 'element-plus'
 
 const { proxy } = getCurrentInstance()
 const { sys_show_hide, sys_normal_disable } = proxy.useDict("sys_show_hide", "sys_normal_disable")
@@ -447,7 +449,6 @@ function handleAdd(row) {
 function calcOrder(dataList, pid, trace) {
     const traceId = trace || (new Date().getTime() % 10000) + 1
     const list = dataList
-    console.log('[' + traceId + "]first: ", list)
     for (let node of list) {
         if (node.id === pid) {
             return node.children ? node.children.length + 1 : 1
@@ -512,7 +513,6 @@ function handleDelete(row) {
         getList();
         proxy.$modal.msgSuccess("删除成功");
     }).catch(e => {
-        console.log(e)
     });
 }
 

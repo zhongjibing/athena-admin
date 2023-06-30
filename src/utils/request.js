@@ -1,18 +1,18 @@
 import axios from 'axios'
-import {ElLoading, ElMessage, ElMessageBox} from 'element-plus'
+import { ElLoading, ElMessage, ElMessageBox } from 'element-plus'
 import errorCode from '@/utils/errorCode'
-import {blobValidate, tansParams} from '@/utils/common'
+import { blobValidate, tansParams } from '@/utils/common'
 import cache from '@/plugins/cache'
-import {saveAs} from 'file-saver'
+import { saveAs } from 'file-saver'
 import useUserStore from '@/store/modules/user'
 
 let downloadLoadingInstance;
 // 是否显示重新登录
-export let isRelogin = {show: false};
+export let isRelogin = {show: false}
 
 const service = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API,
-    headers: {'Accept': 'application/json;test=test', 'Content-Type': 'application/json'},
+    headers: {'Accept': 'application/json;test', 'Content-Type': 'application/json'},
     timeout: 10000,
     withCredentials: true
 })
@@ -63,7 +63,6 @@ service.interceptors.response.use(response => {
     error => {
         const code = error.response.status
         if (code === 401) {
-            console.log(error)
             if (!isRelogin.show) {
                 isRelogin.show = true
                 ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
@@ -80,23 +79,21 @@ service.interceptors.response.use(response => {
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         }
         if (code === 403) {
-            return Promise.reject(new Error(error.response.msg || ''))
+            return Promise.reject(error.response.msg || '')
+        }
+        if (code === 429) {
+            const msg = "请求太快, 请稍后重试"
+            ElMessage({message: msg, type: 'error'})
+            return Promise.reject(msg)
         }
         if (code === 500) {
             const msg = "系统未知错误，请反馈给管理员"
-            ElMessage({
-                message: msg,
-                type: 'error'
-            })
-            return Promise.reject(new Error(msg))
+            ElMessage({message: msg, type: 'error'})
+            return Promise.reject(msg)
         }
 
         const msg = error.response.data || '后端接口异常'
-        ElMessage({
-            message: msg,
-            type: 'error',
-            duration: 5 * 1000
-        })
+        ElMessage({message: msg, type: 'error', duration: 5 * 1000})
         return Promise.reject(msg)
     }
 )
@@ -111,8 +108,8 @@ export function download(url, params, filename) {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         responseType: 'blob'
     }).then(async (data) => {
-        const isLogin = await blobValidate(data);
-        if (isLogin) {
+        const isBlob = blobValidate(data);
+        if (isBlob) {
             const blob = new Blob([data])
             saveAs(blob, filename)
         } else {

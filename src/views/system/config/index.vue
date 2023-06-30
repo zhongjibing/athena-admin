@@ -72,7 +72,7 @@
                     icon="Delete"
                     :disabled="multiple"
                     @click="handleDelete"
-                    v-hasPermi="['system:config:remove']"
+                    v-hasPermi="['system:config:delete']"
                 >删除</el-button>
             </el-col>
             <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
@@ -98,16 +98,18 @@
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width" min-width="180">
                 <template #default="scope">
                     <el-button
-                        type="text"
+                        type="primary"
+                        link
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
                         v-hasPermi="['system:config:edit']"
                     >修改</el-button>
                     <el-button
-                        type="text"
+                        type="primary"
+                        link
                         icon="Delete"
                         @click="handleDelete(scope.row)"
-                        v-hasPermi="['system:config:remove']"
+                        v-hasPermi="['system:config:delete']"
                     >删除</el-button>
                 </template>
             </el-table-column>

@@ -41,7 +41,7 @@ const usePermissionStore = defineStore(
                         const rdata = JSON.parse(JSON.stringify(res.data))
                         const defaultData = JSON.parse(JSON.stringify(res.data))
                         const sidebarRoutes = filterAsyncRouter(sdata)
-                        const rewriteRoutes = filterAsyncRouter(rdata, false, true)
+                        const rewriteRoutes = filterAsyncRouter(rdata, true)
                         const defaultRoutes = filterAsyncRouter(defaultData)
                         const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
                         asyncRoutes.forEach(route => {
@@ -59,7 +59,7 @@ const usePermissionStore = defineStore(
     })
 
 // 遍历后台传来的路由字符串，转换为组件对象
-function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
+function filterAsyncRouter(asyncRouterMap, type = false) {
     // children
     // component
     // path
@@ -80,7 +80,7 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
             }
         }
         if (route.children != null && route.children && route.children.length) {
-            route.children = filterAsyncRouter(route.children, route, type)
+            route.children = filterAsyncRouter(route.children, type)
         } else {
             delete route['children']
             delete route['redirect']
@@ -115,19 +115,19 @@ function filterChildren(childrenMap, lastRouter = false) {
 
 // 动态路由遍历，验证是否具备权限
 export function filterDynamicRoutes(routes) {
-  const res = []
-  routes.forEach(route => {
-    if (route.permissions) {
-      if (auth.hasPermiOr(route.permissions)) {
-        res.push(route)
-      }
-    } else if (route.roles) {
-      if (auth.hasRoleOr(route.roles)) {
-        res.push(route)
-      }
-    }
-  })
-  return res
+    const res = []
+    routes.forEach(route => {
+        if (route.permissions) {
+            if (auth.hasPermiOr(route.permissions)) {
+                res.push(route)
+            }
+        } else if (route.roles) {
+            if (auth.hasRoleOr(route.roles)) {
+                res.push(route)
+            }
+        }
+    })
+    return res
 }
 
 export const loadView = (view) => {

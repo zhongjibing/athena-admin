@@ -4,11 +4,13 @@ import defAva from '@/assets/images/profile.jpg'
 
 const userStore = defineStore('user', {
     state: () => ({
+        defAva: defAva,
         status: null,
         name: '',
         avatar: '',
         roles: [],
         permissions: [],
+        authorities: [],
         csrf: ''
     }),
     actions: {
@@ -41,6 +43,7 @@ const userStore = defineStore('user', {
         logOut() {
             return new Promise((resolve, reject) => {
                 logOut().then(() => {
+                    this.status = null
                     this.name = ''
                     this.avatar = ''
                     this.roles = []

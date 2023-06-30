@@ -81,10 +81,11 @@
             <el-table-column label="操作" align="center" min-width="180" class-name="small-padding fixed-width">
                 <template #default="scope">
                     <el-button
-                        type="text"
+                        type="primary"
+                        link
                         icon="View"
                         @click="handleView(scope.row, scope.index)"
-                        v-hasPermi="['monitor:operlog:query']"
+                        v-hasPermi="['log:operation:query']"
                     >详细
                     </el-button>
                 </template>

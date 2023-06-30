@@ -4,13 +4,8 @@
             <el-col :span="24" class="card-box">
         <el-card>
         <template #header>
-            <span>基本信息</span>
-            <el-button
-                style="float: right; padding: 3px 0"
-                type="text"
-                icon="Refresh"
-                @click="getList()"
-            ></el-button>
+            <Monitor style="width: 1em; height: 1em; vertical-align: middle;" />
+            <span style="vertical-align: middle;"> 基本信息</span>
         </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table cellspacing="0" style="width: 100%">
@@ -19,7 +14,7 @@
                   <td class="el-table__cell is-leaf"><div class="cell">Redis版本</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell" v-if="cache.info">{{ cache.info.redis_version }}</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell">运行模式</div></td>
-                  <td class="el-table__cell is-leaf"><div class="cell" v-if="cache.info">{{ cache.info.redis_mode == "standalone" ? "单机" : "集群" }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="cache.info">{{ cache.info.redis_mode === "standalone" ? "单机" : "集群" }}</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell">端口</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell" v-if="cache.info">{{ cache.info.tcp_port }}</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell">客户端数</div></td>
@@ -37,7 +32,7 @@
                 </tr>
                 <tr>
                   <td class="el-table__cell is-leaf"><div class="cell">AOF是否开启</div></td>
-                  <td class="el-table__cell is-leaf"><div class="cell" v-if="cache.info">{{ cache.info.aof_enabled == "0" ? "否" : "是" }}</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell" v-if="cache.info">{{ cache.info.aof_enabled === "0" ? "否" : "是" }}</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell">RDB是否成功</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell" v-if="cache.info">{{ cache.info.rdb_last_bgsave_status }}</div></td>
                   <td class="el-table__cell is-leaf"><div class="cell">Key数量</div></td>
@@ -54,13 +49,8 @@
       <el-col :span="12" class="card-box">
         <el-card>
           <template #header>
-              <span>命令统计</span>
-              <el-button
-                  style="float: right; padding: 3px 0"
-                  type="text"
-                  icon="Refresh"
-                  @click="getList()"
-              ></el-button>
+              <PieChart style="width: 1em; height: 1em; vertical-align: middle;" />
+              <span style="vertical-align: middle;"> 命令统计</span>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <div ref="commandstats" style="height: 420px" />
@@ -71,13 +61,8 @@
       <el-col :span="12" class="card-box">
         <el-card>
           <template #header>
-              <span>内存信息</span>
-              <el-button
-                  style="float: right; padding: 3px 0"
-                  type="text"
-                  icon="Refresh"
-                  @click="getList()"
-              ></el-button>
+              <Odometer style="width: 1em; height: 1em; vertical-align: middle;" />
+              <span style="vertical-align: middle;"> 内存信息</span>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <div ref="usedmemory" style="height: 420px" />
@@ -146,6 +131,8 @@ function getList() {
                 }
             ]
         })
+    }).catch(()=>{
+        proxy.$modal.closeLoading()
     })
 }
 

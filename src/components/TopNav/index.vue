@@ -3,6 +3,7 @@
         :default-active="activeMenu"
         mode="horizontal"
         @select="handleSelect"
+        :ellipsis="false"
     >
         <template v-for="(item, index) in topMenus">
             <el-menu-item :style="{'--theme': theme}" :index="item.path" :key="index" v-if="index < visibleNumber"
@@ -14,7 +15,7 @@
         </template>
 
         <!-- 顶部菜单超出数量折叠 -->
-        <el-sub-menu :style="{'--theme': theme}" index="more" v-if="topMenuSize > visibleNumber">
+        <el-sub-menu :style="{'--theme': theme}" index="more" v-if="topMenus.length > visibleNumber">
             <template #title>更多菜单</template>
             <template v-for="(item, index) in topMenus">
                 <el-menu-item
@@ -72,8 +73,6 @@ const topMenus = computed(() => {
     return topMenus
 })
 
-const topMenuSize = computed(() => routers.value.filter(menu => menu.hidden !== true).length)
-
 // 设置子路由
 const childrenMenus = computed(() => {
     let childrenMenus = []
@@ -102,7 +101,9 @@ const activeMenu = computed(() => {
     if (path !== undefined && path.lastIndexOf("/") > 0 && hideList.indexOf(path) === -1) {
         const tmpPath = path.substring(1, path.length)
         activePath = "/" + tmpPath.substring(0, tmpPath.indexOf("/"))
-        appStore.toggleSideBarHide(false)
+        if (!route.meta.link) {
+            appStore.toggleSideBarHide(false)
+        }
     } else if (!route.children) {
         activePath = path
         appStore.toggleSideBarHide(true)
@@ -124,7 +125,13 @@ function handleSelect(key, keyPath) {
         window.open(key, "_blank")
     } else if (!route || !route.children) {
         // 没有子路由路径内部打开
-        router.push({path: key})
+        const routeMenu = childrenMenus.value.find(item => item.path === key)
+        if (routeMenu && routeMenu.query) {
+            let query = JSON.parse(routeMenu.query)
+            router.push({path: key, query: query})
+        } else {
+            router.push({path: key})
+        }
         appStore.toggleSideBarHide(true)
     } else {
         // 显示左侧联动菜单
@@ -144,6 +151,8 @@ function activeRoutes(key) {
     }
     if (routes.length > 0) {
         permissionStore.setSidebarRouters(routes)
+    } else {
+        appStore.toggleSideBarHide(true)
     }
     return routes
 }

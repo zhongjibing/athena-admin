@@ -59,6 +59,9 @@
 	color: inherit;
 }
 
+.el-form .el-form-item__label {
+	font-weight: 700;
+}
 .el-dialog:not(.is-fullscreen) {
 	margin-top: 6vh !important;
 }
@@ -115,7 +118,7 @@
 }
 
 .pagination-container .el-pagination {
-	right: 20px;
+	right: 0;
 	position: absolute;
 }
 

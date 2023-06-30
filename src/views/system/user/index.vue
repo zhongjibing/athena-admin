@@ -71,13 +71,14 @@
                    <span>{{ scope.row.gender === '0' ? '女' : '男' }}</span>
                </template>
            </el-table-column>
-           <el-table-column label="用户冻结" align="center" key="accountLocked" prop="accountLocked" width="100">
+           <el-table-column label="用户冻结" align="center" key="accountLocked" prop="accountLocked" width="100" v-hasPermi="['system:user:status']">
                <template #default="scope">
                    <el-switch
                        v-model="scope.row.accountLocked"
                        active-value="1"
                        inactive-value="0"
                        @change="handleStatusChange(scope.row)"
+                       v-hasPermi="['system:user:status']"
                    ></el-switch>
                </template>
            </el-table-column>
@@ -105,22 +106,25 @@
            <el-table-column label="操作" align="center" min-width="280" fixed="right" class-name="small-padding fixed-width">
                <template #default="scope">
                    <el-button
-                       type="text"
+                       type="primary"
+                       link
                        icon="Edit"
-                       @click="handleUpdate(scope.row)"
+                       @click="handleRowUpdate(scope.row)"
                        v-hasPermi="['system:user:edit']"
                    >修改</el-button>
                    <el-button
-                       type="text"
+                       type="primary"
+                       link
                        icon="Key"
                        @click="handleResetPwd(scope.row)"
-                       v-hasPermi="['system:user:resetPwd']"
+                       v-hasPermi="['system:user:pwd']"
                    >重置密码</el-button>
                    <el-button
-                       type="text"
+                       type="primary"
+                       link
                        icon="CircleCheck"
                        @click="handleAuthRole(scope.row)"
-                       v-hasPermi="['system:user:edit']"
+                       v-hasPermi="['system:user:assign']"
                    >分配角色</el-button>
                </template>
            </el-table-column>
@@ -357,9 +361,20 @@ function handleAdd() {
 }
 
 /** 修改按钮操作 */
-function handleUpdate(row) {
+function handleUpdate() {
     reset()
-    const userId = row.id || ids.value
+    const userId = ids.value
+    getUser(userId).then(response => {
+        form.value = response.data
+        open.value = true
+        title.value = "修改用户"
+    })
+}
+
+/** 修改操作 */
+function handleRowUpdate(row) {
+    reset()
+    const userId = row.id
     getUser(userId).then(response => {
         form.value = response.data
         open.value = true

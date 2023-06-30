@@ -90,10 +90,11 @@
          <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="120" >
             <template #default="scope">
                <el-button
-                  type="text"
+                  type="primary"
+                  link
                   icon="View"
                   @click="handleView(scope.row)"
-                  v-hasPermi="['monitor:job:query']"
+                  v-hasPermi="['monitor:task:query']"
                >详细</el-button>
             </template>
          </el-table-column>

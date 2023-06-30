@@ -85,12 +85,15 @@ export function selectDictLabel(datas, value) {
 
 // 回显数据字典（字符串数组）
 export function selectDictLabels(datas, value, separator) {
-    if (value === undefined) {
+    if (value === undefined || value.length ===0) {
         return ""
     }
-    const actions = [];
-    const currentSeparator = undefined === separator ? "," : separator;
-    const temp = value.split(currentSeparator);
+    if (Array.isArray(value)) {
+        value = value.join(",")
+    }
+    const actions = []
+    const currentSeparator = undefined === separator ? "," : separator
+    const temp = value.split(currentSeparator)
     Object.keys(value.split(currentSeparator)).some((val) => {
         var match = false
         Object.keys(datas).some((key) => {
@@ -122,6 +125,9 @@ export function sprintf(str) {
 
 // 转换字符串，undefined,null等转化为""
 export function parseStrEmpty(str) {
+    if (typeof str === 'number') {
+        return String(str)
+    }
     if (!str || str === "undefined" || str === "null") {
         return ""
     }
@@ -240,11 +246,5 @@ export function getNormalPath(p) {
 
 // 验证是否为blob格式
 export async function blobValidate(data) {
-    try {
-        const text = await data.text()
-        JSON.parse(text)
-        return false
-    } catch (error) {
-        return true
-    }
+    return data.type !== 'application/json'
 }

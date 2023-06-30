@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="12" class="card-box">
         <el-card>
-          <template #header><span>CPU</span></template>
+          <template #header><Cpu style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">CPU</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table v-loading="!server.cpu" cellspacing="0" style="width: 100%;">
               <thead>
@@ -37,7 +37,7 @@
 
       <el-col :span="12" class="card-box">
         <el-card>
-          <template #header><span>内存</span></template>
+          <template #header><Tickets style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">内存</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table v-loading="!server.mem || !server.jvm" cellspacing="0" style="width: 100%;">
               <thead>
@@ -76,7 +76,7 @@
 
       <el-col :span="24" class="card-box">
         <el-card>
-          <template #header><span>服务器信息</span></template>
+          <template #header><Monitor style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">服务器信息</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table v-loading="!server.sys" cellspacing="0" style="width: 100%;">
               <tbody>
@@ -100,7 +100,7 @@
 
       <el-col :span="24" class="card-box">
         <el-card>
-          <template #header><span>Java虚拟机信息</span></template>
+          <template #header><CoffeeCup style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">Java虚拟机信息</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table v-loading="!server.sys || !server.jvm" cellspacing="0" style="width: 100%;table-layout:fixed;">
               <tbody>
@@ -136,7 +136,7 @@
 
       <el-col :span="24" class="card-box">
         <el-card>
-          <template #header><span>磁盘状态</span></template>
+          <template #header><MessageBox style="width: 1em; height: 1em; vertical-align: middle;" /> <span style="vertical-align: middle;">磁盘状态</span></template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table v-loading="!server.fileSys" cellspacing="0" style="width: 100%;">
               <thead>
@@ -169,33 +169,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { getServer } from '@/api/monitor/server'
 
-export default {
-    data() {
-        return {
-            server: {}
-        }
-    },
-    mounted() {
-        this.loadInfo()
-        setInterval(() => this.loadInfo(), 300 * 1000)
-    },
-    methods: {
-        getInfo(name) {
-            return getServer(name).then(res => {
-                this.server[name] = res.data
-                return res.data
-            })
-        },
-        loadInfo() {
-            this.getInfo("cpu")
-            this.getInfo("mem")
-            this.getInfo("jvm")
-            this.getInfo("sys")
-            this.getInfo("fileSys")
-        }
-    }
+const server = ref({})
+
+function getInfo(name) {
+    return getServer(name).then(res => {
+        server.value[name] = res.data
+        return res.data
+    })
 }
+
+function loadInfo() {
+    getInfo("cpu")
+    getInfo("mem")
+    getInfo("jvm")
+    getInfo("sys")
+    getInfo("fileSys")
+}
+
+loadInfo()
+setInterval(() => loadInfo(), 300 * 1000)
 </script>

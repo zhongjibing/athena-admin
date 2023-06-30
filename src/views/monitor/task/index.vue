@@ -42,7 +42,7 @@
                plain
                icon="Plus"
                @click="handleAdd"
-               v-hasPermi="['monitor:job:add']"
+               v-hasPermi="['monitor:task:add']"
             >新增</el-button>
          </el-col>
          <el-col :span="1.5">
@@ -52,7 +52,7 @@
                icon="Edit"
                :disabled="single"
                @click="handleUpdate"
-               v-hasPermi="['monitor:job:edit']"
+               v-hasPermi="['monitor:task:edit']"
             >修改</el-button>
          </el-col>
          <el-col :span="1.5">
@@ -62,7 +62,7 @@
                icon="Delete"
                :disabled="multiple"
                @click="handleDelete"
-               v-hasPermi="['monitor:job:remove']"
+               v-hasPermi="['monitor:task:delete']"
             >删除</el-button>
          </el-col>
          <el-col :span="1.5">
@@ -71,7 +71,7 @@
                plain
                icon="Operation"
                @click="handleJobLog"
-               v-hasPermi="['monitor:job:query']"
+               v-hasPermi="['monitor:task:logs']"
             >日志</el-button>
          </el-col>
          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
@@ -88,13 +88,14 @@
          </el-table-column>
          <el-table-column label="调用目标字符串" align="left" prop="invokeTarget" min-width="220" :show-overflow-tooltip="true" />
          <el-table-column label="cron执行表达式" align="center" prop="cronExpression" min-width="180" :show-overflow-tooltip="true" />
-         <el-table-column label="状态" align="center" min-width="120">
+         <el-table-column label="状态" align="center" min-width="120" v-hasPermi="['monitor:task:status']">
             <template #default="scope">
                <el-switch
                   v-model="scope.row.status"
                   active-value="0"
                   inactive-value="1"
                   @change="handleStatusChange(scope.row)"
+                  v-hasPermi="['monitor:task:status']"
                ></el-switch>
             </template>
          </el-table-column>
@@ -102,52 +103,57 @@
             <template #default="scope">
                <el-tooltip content="修改" placement="top" effect="light" :visible="toolTips.edit[scope.row.id]">
                   <el-button
-                     type="text"
+                     type="primary"
+                     link
                      icon="Edit"
                      @click="handleUpdate(scope.row)"
                      @mouseenter="toolTips.edit[scope.row.id] = true"
                      @mouseleave="toolTips.edit[scope.row.id] = false"
-                     v-hasPermi="['monitor:job:edit']"
+                     v-hasPermi="['monitor:task:edit']"
                   ></el-button>
                </el-tooltip>
                <el-tooltip content="删除" placement="top" effect="light" :visible="toolTips.remove[scope.row.id]">
                   <el-button
-                     type="text"
+                     type="primary"
+                     link
                      icon="Delete"
                      @click="handleDelete(scope.row)"
                      @mouseenter="toolTips.remove[scope.row.id] = true"
                      @mouseleave="toolTips.remove[scope.row.id] = false"
-                     v-hasPermi="['monitor:job:remove']"
+                     v-hasPermi="['monitor:task:delete']"
                   ></el-button>
                </el-tooltip>
                <el-tooltip content="执行一次" placement="top" effect="light" :visible="toolTips.run[scope.row.id]">
                   <el-button
-                     type="text"
+                     type="primary"
+                     link
                      icon="CaretRight"
                      @click="handleRun(scope.row)"
                      @mouseenter="toolTips.run[scope.row.id] = true"
                      @mouseleave="toolTips.run[scope.row.id] = false"
-                     v-hasPermi="['monitor:job:changeStatus']"
+                     v-hasPermi="['monitor:task:run']"
                   ></el-button>
                </el-tooltip>
                <el-tooltip content="任务详细" placement="top" effect="light" :visible="toolTips.view[scope.row.id]">
                   <el-button
-                     type="text"
+                     type="primary"
+                     link
                      icon="View"
                      @click="handleView(scope.row)"
                      @mouseenter="toolTips.view[scope.row.id] = true"
                      @mouseleave="toolTips.view[scope.row.id] = false"
-                     v-hasPermi="['monitor:job:query']"
+                     v-hasPermi="['monitor:task:query']"
                   ></el-button>
                </el-tooltip>
                <el-tooltip content="调度日志" placement="top" effect="light" :visible="toolTips.log[scope.row.id]">
                   <el-button
-                     type="text"
+                     type="primary"
+                     link
                      icon="Operation"
                      @click="handleJobLog(scope.row)"
                      @mouseenter="toolTips.log[scope.row.id] = true"
                      @mouseleave="toolTips.log[scope.row.id] = false"
-                     v-hasPermi="['monitor:job:query']"
+                     v-hasPermi="['monitor:task:logs']"
                   ></el-button>
                </el-tooltip>
             </template>
