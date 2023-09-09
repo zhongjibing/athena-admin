@@ -153,9 +153,17 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="菜单权限">
-                    <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠
+                    <el-checkbox
+                        v-model="menuExpand"
+                        :indeterminate="menuExpandIndeterminate"
+                        @change="handleCheckedTreeExpand($event, 'menu')"
+                    >展开/折叠
                     </el-checkbox>
-                    <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选
+                    <el-checkbox
+                        v-model="menuNodeAll"
+                        :indeterminate="menuNodeIndeterminate"
+                        @change="handleCheckedTreeNodeAll($event, 'menu')"
+                    >全选/全不选
                     </el-checkbox>
                     <el-tree
                         class="tree-border"
@@ -165,8 +173,10 @@
                         node-key="id"
                         empty-text="加载中，请稍候"
                         @check-change="handMenuTreeCheckChange"
+                        @node-expand="handMenuTreeExpand"
+                        @node-collapse="handMenuTreeCollapse"
                         :check-strictly="true"
-                        :props="{ label: 'label', children: 'children' }"
+                        :props="{ label: 'label', children: 'children', class: menuTreeClass }"
                     ></el-tree>
                 </el-form-item>
                 <el-form-item label="备注">
@@ -186,10 +196,9 @@
 
 <script setup name="Role">
 import RightToolbar from '@/components/RightToolbar'
-import { addRole, changeRoleStatus, dataScope, delRole, getRole, listRole, updateRole, deptTreeSelect } from "@/api/system/role";
+import { addRole, changeRoleStatus, delRole, getRole, listRole, updateRole } from "@/api/system/role";
 import { roleMenuTreeselect, treeselect as menuTreeselect } from "@/api/system/menu";
 import { reactive, toRefs } from 'vue';
-import useUserStore from '@/store/modules/user'
 
 const router = useRouter()
 const { proxy } = getCurrentInstance()
@@ -206,7 +215,9 @@ const title = ref("")
 const dateRange = ref([])
 const menuOptions = ref([])
 const menuExpand = ref(false)
+const menuExpandIndeterminate = ref(false)
 const menuNodeAll = ref(false)
+const menuNodeIndeterminate = ref(false)
 const menuRef = ref(null)
 
 
@@ -363,6 +374,7 @@ function handleCheckedTreeExpand(value, type) {
         let treeList = menuOptions.value
         treeExpand(menuRef, treeList, value)
     }
+    handMenuTreeExpandStatus()
 }
 
 function treeExpand(treeRef, nodes, value) {
@@ -377,8 +389,28 @@ function treeExpand(treeRef, nodes, value) {
 function handMenuTreeCheckChange(data, check) {
     if (check) {
         checkNode(menuRef, data.id)
+        checkDirectoryChildren(menuRef, data.id)
     } else {
         uncheckNode(menuRef, data.id)
+        uncheckDirectoryChildren(menuRef, data.id)
+    }
+
+    handMenuTreeSelectStatus()
+}
+
+function handMenuTreeSelectStatus() {
+    const menuTree = menuRef.value
+    const nodeSize = Object.keys(menuTree.store.nodesMap).length
+    const selectSize = menuTree.getCheckedKeys().length
+    if (selectSize === 0) {
+        menuNodeAll.value = false
+        menuNodeIndeterminate.value = false
+    } else if (nodeSize === selectSize) {
+        menuNodeAll.value = true
+        menuNodeIndeterminate.value = false
+    } else {
+        menuNodeAll.value = true
+        menuNodeIndeterminate.value = true
     }
 }
 
@@ -400,6 +432,43 @@ function uncheckNode(treeRef, key) {
     if (node.data.children && node.data.children.length > 0) {
         for (let i = 0; i < node.data.children.length; i++) {
             uncheckNode(treeRef, node.data.children[i].id)
+        }
+    }
+}
+
+function checkDirectoryChildren(treeRef, key) {
+    const node = treeRef.value.getNode(key)
+    if (!node.checked) {
+        treeRef.value.setChecked(node.data.id, true, false)
+    }
+    if (node.data.menu.type === 'M') {
+        if (node.childNodes && node.childNodes.length > 0) {
+            const checked = node.childNodes.some(child=> child.checked)
+            if (!checked) {
+                for (let i = 0; i < node.childNodes.length; i++) {
+                    const child = node.childNodes[i]
+                    if (child.data.menu.type === 'M') {
+                        checkDirectoryChildren(treeRef, child.data.id)
+                    } else {
+                        if (!child.checked) {
+                            treeRef.value.setChecked(child.data.id, true, false)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+function uncheckDirectoryChildren(treeRef, key) {
+    const node = treeRef.value.getNode(key)
+    if (node.checked) {
+        treeRef.value.setChecked(node.data.id, false, false)
+    }
+    if (node.parent && node.parent.level > 0 && node.parent.data.menu.type === 'M') {
+        const checked = node.parent.childNodes.some(child=> child.checked)
+        if (!checked) {
+            treeRef.value.setChecked(node.parent.data.id, false, false)
         }
     }
 }
@@ -433,6 +502,57 @@ function treeSelectAll(treeRef, dataArr, check) {
             }
         }
     }
+}
+
+function handMenuTreeExpand() {
+    handMenuTreeExpandStatus()
+}
+
+function handMenuTreeCollapse() {
+    handMenuTreeExpandStatus()
+}
+
+function handMenuTreeExpandStatus() {
+    setTimeout(() => {
+        const hasExpand = isTreeHasExpand(menuRef)
+        const hasCollapse = isTreeHasCollapse(menuRef)
+        if (!hasExpand) {
+            menuExpand.value = false
+            menuExpandIndeterminate.value = false
+        } else if (!hasCollapse) {
+            menuExpand.value = true
+            menuExpandIndeterminate.value = false
+        } else {
+            menuExpand.value = true
+            menuExpandIndeterminate.value = true
+        }
+    }, 100)
+}
+
+function isTreeHasExpand(treeRef) {
+    const nodesMap = treeRef.value.store.nodesMap
+    return Object.keys(nodesMap).some(id => !nodesMap[id].isLeaf && nodesMap[id].expanded)
+}
+
+function isTreeHasCollapse(treeRef) {
+    const nodesMap = treeRef.value.store.nodesMap
+    return Object.keys(nodesMap).some(id => !nodesMap[id].isLeaf && !nodesMap[id].expanded)
+}
+
+function isTreeNodeExpand(node) {
+    if (!node.isLeaf) {
+        if (node.expanded) {
+            return true
+        } else {
+            return node.childNodes.some(child=> isTreeExpand(child))
+        }
+    } else {
+        return false
+    }
+}
+
+function menuTreeClass(data) {
+    return 'el-tree-node-' + (data.menu.type || '').toLowerCase()
 }
 
 
@@ -481,3 +601,17 @@ function checkRole(row) {
 
 getList()
 </script>
+<style lang="scss" scoped>
+:deep(.el-tree-node-m > .el-tree-node__content > .el-tree-node__label) {
+    color: #409eff;
+}
+
+:deep(.el-tree-node-c > .el-tree-node__content > .el-tree-node__label) {
+    color: #67c23a;
+}
+
+:deep(.el-tree-node-f > .el-tree-node__content > .el-tree-node__label) {
+    color: #f56c6c;
+}
+
+</style>
