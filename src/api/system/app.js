@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { parseStrEmpty } from "@/utils/common";
+import { parseStrEmpty } from '@/utils/common'
 
 // 查询应用列表
 export function listApps(query) {
@@ -61,4 +61,3 @@ export function changeAppStatus(id, status) {
         data: data
     })
 }
-

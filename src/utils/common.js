@@ -12,12 +12,15 @@ export function parseTime(time, pattern) {
     if (typeof time === 'object') {
         date = time
     } else {
-        if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
+        if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
             time = parseInt(time)
         } else if (typeof time === 'string') {
-            time = time.replace(new RegExp(/-/gm), '/').replace('T', ' ').replace(new RegExp(/\.\d{3}/gm), '')
+            time = time
+                .replace(new RegExp(/-/gm), '/')
+                .replace('T', ' ')
+                .replace(new RegExp(/\.\d{3}/gm), '')
         }
-        if ((typeof time === 'number') && (time.toString().length === 10)) {
+        if (typeof time === 'number' && time.toString().length === 10) {
             time = time * 1000
         }
         date = new Date(time)
@@ -55,7 +58,7 @@ export function resetForm(refName) {
 export function addDateRange(params, dateRange, propName) {
     let search = params
     dateRange = Array.isArray(dateRange) ? dateRange : []
-    if (typeof (propName) === 'undefined') {
+    if (typeof propName === 'undefined') {
         search['beginTime'] = dateRange[0]
         search['endTime'] = dateRange[1]
     } else {
@@ -68,11 +71,11 @@ export function addDateRange(params, dateRange, propName) {
 // 回显数据字典
 export function selectDictLabel(datas, value) {
     if (value === undefined) {
-        return ""
+        return ''
     }
     const actions = []
-    Object.keys(datas).some((key) => {
-        if (datas[key].value === ('' + value)) {
+    Object.keys(datas).some(key => {
+        if (datas[key].value === '' + value) {
             actions.push(datas[key].label)
             return true
         }
@@ -85,19 +88,19 @@ export function selectDictLabel(datas, value) {
 
 // 回显数据字典（字符串数组）
 export function selectDictLabels(datas, value, separator) {
-    if (value === undefined || value.length ===0) {
-        return ""
+    if (value === undefined || value.length === 0) {
+        return ''
     }
     if (Array.isArray(value)) {
-        value = value.join(",")
+        value = value.join(',')
     }
     const actions = []
-    const currentSeparator = undefined === separator ? "," : separator
+    const currentSeparator = undefined === separator ? ',' : separator
     const temp = value.split(currentSeparator)
-    Object.keys(value.split(currentSeparator)).some((val) => {
+    Object.keys(value.split(currentSeparator)).some(val => {
         var match = false
-        Object.keys(datas).some((key) => {
-            if (datas[key].value === ('' + temp[val])) {
+        Object.keys(datas).some(key => {
+            if (datas[key].value === '' + temp[val]) {
                 actions.push(datas[key].label)
                 match = true
             }
@@ -111,9 +114,11 @@ export function selectDictLabels(datas, value, separator) {
 
 // 字符串格式化(%s )
 export function sprintf(str) {
-    let args = arguments, flag = true, i = 1
+    let args = arguments,
+        flag = true,
+        i = 1
     str = str.replace(/%s/g, function () {
-        const arg = args[i++];
+        const arg = args[i++]
         if (typeof arg === 'undefined') {
             flag = false
             return ''
@@ -128,8 +133,8 @@ export function parseStrEmpty(str) {
     if (typeof str === 'number') {
         return String(str)
     }
-    if (!str || str === "undefined" || str === "null") {
-        return ""
+    if (!str || str === 'undefined' || str === 'null') {
+        return ''
     }
     return str
 }
@@ -164,9 +169,9 @@ export function handleTree(data, id, parentId, children) {
         childrenList: children || 'children'
     }
 
-    const childrenListMap = {};
-    const nodeIds = {};
-    const tree = [];
+    const childrenListMap = {}
+    const nodeIds = {}
+    const tree = []
 
     for (let d of data) {
         let parentId = d[config.parentId]
@@ -212,24 +217,23 @@ export function tansParams(params) {
     let result = ''
     for (const propName of Object.keys(params)) {
         const value = params[propName]
-        const part = encodeURIComponent(propName) + "=";
-        if (value !== null && value !== "" && typeof (value) !== "undefined") {
+        const part = encodeURIComponent(propName) + '='
+        if (value !== null && value !== '' && typeof value !== 'undefined') {
             if (typeof value === 'object') {
                 for (const key of Object.keys(value)) {
-                    if (value[key] !== null && value[key] !== "" && typeof (value[key]) !== 'undefined') {
+                    if (value[key] !== null && value[key] !== '' && typeof value[key] !== 'undefined') {
                         let params = propName + '[' + key + ']'
-                        const subPart = encodeURIComponent(params) + "=";
-                        result += subPart + encodeURIComponent(value[key]) + "&"
+                        const subPart = encodeURIComponent(params) + '='
+                        result += subPart + encodeURIComponent(value[key]) + '&'
                     }
                 }
             } else {
-                result += part + encodeURIComponent(value) + "&"
+                result += part + encodeURIComponent(value) + '&'
             }
         }
     }
     return result
 }
-
 
 // 返回项目路径
 export function getNormalPath(p) {

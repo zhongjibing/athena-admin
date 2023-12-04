@@ -22,7 +22,7 @@ export function getConfigByKey(configKey) {
     return request({
         url: '/system/config',
         method: 'get',
-        params: {key: configKey}
+        params: { key: configKey }
     })
 }
 
@@ -52,4 +52,3 @@ export function delConfig(configIds) {
         data: configIds
     })
 }
-

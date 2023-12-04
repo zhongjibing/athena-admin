@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { parseStrEmpty } from "@/utils/common";
+import { parseStrEmpty } from '@/utils/common'
 
 // 查询用户列表
 export function listUser(query) {
@@ -94,11 +94,11 @@ export function updateUserPwd(oldPassword, newPassword) {
 
 // 用户头像上传
 export function uploadAvatar(data) {
-  return request({
-    url: '/system/user/profile/avatar',
-    method: 'post',
-    data: data
-  })
+    return request({
+        url: '/system/user/profile/avatar',
+        method: 'post',
+        data: data
+    })
 }
 
 // 查询授权角色
@@ -117,4 +117,3 @@ export function updateUserAuth(userId, roleIds) {
         data: roleIds
     })
 }
-

@@ -3,7 +3,7 @@ import createVitePlugins from './vite/plugins'
 import path from 'path'
 
 // https://vitejs.cn/config/
-export default defineConfig(({mode, command}) => {
+export default defineConfig(({ mode, command }) => {
     const env = loadEnv(mode, process.cwd())
     const { VITE_APP_SERVER_PORT, VITE_APP_SERVER_BASE } = env
     const port = VITE_APP_SERVER_PORT || 8080
@@ -19,7 +19,7 @@ export default defineConfig(({mode, command}) => {
         },
         server: {
             port: port,
-            host: "icezhg.cn",
+            host: 'icezhg.cn',
             open: false
         }
     }

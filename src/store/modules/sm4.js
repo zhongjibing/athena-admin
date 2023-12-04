@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getConfigByKey } from '@/api/system/config'
-import JSSM4 from "jssm4";
+import JSSM4 from 'jssm4'
 
 const CONFIG_KEY = 'sys.pw.sm4.salt'
 
@@ -38,17 +38,19 @@ const useSm4Store = defineStore('sm4', {
                     return
                 }
 
-                getConfigByKey(CONFIG_KEY).then(res => {
-                    if (res.data['value']) {
-                        this.sKey = res.data['value']
-                        this.sm4 = new JSSM4(res.data['value'].substring(1 << 1 + 1))
-                        resolve(true)
-                    } else {
+                getConfigByKey(CONFIG_KEY)
+                    .then(res => {
+                        if (res.data['value']) {
+                            this.sKey = res.data['value']
+                            this.sm4 = new JSSM4(res.data['value'].substring(1 << (1 + 1)))
+                            resolve(true)
+                        } else {
+                            resolve(false)
+                        }
+                    })
+                    .catch(err => {
                         resolve(false)
-                    }
-                }).catch(err => {
-                    resolve(false)
-                })
+                    })
             })
         }
     }

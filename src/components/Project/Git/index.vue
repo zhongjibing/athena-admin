@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <svg-icon icon-class="github" @click="goto" />
-  </div>
+    <div>
+        <svg-icon icon-class="github" @click="goto" />
+    </div>
 </template>
 
 <script setup>
-const url = ref('https://icezhg.com');
+    const url = ref('https://icezhg.com')
 
-function goto() {
-  window.open(url.value)
-}
+    function goto() {
+        window.open(url.value)
+    }
 </script>

@@ -13,7 +13,7 @@ const useConfigStore = defineStore('config', {
             return null
         },
         setConfig(key, value) {
-            if (key !== null && key !== "") {
+            if (key !== null && key !== '') {
                 this.dict[key] = value
             }
         },

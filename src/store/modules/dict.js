@@ -5,8 +5,8 @@ const useDictStore = defineStore('dict', {
     actions: {
         // 获取字典
         getDict(_key) {
-            if (_key == null && _key === "") {
-                return null;
+            if (_key == null && _key === '') {
+                return null
             }
             if (this.dict.hasOwnProperty(_key)) {
                 return this.dict[_key]
@@ -15,7 +15,7 @@ const useDictStore = defineStore('dict', {
         },
         // 设置字典
         setDict(_key, value) {
-            if (_key !== null && _key !== "") {
+            if (_key !== null && _key !== '') {
                 this.dict[_key] = value
             }
         },
@@ -25,11 +25,10 @@ const useDictStore = defineStore('dict', {
         },
         // 清空字典
         cleanDict() {
-            this.dict = {};
+            this.dict = {}
         },
         // 初始字典
-        initDict() {
-        }
+        initDict() {}
     }
 })
 

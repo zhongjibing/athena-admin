@@ -1,12 +1,19 @@
 <template>
     <div class="app-container">
-        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px" @submit.prevent>
+        <el-form
+            :model="queryParams"
+            ref="queryRef"
+            :inline="true"
+            v-show="showSearch"
+            label-width="68px"
+            @submit.prevent
+        >
             <el-form-item label="主题" prop="name">
                 <el-input
                     v-model="queryParams.name"
                     placeholder="请输入主题"
                     clearable
-                    style="width: 240px;"
+                    style="width: 240px"
                     @keyup.enter="handleQuery"
                 />
             </el-form-item>
@@ -18,13 +25,9 @@
 
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button
-                    type="primary"
-                    plain
-                    icon="Plus"
-                    @click="handleAdd"
-                    v-hasPermi="['system:passwd:add']"
-                >新增</el-button>
+                <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:passwd:add']"
+                    >新增</el-button
+                >
             </el-col>
             <el-col :span="1.5">
                 <el-button
@@ -34,7 +37,8 @@
                     :disabled="single"
                     @click="handleUpdate"
                     v-hasPermi="['system:passwd:update']"
-                >修改</el-button>
+                    >修改</el-button
+                >
             </el-col>
             <el-col :span="1.5">
                 <el-button
@@ -44,23 +48,20 @@
                     :disabled="multiple"
                     @click="handleDelete"
                     v-hasPermi="['system:passwd:remove']"
-                >删除</el-button>
+                    >删除</el-button
+                >
             </el-col>
             <el-col :span="1.5">
-                <el-button
-                    type="success"
-                    plain
-                    icon="Key"
-                    @click="openGenerate"
-                    v-hasPermi="['system:passwd:generate']"
-                >生成密码</el-button>
+                <el-button type="success" plain icon="Key" @click="openGenerate" v-hasPermi="['system:passwd:generate']"
+                    >生成密码</el-button
+                >
             </el-col>
             <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
         <el-table ref="recordRef" v-loading="loading" :data="recordList" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" align="center"/>
-            <el-table-column label="编号" align="center" prop="id" min-width="235"/>
+            <el-table-column type="selection" width="55" align="center" />
+            <el-table-column label="编号" align="center" prop="id" min-width="235" />
             <el-table-column label="主题" align="center" prop="title" min-width="200" />
             <el-table-column label="密码" align="center" prop="passwd" min-width="160">
                 <template #default="scope">
@@ -88,21 +89,24 @@
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
                         v-hasPermi="['system:passwd:update']"
-                    >修改</el-button>
+                        >修改</el-button
+                    >
                     <el-button
                         type="primary"
                         link
                         icon="View"
                         @click="handleView(scope.row, scope.index)"
                         v-hasPermi="['system:passwd:view']"
-                    >查看</el-button>
+                        >查看</el-button
+                    >
                     <el-button
                         type="primary"
                         link
                         icon="Delete"
                         @click="handleDelete(scope.row)"
                         v-hasPermi="['system:passwd:remove']"
-                    >删除</el-button>
+                        >删除</el-button
+                    >
                 </template>
             </el-table-column>
         </el-table>
@@ -128,33 +132,42 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="主题" prop="title">
-                            <el-input v-model="form.title" placeholder="请输入主题" maxlength="20"/>
+                            <el-input v-model="form.title" placeholder="请输入主题" maxlength="20" />
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="17">
                         <el-form-item label="密码" prop="passwd">
-                            <el-input v-model="form.passwd" placeholder="请输入密码" maxlength="64"/>
+                            <el-input v-model="form.passwd" placeholder="请输入密码" maxlength="64" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="4">
-                        <div style="margin: 0 10px;">
+                        <div style="margin: 0 10px">
                             <el-button type="primary" @click="handleFormGenerate">生成密码</el-button>
                         </div>
                     </el-col>
                     <el-col :span="3">
                         <div>
-                            <el-input-number v-model="genSize" class="pws" :min="6" :max="32" controls-position="right"/>
+                            <el-input-number
+                                v-model="genSize"
+                                class="pws"
+                                :min="6"
+                                :max="32"
+                                controls-position="right"
+                            />
                         </div>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="备注" prop="remark">
-                            <el-input v-model="form.remark" type="textarea"
-                                      @blur="form.remark = form.remark ? form.remark.trim() : form.remark"
-                                      placeholder="请输入内容"/>
+                            <el-input
+                                v-model="form.remark"
+                                type="textarea"
+                                @blur="form.remark = form.remark ? form.remark.trim() : form.remark"
+                                placeholder="请输入内容"
+                            />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -182,13 +195,28 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="">
-                            <div class="input" style="width: 150px;margin-left: -120px">
+                            <div class="input" style="width: 150px; margin-left: -120px">
                                 <el-input type="password" v-if="!form.passwd" v-model="secret" placeholder="密码" />
                             </div>
                             <div style="margin-left: 20px">
-                                <el-button type="primary" v-if="!form.passwd" icon="View" @click="handleDecrypt" >显 示</el-button>
-                                <el-tooltip content="复制成功" placement="top" effect="light" :visible="copied" v-if="form.passwd">
-                                    <el-button id="copy-btn" type="primary" v-if="form.passwd" icon="CopyDocument" @click="handleCopy" >复 制</el-button>
+                                <el-button type="primary" v-if="!form.passwd" icon="View" @click="handleDecrypt"
+                                    >显 示</el-button
+                                >
+                                <el-tooltip
+                                    content="复制成功"
+                                    placement="top"
+                                    effect="light"
+                                    :visible="copied"
+                                    v-if="form.passwd"
+                                >
+                                    <el-button
+                                        id="copy-btn"
+                                        type="primary"
+                                        v-if="form.passwd"
+                                        icon="CopyDocument"
+                                        @click="handleCopy"
+                                        >复 制</el-button
+                                    >
                                 </el-tooltip>
                             </div>
                         </el-form-item>
@@ -221,7 +249,15 @@
                     </el-col>
 
                     <el-col :span="24">
-                        <el-form-item label="" style="height:320px; font-family: monospace;white-space: pre-line;background-color: bisque">
+                        <el-form-item
+                            label=""
+                            style="
+                                height: 320px;
+                                font-family: monospace;
+                                white-space: pre-line;
+                                background-color: bisque;
+                            "
+                        >
                             {{ pwds.join('\n') }}
                         </el-form-item>
                     </el-col>
@@ -237,250 +273,256 @@
 </template>
 
 <script setup name="Passwd">
-import { list, get, add, update, del, generate, passwd } from "@/api/system/passwd"
-import { encrypt, decrypt } from "@/utils/encrypt"
+    import { list, get, add, update, del, generate, passwd } from '@/api/system/passwd'
+    import { encrypt, decrypt } from '@/utils/encrypt'
 
-const { proxy } = getCurrentInstance()
+    const { proxy } = getCurrentInstance()
 
-const recordList = ref([])
-const open = ref(false)
-const openView = ref(false)
-const openPasswd = ref(false)
-const loading = ref(true)
-const showSearch = ref(true)
-const secret = ref("")
-const copied = ref(false)
-const genSize = ref(20)
-const size = ref(20)
-const pwds = ref([])
-const ids = ref([])
-const single = ref(true)
-const multiple = ref(true)
-const title = ref("")
-const total = ref(0)
+    const recordList = ref([])
+    const open = ref(false)
+    const openView = ref(false)
+    const openPasswd = ref(false)
+    const loading = ref(true)
+    const showSearch = ref(true)
+    const secret = ref('')
+    const copied = ref(false)
+    const genSize = ref(20)
+    const size = ref(20)
+    const pwds = ref([])
+    const ids = ref([])
+    const single = ref(true)
+    const multiple = ref(true)
+    const title = ref('')
+    const total = ref(0)
 
-const data = reactive({
-    form: {},
-    queryParams: {
-        pageNum: 1,
-        pageSize: 10,
-        name: undefined
-    }
-})
-
-const { queryParams, form } = toRefs(data)
-
-/** 查询登录日志 */
-function getList() {
-    loading.value = true
-    list(queryParams.value).then(response => {
-        recordList.value = response.data.data
-        total.value = response.data.total
-        loading.value = false
-    })
-}
-
-/** 搜索按钮操作 */
-function handleQuery() {
-    queryParams.value.pageNum = 1
-    getList()
-}
-
-/** 重置按钮操作 */
-function resetQuery() {
-    proxy.resetForm("queryRef")
-    handleQuery()
-}
-
-/** 详细按钮操作 */
-function handleView(row) {
-    openView.value = true
-    form.value = {
-        id: row.id,
-        title: row.title,
-        passwd: row.passwd,
-        remark: row.remark
-    }
-}
-
-function handleDecrypt() {
-    if (!secret.value) {
-        return
-    }
-
-    const proc = encrypt(secret.value)
-    secret.value = ''
-    proc.then(enc => {
-        passwd(form.value.id, enc).then(res => {
-            decrypt(res.data.salt + res.data.passwd).then(dec => {
-                form.value.passwd = dec
-            })
-        })
-    })
-}
-
-function handleCopy() {
-    const value = form.value.passwd
-    if (!value) {
-        return
-    }
-
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(value).then(() => {
-            copySuccess()
-        }, () => {
-            unsafeCopy(value)
-        })
-    } else {
-        unsafeCopy(value)
-    }
-}
-
-function copySuccess() {
-    copied.value = true
-    document.getElementById("copy-btn").focus()
-    setTimeout(() => copied.value = false, 500)
-}
-
-function unsafeCopy(data) {
-    let textArea = document.createElement("textarea")
-    textArea.value = data
-    textArea.style.position = "absolute"
-    textArea.style.opacity = "0"
-    textArea.style.zIndex = "-100"
-    textArea.style.left = "-999999px"
-    textArea.style.top = "-999999px"
-    document.body.appendChild(textArea)
-    textArea.focus()
-    textArea.select()
-    if (document.execCommand('copy')) {
-        copySuccess()
-    }
-    textArea.remove()
-}
-
-function closeView() {
-    openView.value = false
-    secret.value = ''
-    reset()
-}
-
-function openGenerate() {
-    openPasswd.value = true
-    handleGenerate()
-}
-
-function handleGenerate() {
-    generate(size.value).then(res => {
-        pwds.value = res.data
-    })
-}
-
-function handleFormGenerate() {
-    generate(genSize.value).then(res => {
-        form.value.passwd = res.data && res.data.length ? res.data[Math.floor(res.data.length * Math.random())] : ''
-    })
-}
-
-function closePasswd() {
-    openPasswd.value = false
-    size.value = 10
-    pwds.value = []
-}
-
-/** 多选框选中数据 */
-function handleSelectionChange(selection) {
-    ids.value = selection.map(item => item.id)
-    single.value = selection.length !== 1
-    multiple.value = !selection.length
-}
-
-/** 重置操作表单 */
-function reset() {
-    form.value = {
-        id: undefined,
-        title: undefined,
-        passwd: undefined,
-        remark: undefined
-    }
-}
-
-/** 新增按钮操作 */
-function handleAdd() {
-    reset()
-    title.value = "添加密码"
-    open.value = true
-}
-
-/** 修改按钮操作 */
-function handleUpdate(row) {
-    reset()
-    const passwdId = row.id || ids.value
-    get(passwdId).then(response => {
-        form.value = response.data
-        title.value = "修改密码"
-        open.value = true
-    })
-}
-
-/** 取消按钮 */
-function cancel() {
-    open.value = false
-    proxy.resetForm("formRef")
-    reset()
-}
-
-/** 提交按钮 */
-function submitForm() {
-    proxy.$refs["formRef"].validate(valid => {
-        if (valid) {
-            const data = {
-                id: form.value.id,
-                title: form.value.title,
-                passwd: form.value.passwd,
-                remark: form.value.remark
-            }
-            form.value.passwd = ''
-
-            encrypt(data.passwd).then(enc => {
-                data.salt = enc ? enc.substring(0, 8) : ''
-                data.passwd = enc ? enc.substring(8) : ''
-
-                if (data.id !== undefined) {
-                    update(data).then(response => {
-                        proxy.$modal.msgSuccess("修改成功")
-                        open.value = false
-                        getList()
-                    })
-                } else {
-                    add(data).then(response => {
-                        proxy.$modal.msgSuccess("新增成功")
-                        open.value = false
-                        getList()
-                    })
-                }
-            })
+    const data = reactive({
+        form: {},
+        queryParams: {
+            pageNum: 1,
+            pageSize: 10,
+            name: undefined
         }
     })
-}
 
-/** 删除按钮操作 */
-function handleDelete(row) {
-    const passwdIds = row.id ? [row.id] : ids.value
-    proxy.$modal.confirm('是否确认删除选定的数据项？').then(function () {
-        return del(passwdIds)
-    }).then(() => {
+    const { queryParams, form } = toRefs(data)
+
+    /** 查询登录日志 */
+    function getList() {
+        loading.value = true
+        list(queryParams.value).then(response => {
+            recordList.value = response.data.data
+            total.value = response.data.total
+            loading.value = false
+        })
+    }
+
+    /** 搜索按钮操作 */
+    function handleQuery() {
+        queryParams.value.pageNum = 1
         getList()
-        proxy.$modal.msgSuccess("删除成功")
-    }).catch(() => {
-    })
-}
+    }
 
-getList()
+    /** 重置按钮操作 */
+    function resetQuery() {
+        proxy.resetForm('queryRef')
+        handleQuery()
+    }
+
+    /** 详细按钮操作 */
+    function handleView(row) {
+        openView.value = true
+        form.value = {
+            id: row.id,
+            title: row.title,
+            passwd: row.passwd,
+            remark: row.remark
+        }
+    }
+
+    function handleDecrypt() {
+        if (!secret.value) {
+            return
+        }
+
+        const proc = encrypt(secret.value)
+        secret.value = ''
+        proc.then(enc => {
+            passwd(form.value.id, enc).then(res => {
+                decrypt(res.data.salt + res.data.passwd).then(dec => {
+                    form.value.passwd = dec
+                })
+            })
+        })
+    }
+
+    function handleCopy() {
+        const value = form.value.passwd
+        if (!value) {
+            return
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(value).then(
+                () => {
+                    copySuccess()
+                },
+                () => {
+                    unsafeCopy(value)
+                }
+            )
+        } else {
+            unsafeCopy(value)
+        }
+    }
+
+    function copySuccess() {
+        copied.value = true
+        document.getElementById('copy-btn').focus()
+        setTimeout(() => (copied.value = false), 500)
+    }
+
+    function unsafeCopy(data) {
+        let textArea = document.createElement('textarea')
+        textArea.value = data
+        textArea.style.position = 'absolute'
+        textArea.style.opacity = '0'
+        textArea.style.zIndex = '-100'
+        textArea.style.left = '-999999px'
+        textArea.style.top = '-999999px'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+        if (document.execCommand('copy')) {
+            copySuccess()
+        }
+        textArea.remove()
+    }
+
+    function closeView() {
+        openView.value = false
+        secret.value = ''
+        reset()
+    }
+
+    function openGenerate() {
+        openPasswd.value = true
+        handleGenerate()
+    }
+
+    function handleGenerate() {
+        generate(size.value).then(res => {
+            pwds.value = res.data
+        })
+    }
+
+    function handleFormGenerate() {
+        generate(genSize.value).then(res => {
+            form.value.passwd = res.data && res.data.length ? res.data[Math.floor(res.data.length * Math.random())] : ''
+        })
+    }
+
+    function closePasswd() {
+        openPasswd.value = false
+        size.value = 10
+        pwds.value = []
+    }
+
+    /** 多选框选中数据 */
+    function handleSelectionChange(selection) {
+        ids.value = selection.map(item => item.id)
+        single.value = selection.length !== 1
+        multiple.value = !selection.length
+    }
+
+    /** 重置操作表单 */
+    function reset() {
+        form.value = {
+            id: undefined,
+            title: undefined,
+            passwd: undefined,
+            remark: undefined
+        }
+    }
+
+    /** 新增按钮操作 */
+    function handleAdd() {
+        reset()
+        title.value = '添加密码'
+        open.value = true
+    }
+
+    /** 修改按钮操作 */
+    function handleUpdate(row) {
+        reset()
+        const passwdId = row.id || ids.value
+        get(passwdId).then(response => {
+            form.value = response.data
+            title.value = '修改密码'
+            open.value = true
+        })
+    }
+
+    /** 取消按钮 */
+    function cancel() {
+        open.value = false
+        proxy.resetForm('formRef')
+        reset()
+    }
+
+    /** 提交按钮 */
+    function submitForm() {
+        proxy.$refs['formRef'].validate(valid => {
+            if (valid) {
+                const data = {
+                    id: form.value.id,
+                    title: form.value.title,
+                    passwd: form.value.passwd,
+                    remark: form.value.remark
+                }
+                form.value.passwd = ''
+
+                encrypt(data.passwd).then(enc => {
+                    data.salt = enc ? enc.substring(0, 8) : ''
+                    data.passwd = enc ? enc.substring(8) : ''
+
+                    if (data.id !== undefined) {
+                        update(data).then(response => {
+                            proxy.$modal.msgSuccess('修改成功')
+                            open.value = false
+                            getList()
+                        })
+                    } else {
+                        add(data).then(response => {
+                            proxy.$modal.msgSuccess('新增成功')
+                            open.value = false
+                            getList()
+                        })
+                    }
+                })
+            }
+        })
+    }
+
+    /** 删除按钮操作 */
+    function handleDelete(row) {
+        const passwdIds = row.id ? [row.id] : ids.value
+        proxy.$modal
+            .confirm('是否确认删除选定的数据项？')
+            .then(function () {
+                return del(passwdIds)
+            })
+            .then(() => {
+                getList()
+                proxy.$modal.msgSuccess('删除成功')
+            })
+            .catch(() => {})
+    }
+
+    getList()
 </script>
 
 <style lang="scss" scoped>
-.pws {
-    width: 75px;
-}
+    .pws {
+        width: 75px;
+    }
 </style>

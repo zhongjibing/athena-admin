@@ -49,7 +49,7 @@ export function generate(size) {
     return request({
         url: '/system/passwd/generate',
         method: 'get',
-        params: {size: size}
+        params: { size: size }
     })
 }
 
