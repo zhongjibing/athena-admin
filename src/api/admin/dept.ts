@@ -1,4 +1,4 @@
-import request from '/@/utils/request'
+import request from '@/utils/request'
 
 export const deptTree = (params?: Object) => {
     return request({

@@ -101,9 +101,9 @@
 </template>
 
 <script lang="ts" name="systemGenTemplate" setup>
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { delObjs, fetchList } from '/@/api/gen/template'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { delObjs, fetchList } from '@/api/gen/template'
+    import { useMessage, useMessageBox } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
 
     // 引入组件

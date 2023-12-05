@@ -1,13 +1,13 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import pinia from '/@/stores/index'
+import pinia from '@/stores/index'
 import { storeToRefs } from 'pinia'
-import { useKeepALiveNames } from '/@/stores/keepAliveNames'
-import { useRoutesList } from '/@/stores/routesList'
-import { Session } from '/@/utils/storage'
-import { staticRoutes, notFoundAndNoPower } from '/@/router/route'
-import { initBackEndControlRoutes } from '/@/router/backEnd'
+import { useKeepALiveNames } from '@/stores/keepAliveNames'
+import { useRoutesList } from '@/stores/routesList'
+import { Session } from '@/utils/storage'
+import { staticRoutes, notFoundAndNoPower } from '@/router/route'
+import { initBackEndControlRoutes } from '@/router/backEnd'
 
 /**
  * 1、前端控制路由时：isRequestRoutes 为 false，需要写 roles，需要走 setFilterRoute 方法。

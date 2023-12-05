@@ -128,7 +128,7 @@
 </template>
 
 <script setup lang="ts" name="cache">
-    import { systemCache } from '/@/api/admin/system'
+    import { systemCache } from '@/api/admin/system'
     import { markRaw } from 'vue'
     import * as echarts from 'echarts'
 

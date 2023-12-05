@@ -26,7 +26,7 @@
 </template>
 
 <script setup name="right-toolbar">
-    import { auth } from '/@/utils/authFunction'
+    import { auth } from '@/utils/authFunction'
 
     /**
      * 通过 defineProps 函数定义组件 props

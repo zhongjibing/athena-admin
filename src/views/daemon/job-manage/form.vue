@@ -100,13 +100,13 @@
 
 <script lang="ts" name="SysJobDialog" setup>
     // 定义子组件向父组件传值/事件
-    import { useDict } from '/@/hooks/dict'
-    import { useMessage } from '/@/hooks/message'
-    import { addObj, getObj, putObj } from '/@/api/daemon/job'
+    import { useDict } from '@/hooks/dict'
+    import { useMessage } from '@/hooks/message'
+    import { addObj, getObj, putObj } from '@/api/daemon/job'
     import { useI18n } from 'vue-i18n'
 
     const emit = defineEmits(['refresh'])
-    const Crontab = defineAsyncComponent(() => import('/@/components/Crontab/index.vue'))
+    const Crontab = defineAsyncComponent(() => import('@/components/Crontab/index.vue'))
 
     const { t } = useI18n()
 

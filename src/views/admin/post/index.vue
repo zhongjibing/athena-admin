@@ -118,9 +118,9 @@
 </template>
 
 <script lang="ts" name="systemPost" setup>
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { delObj, fetchList } from '/@/api/admin/post'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { delObj, fetchList } from '@/api/admin/post'
+    import { useMessage, useMessageBox } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
 
     // 引入组件

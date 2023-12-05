@@ -84,11 +84,11 @@
 </template>
 
 <script lang="ts" name="SysOauthClientDetailsDialog" setup>
-    import { useDict } from '/@/hooks/dict'
-    import { useMessage } from '/@/hooks/message'
-    import { addObj, getObj, putObj, validateclientId } from '/@/api/admin/client'
+    import { useDict } from '@/hooks/dict'
+    import { useMessage } from '@/hooks/message'
+    import { addObj, getObj, putObj, validateclientId } from '@/api/admin/client'
     import { useI18n } from 'vue-i18n'
-    import { rule } from '/@/utils/validate'
+    import { rule } from '@/utils/validate'
 
     // 定义子组件向父组件传值/事件
     const emit = defineEmits(['refresh'])

@@ -214,11 +214,11 @@
 </template>
 
 <script setup lang="ts">
-    import { useTableFieldSubmitApi, useTableApi, fetchDictList } from '/@/api/gen/table'
-    import { list } from '/@/api/gen/fieldtype'
+    import { useTableFieldSubmitApi, useTableApi, fetchDictList } from '@/api/gen/table'
+    import { list } from '@/api/gen/fieldtype'
     import Sortable from 'sortablejs'
 
-    const scFormTable = defineAsyncComponent(() => import('/@/components/FormTable/index.vue'))
+    const scFormTable = defineAsyncComponent(() => import('@/components/FormTable/index.vue'))
 
     const activeName = ref()
     const tableId = ref('')

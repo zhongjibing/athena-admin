@@ -128,9 +128,9 @@
 </template>
 
 <script lang="ts" name="systemMenu" setup>
-    import { delObj, pageList } from '/@/api/admin/menu'
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { delObj, pageList } from '@/api/admin/menu'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { useMessage, useMessageBox } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
     // 引入组件
     const MenuDialog = defineAsyncComponent(() => import('./form.vue'))

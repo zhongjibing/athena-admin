@@ -88,11 +88,11 @@
 </template>
 
 <script lang="ts" name="systemDatasourceConf" setup>
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { delObj, fetchList } from '/@/api/gen/datasource'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { delObj, fetchList } from '@/api/gen/datasource'
+    import { useMessage, useMessageBox } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
-    import { downBlobFile } from '/@/utils/other'
+    import { downBlobFile } from '@/utils/other'
 
     // 引入组件
     const FormDialog = defineAsyncComponent(() => import('./form.vue'))

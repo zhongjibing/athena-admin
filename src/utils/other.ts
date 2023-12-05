@@ -1,23 +1,23 @@
 import { nextTick, defineAsyncComponent } from 'vue'
 import type { App } from 'vue'
 import * as svg from '@element-plus/icons-vue'
-import router from '/@/router/index'
-import pinia from '/@/stores/index'
+import router from '@/router/index'
+import pinia from '@/stores/index'
 import { storeToRefs } from 'pinia'
-import { useThemeConfig } from '/@/stores/themeConfig'
-import { i18n } from '/@/i18n/index'
-import { Local } from '/@/utils/storage'
-import { verifyUrl } from '/@/utils/toolsValidate'
-import request from '/@/utils/request'
-import { useMessage } from '/@/hooks/message'
+import { useThemeConfig } from '@/stores/themeConfig'
+import { i18n } from '@/i18n/index'
+import { Local } from '@/utils/storage'
+import { verifyUrl } from '@/utils/toolsValidate'
+import request from '@/utils/request'
+import { useMessage } from '@/hooks/message'
 // @ts-ignore
 import * as CryptoJS from 'crypto-js'
 import { sm4 } from 'sm-crypto'
 import { validateNull } from './validate'
-import { RouteItem, RouteItems, RouteToFrom } from '/@/types/global'
+import { RouteItem, RouteItems, RouteToFrom } from '@/types/global'
 
 // 引入组件
-const SvgIcon = defineAsyncComponent(() => import('/@/components/SvgIcon/index.vue'))
+const SvgIcon = defineAsyncComponent(() => import('@/components/SvgIcon/index.vue'))
 
 /**
  * 导出全局注册 element plus svg 图标
@@ -206,7 +206,7 @@ export const openWindow = (url: string, title: string, w: number, h: number) => 
 export function encryption(src: string, keyWord: string) {
     const key = CryptoJS.enc.Utf8.parse(keyWord)
     // 加密
-    var encrypted = CryptoJS.AES.encrypt(src, key, {
+    let encrypted = CryptoJS.AES.encrypt(src, key, {
         iv: key,
         mode: CryptoJS.mode.CFB,
         padding: CryptoJS.pad.NoPadding
@@ -222,7 +222,7 @@ export function encryption(src: string, keyWord: string) {
 export function decryption(src: string, keyWord: string) {
     const key = CryptoJS.enc.Utf8.parse(keyWord)
     // 解密逻辑
-    var decryptd = CryptoJS.AES.decrypt(src, key, {
+    let decryptd = CryptoJS.AES.decrypt(src, key, {
         iv: key,
         mode: CryptoJS.mode.CFB,
         padding: CryptoJS.pad.NoPadding
@@ -290,7 +290,7 @@ export function handleBlobFile(response: any, fileName: string) {
     const link = document.createElement('a')
 
     // 兼容一下 入参不是 File Blob 类型情况
-    var binaryData = [] as any
+    let binaryData = [] as any
     binaryData.push(response)
     link.href = window.URL.createObjectURL(new Blob(binaryData))
     link.download = fileName

@@ -18,14 +18,14 @@
 </template>
 
 <script setup lang="ts" name="layoutMain">
-    import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes'
-    import { useThemeConfig } from '/@/stores/themeConfig'
-    import { NextLoading } from '/@/utils/loading'
+    import { useTagsViewRoutes } from '@/stores/tagsViewRoutes'
+    import { useThemeConfig } from '@/stores/themeConfig'
+    import { NextLoading } from '@/utils/loading'
 
     // 引入组件
-    const LayoutParentView = defineAsyncComponent(() => import('/@/layout/routerView/parent.vue'))
-    const LayoutFooter = defineAsyncComponent(() => import('/@/layout/footer/index.vue'))
-    const CheckToken = defineAsyncComponent(() => import('/@/components/CheckToken/index.vue'))
+    const LayoutParentView = defineAsyncComponent(() => import('@/layout/routerView/parent.vue'))
+    const LayoutFooter = defineAsyncComponent(() => import('@/layout/footer/index.vue'))
+    const CheckToken = defineAsyncComponent(() => import('@/components/CheckToken/index.vue'))
 
     // 定义变量内容
     const layoutMainScrollbarRef = ref()

@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts" name="noPower">
-    import { Session } from '/@/utils/storage'
+    import { Session } from '@/utils/storage'
 
     const onSetAuth = () => {
         // 清除缓存/token等

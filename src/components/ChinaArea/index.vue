@@ -2,7 +2,7 @@
     <el-cascader :options="optionsData" v-model="selectedOptions" @change="handleChange" />
 </template>
 <script setup lang="ts" name="china-area">
-    import { provinceAndCityData, provinceAndCityDataPlus, regionData, regionDataPlus } from '/@/utils/chinaArea'
+    import { provinceAndCityData, provinceAndCityDataPlus, regionData, regionDataPlus } from '@/utils/chinaArea'
 
     const emit = defineEmits(['update:value', 'change'])
     const optionsData = ref()

@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts" name="layoutFooter">
-    import { useThemeConfig } from '/@/stores/themeConfig'
+    import { useThemeConfig } from '@/stores/themeConfig'
 
     // 定义变量内容
     const storesThemeConfig = useThemeConfig()

@@ -9,17 +9,17 @@
 
 <script setup lang="ts" name="app">
     import { useI18n } from 'vue-i18n'
-    import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes'
-    import { useThemeConfig } from '/@/stores/themeConfig'
-    import other from '/@/utils/other'
-    import { Local, Session } from '/@/utils/storage'
-    import mittBus from '/@/utils/mitt'
-    import setIntroduction from '/@/utils/setIconfont'
+    import { useTagsViewRoutes } from '@/stores/tagsViewRoutes'
+    import { useThemeConfig } from '@/stores/themeConfig'
+    import other from '@/utils/other'
+    import { Local, Session } from '@/utils/storage'
+    import mittBus from '@/utils/mitt'
+    import setIntroduction from '@/utils/setIconfont'
 
     // 引入组件
-    const LockScreen = defineAsyncComponent(() => import('/@/layout/lockScreen/index.vue'))
-    const Setings = defineAsyncComponent(() => import('/@/layout/navBars/breadcrumb/setings.vue'))
-    const CloseFull = defineAsyncComponent(() => import('/@/layout/navBars/breadcrumb/closeFull.vue'))
+    const LockScreen = defineAsyncComponent(() => import('@/layout/lockScreen/index.vue'))
+    const Setings = defineAsyncComponent(() => import('@/layout/navBars/breadcrumb/setings.vue'))
+    const CloseFull = defineAsyncComponent(() => import('@/layout/navBars/breadcrumb/closeFull.vue'))
 
     // 定义变量内容
     const { messages, locale } = useI18n()

@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts" name="layoutLogo">
-    import { useThemeConfig } from '/@/stores/themeConfig'
-    import logoMini from '/@/assets/logo-mini.svg'
+    import { useThemeConfig } from '@/stores/themeConfig'
+    import logoMini from '@/assets/logo-mini.svg'
 
     // 定义变量内容
     const storesThemeConfig = useThemeConfig()

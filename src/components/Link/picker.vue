@@ -10,7 +10,7 @@
 <script lang="ts" setup>
     import { LinkTypeEnum, type Link } from '.'
     import LinkContent from './index.vue'
-    import Popup from '/@/components/Popup/index.vue'
+    import Popup from '@/components/Popup/index.vue'
     const props = defineProps({
         modelValue: {
             type: Object

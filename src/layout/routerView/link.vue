@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts" name="layoutLinkView">
-    import { verifyUrl } from '/@/utils/toolsValidate'
+    import { verifyUrl } from '@/utils/toolsValidate'
 
     // 定义变量内容
     const route = useRoute()

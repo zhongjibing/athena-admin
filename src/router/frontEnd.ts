@@ -1,12 +1,12 @@
-import { RouteRecordRaw } from 'vue-router'
-import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/index'
-import { baseRoutes, notFoundAndNoPower } from '/@/router/route'
-import pinia from '/@/stores/index'
-import { Session } from '/@/utils/storage'
-import { useUserInfo } from '/@/stores/userInfo'
-import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes'
-import { useRoutesList } from '/@/stores/routesList'
-import { NextLoading } from '/@/utils/loading'
+import type { RouteRecordRaw } from 'vue-router'
+import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '@/router/index'
+import { baseRoutes, notFoundAndNoPower } from '@/router/route'
+import pinia from '@/stores/index'
+import { Session } from '@/utils/storage'
+import { useUserInfo } from '@/stores/userInfo'
+import { useTagsViewRoutes } from '@/stores/tagsViewRoutes'
+import { useRoutesList } from '@/stores/routesList'
+import { NextLoading } from '@/utils/loading'
 
 // 前端控制路由
 

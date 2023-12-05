@@ -38,8 +38,8 @@
 </template>
 
 <script setup lang="ts" name="systemPostDialog">
-    import { useMessage } from '/@/hooks/message'
-    import { getObj, addObj, putObj, validatePostCode, validatePostName } from '/@/api/admin/post'
+    import { useMessage } from '@/hooks/message'
+    import { getObj, addObj, putObj, validatePostCode, validatePostName } from '@/api/admin/post'
     import { useI18n } from 'vue-i18n'
 
     // 定义子组件向父组件传值/事件

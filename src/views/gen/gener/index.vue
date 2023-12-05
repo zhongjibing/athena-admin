@@ -28,9 +28,9 @@
 
 <script lang="ts" setup>
     import { useI18n } from 'vue-i18n'
-    import { useGeneratorCodeApi } from '/@/api/gen/table'
-    import { useMessage } from '/@/hooks/message'
-    import { downBlobFile } from '/@/utils/other'
+    import { useGeneratorCodeApi } from '@/api/gen/table'
+    import { useMessage } from '@/hooks/message'
+    import { downBlobFile } from '@/utils/other'
 
     const { t } = useI18n()
     const Generator = defineAsyncComponent(() => import('../table/generator.vue'))

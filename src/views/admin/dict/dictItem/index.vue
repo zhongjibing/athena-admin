@@ -58,9 +58,9 @@
 </template>
 
 <script setup lang="ts" name="dict-item">
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { fetchItemList, delItemObj } from '/@/api/admin/dict'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { fetchItemList, delItemObj } from '@/api/admin/dict'
+    import { useMessage, useMessageBox } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
 
     const { t } = useI18n()

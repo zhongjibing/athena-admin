@@ -38,13 +38,13 @@
 
 <script setup lang="ts" name="navMenuHorizontal">
     import { RouteRecordRaw } from 'vue-router'
-    import { useRoutesList } from '/@/stores/routesList'
-    import { useThemeConfig } from '/@/stores/themeConfig'
-    import other from '/@/utils/other'
-    import mittBus from '/@/utils/mitt'
+    import { useRoutesList } from '@/stores/routesList'
+    import { useThemeConfig } from '@/stores/themeConfig'
+    import other from '@/utils/other'
+    import mittBus from '@/utils/mitt'
 
     // 引入组件
-    const SubItem = defineAsyncComponent(() => import('/@/layout/navMenu/subItem.vue'))
+    const SubItem = defineAsyncComponent(() => import('@/layout/navMenu/subItem.vue'))
 
     // 定义父组件传过来的值
     const props = defineProps({

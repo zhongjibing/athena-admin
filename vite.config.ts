@@ -73,6 +73,8 @@ export default defineConfig(({ command, mode }) => {
             }
         },
         css: { preprocessorOptions: { css: { charset: false } } },
-        define: {}
+        define: {
+            __NEXT_NAME__: JSON.stringify(process.env.npm_package_name)
+        }
     }
 })

@@ -18,8 +18,8 @@
     // @ts-ignore
     import { IDomEditor } from '@wangeditor/editor'
     import { Toolbar, Editor } from '@wangeditor/editor-for-vue'
-    import { Session } from '/@/utils/storage'
-    import other from '/@/utils/other'
+    import { Session } from '@/utils/storage'
+    import other from '@/utils/other'
     const { proxy } = getCurrentInstance()
 
     // 定义父组件传过来的值

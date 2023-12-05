@@ -112,11 +112,11 @@
 </template>
 
 <script setup lang="ts" name="systemDept">
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { deptTree, delObj } from '/@/api/admin/dept'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { deptTree, delObj } from '@/api/admin/dept'
+    import { useMessage, useMessageBox } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
-    import { downBlobFile } from '/@/utils/other'
+    import { downBlobFile } from '@/utils/other'
     import { data } from 'autoprefixer'
 
     // 引入组件

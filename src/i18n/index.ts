@@ -1,7 +1,7 @@
 import { createI18n } from 'vue-i18n'
-import pinia from '/@/stores/index'
+import pinia from '@/stores/index'
 import { storeToRefs } from 'pinia'
-import { useThemeConfig } from '/@/stores/themeConfig'
+import { useThemeConfig } from '@/stores/themeConfig'
 
 // 定义语言国际化内容
 
@@ -14,8 +14,8 @@ import { useThemeConfig } from '/@/stores/themeConfig'
  */
 
 // element plus 自带国际化
-import enLocale from 'element-plus/lib/locale/lang/en'
-import zhcnLocale from 'element-plus/lib/locale/lang/zh-cn'
+import enLocale from 'element-plus/dist/locale/en.mjs'
+import zhcnLocale from 'element-plus/dist/locale/zh-cn.mjs'
 
 // 定义变量内容
 const messages = {}

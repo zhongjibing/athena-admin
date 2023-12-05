@@ -1,14 +1,14 @@
 import { RouteRecordRaw } from 'vue-router'
-import pinia from '/@/stores/index'
-import { useUserInfo } from '/@/stores/userInfo'
-import { useRequestOldRoutes } from '/@/stores/requestOldRoutes'
-import { Session } from '/@/utils/storage'
-import { NextLoading } from '/@/utils/loading'
-import { baseRoutes, notFoundAndNoPower, dynamicRoutes } from '/@/router/route'
-import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/index'
-import { useRoutesList } from '/@/stores/routesList'
-import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes'
-import { useMenuApi } from '/@/api/admin/menu'
+import pinia from '@/stores/index'
+import { useUserInfo } from '@/stores/userInfo'
+import { useRequestOldRoutes } from '@/stores/requestOldRoutes'
+import { Session } from '@/utils/storage'
+import { NextLoading } from '@/utils/loading'
+import { baseRoutes, notFoundAndNoPower, dynamicRoutes } from '@/router/route'
+import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '@/router/index'
+import { useRoutesList } from '@/stores/routesList'
+import { useTagsViewRoutes } from '@/stores/tagsViewRoutes'
+import { useMenuApi } from '@/api/admin/menu'
 
 // 后端控制路由
 
@@ -127,9 +127,9 @@ export function backEndComponent(routes: any) {
     return routes.map((item: any) => {
         if (item.path && item.path.startsWith('http')) {
             if (item.meta.isIframe) {
-                item.component = () => import('/@/layout/routerView/iframes.vue')
+                item.component = () => import('@/layout/routerView/iframes.vue')
             } else {
-                item.component = () => import('/@/layout/routerView/link.vue')
+                item.component = () => import('@/layout/routerView/link.vue')
             }
             item.path = '/iframes/' + window.btoa(item.path)
         } else if (item.path) {

@@ -58,10 +58,10 @@
 
 <script setup lang="ts" name="layoutColumnsAside">
     import { RouteRecordRaw } from 'vue-router'
-    import pinia from '/@/stores/index'
-    import { useRoutesList } from '/@/stores/routesList'
-    import { useThemeConfig } from '/@/stores/themeConfig'
-    import mittBus from '/@/utils/mitt'
+    import pinia from '@/stores/index'
+    import { useRoutesList } from '@/stores/routesList'
+    import { useThemeConfig } from '@/stores/themeConfig'
+    import mittBus from '@/utils/mitt'
 
     // 定义变量内容
     const columnsAsideOffsetTopRefs = ref<RefType>([])
@@ -164,7 +164,7 @@
 
     // 使用递归查询对应的父级路由
     const searchParent = (routesList: any, path: string) => {
-        let route = undefined
+        let route
         routesList.forEach(item => {
             if (item.path === path) {
                 route = item

@@ -1,5 +1,5 @@
-import { dict } from '/@/stores/dict'
-import { getDicts } from '/@/api/admin/dict'
+import { dict } from '@/stores/dict'
+import { getDicts } from '@/api/admin/dict'
 import { ref, toRefs } from 'vue'
 
 /**

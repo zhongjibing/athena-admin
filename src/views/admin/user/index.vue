@@ -209,15 +209,15 @@
 </template>
 
 <script lang="ts" name="systemUser" setup>
-    import { delObj, pageList, putObj } from '/@/api/admin/user'
-    import { deptTree } from '/@/api/admin/dept'
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { delObj, pageList, putObj } from '@/api/admin/user'
+    import { deptTree } from '@/api/admin/dept'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { useMessage, useMessageBox } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
 
     // 动态引入组件
     const UserForm = defineAsyncComponent(() => import('./form.vue'))
-    const QueryTree = defineAsyncComponent(() => import('/@/components/QueryTree/index.vue'))
+    const QueryTree = defineAsyncComponent(() => import('@/components/QueryTree/index.vue'))
 
     const { t } = useI18n()
 

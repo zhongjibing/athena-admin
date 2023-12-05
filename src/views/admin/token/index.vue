@@ -96,11 +96,11 @@
 </template>
 
 <script lang="ts" setup>
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { delObj, fetchList } from '/@/api/admin/token'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { delObj, fetchList } from '@/api/admin/token'
     import { useI18n } from 'vue-i18n'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
-    import { Session } from '/@/utils/storage'
+    import { useMessage, useMessageBox } from '@/hooks/message'
+    import { Session } from '@/utils/storage'
 
     const { t } = useI18n()
     // 定义变量内容

@@ -57,8 +57,8 @@
     import { ref, computed, inject } from 'vue'
     import { ElNotification, formContextKey, formItemContextKey } from 'element-plus'
     import type { UploadProps, UploadRequestOptions } from 'element-plus'
-    import { generateUUID } from '/@/utils/other'
-    import request from '/@/utils/request'
+    import { generateUUID } from '@/utils/other'
+    import request from '@/utils/request'
 
     interface UploadFileProps {
         imageUrl?: string // 图片地址 ==> 必传
@@ -151,19 +151,19 @@
         const imgSize = rawFile.size / 1024 / 1024 < props.fileSize
         const imgType = props.fileType.includes(rawFile.type as File.ImageMimeType)
         if (!imgType)
-            ElNotification({
+            {ElNotification({
                 title: '温馨提示',
                 message: '上传图片不符合所需的格式！',
                 type: 'warning'
-            })
+            })}
         if (!imgSize)
-            setTimeout(() => {
+            {setTimeout(() => {
                 ElNotification({
                     title: '温馨提示',
                     message: `上传图片大小不能超过 ${props.fileSize}M！`,
                     type: 'warning'
                 })
-            }, 0)
+            }, 0)}
         return imgType && imgSize
     }
 

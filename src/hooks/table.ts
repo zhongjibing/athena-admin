@@ -1,5 +1,5 @@
 import { CellStyle, ElMessage } from 'element-plus'
-import other from '/@/utils/other'
+import other from '@/utils/other'
 
 /**
  * 表格组件基础配置属性

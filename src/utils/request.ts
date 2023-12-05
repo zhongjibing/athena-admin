@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Session } from '/@/utils/storage'
-import { useMessageBox } from '/@/hooks/message'
+import { Session } from '@/utils/storage'
+import { useMessageBox } from '@/hooks/message'
 import qs from 'qs'
 import other from './other'
 

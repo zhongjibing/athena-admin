@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts" name="SysFileDialog">
-    const Upload = defineAsyncComponent(() => import('/@/components/Upload/index.vue'))
+    const Upload = defineAsyncComponent(() => import('@/components/Upload/index.vue'))
     const emit = defineEmits(['refresh'])
 
     // 定义变量内容

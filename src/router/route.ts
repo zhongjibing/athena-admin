@@ -38,7 +38,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
     {
         path: '/home',
         name: 'router.home',
-        component: () => import('/@/views/home/index.vue'),
+        component: () => import('@/views/home/index.vue'),
         meta: {
             isLink: '',
             isHide: false,
@@ -51,7 +51,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
     {
         path: '/personal',
         name: 'router.personal',
-        component: () => import('/@/views/admin/user/personal.vue'),
+        component: () => import('@/views/admin/user/personal.vue'),
         meta: {
             isHide: true
         }
@@ -65,7 +65,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
     {
         path: '/login',
         name: 'staticRoutes.login',
-        component: () => import('/@/views/login/index.vue'),
+        component: () => import('@/views/login/index.vue'),
         meta: {
             isAuth: false
         }
@@ -79,7 +79,7 @@ export const notFoundAndNoPower = [
     {
         path: '/:path(.*)*',
         name: 'staticRoutes.notFound',
-        component: () => import('/@/views/error/404.vue'),
+        component: () => import('@/views/error/404.vue'),
         meta: {
             isHide: true
         }
@@ -87,7 +87,7 @@ export const notFoundAndNoPower = [
     {
         path: '/401',
         name: 'staticRoutes.noPower',
-        component: () => import('/@/views/error/401.vue'),
+        component: () => import('@/views/error/401.vue'),
         meta: {
             isHide: true
         }
@@ -103,7 +103,7 @@ export const baseRoutes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: '/',
-        component: () => import('/@/layout/index.vue'),
+        component: () => import('@/layout/index.vue'),
         redirect: '/home',
         meta: {
             isKeepAlive: true

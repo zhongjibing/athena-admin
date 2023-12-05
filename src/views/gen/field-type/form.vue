@@ -36,8 +36,8 @@
 </template>
 
 <script setup lang="ts" name="systemFieldTypeDialog">
-    import { useMessage } from '/@/hooks/message'
-    import { getObj, addObj, putObj, validateColumnType } from '/@/api/gen/fieldtype'
+    import { useMessage } from '@/hooks/message'
+    import { getObj, addObj, putObj, validateColumnType } from '@/api/gen/fieldtype'
     import { useI18n } from 'vue-i18n'
     // 定义子组件向父组件传值/事件
     const emit = defineEmits(['refresh'])

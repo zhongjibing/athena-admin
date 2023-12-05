@@ -45,10 +45,10 @@
     </el-dialog>
 </template>
 <script setup lang="ts" name="preview">
-    import { useGeneratorPreviewApi } from '/@/api/gen/table'
-    import { handleTree } from '/@/utils/other'
-    import commonFunction from '/@/utils/commonFunction'
-    const CodeEditor = defineAsyncComponent(() => import('/@/components/CodeEditor/index.vue'))
+    import { useGeneratorPreviewApi } from '@/api/gen/table'
+    import { handleTree } from '@/utils/other'
+    import commonFunction from '@/utils/commonFunction'
+    const CodeEditor = defineAsyncComponent(() => import('@/components/CodeEditor/index.vue'))
 
     const { copyText } = commonFunction()
 

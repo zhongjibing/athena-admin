@@ -70,8 +70,8 @@
 <script setup lang="ts" name="iconSelector">
     import { defineAsyncComponent, ref, reactive, onMounted, nextTick, computed, watch } from 'vue'
     import type { TabsPaneContext } from 'element-plus'
-    import initIconfont from '/@/utils/getStyleSheets'
-    import '/@/theme/iconSelector.scss'
+    import initIconfont from '@/utils/getStyleSheets'
+    import '@/theme/iconSelector.scss'
 
     // 定义父组件传过来的值
     const props = defineProps({
@@ -120,7 +120,7 @@
     const emit = defineEmits(['update:modelValue', 'get', 'clear'])
 
     // 引入组件
-    const IconList = defineAsyncComponent(() => import('/@/components/IconSelector/list.vue'))
+    const IconList = defineAsyncComponent(() => import('@/components/IconSelector/list.vue'))
 
     // 定义变量内容
     const inputWidthRef = ref()

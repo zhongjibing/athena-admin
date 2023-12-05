@@ -49,10 +49,10 @@
 </template>
 
 <script lang="ts" name="GenGroupDialog" setup>
-    import { useMessage } from '/@/hooks/message'
-    import { addObj, getObj, putObj } from '/@/api/gen/group'
+    import { useMessage } from '@/hooks/message'
+    import { addObj, getObj, putObj } from '@/api/gen/group'
     import { useI18n } from 'vue-i18n'
-    import { list as templateList } from '/@/api/gen/template'
+    import { list as templateList } from '@/api/gen/template'
     // 定义子组件向父组件传值/事件
     const emit = defineEmits(['refresh'])
     const { t } = useI18n()

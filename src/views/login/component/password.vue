@@ -77,9 +77,9 @@
 
 <script setup lang="ts" name="password">
     import { reactive, ref, defineEmits } from 'vue'
-    import { useUserInfo } from '/@/stores/userInfo'
+    import { useUserInfo } from '@/stores/userInfo'
     import { useI18n } from 'vue-i18n'
-    import { generateUUID } from '/@/utils/other'
+    import { generateUUID } from '@/utils/other'
 
     // 使用国际化插件
     const { t } = useI18n()

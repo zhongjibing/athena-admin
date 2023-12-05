@@ -578,14 +578,14 @@
     import { ElMessage } from 'element-plus'
     import { useI18n } from 'vue-i18n'
     import { storeToRefs } from 'pinia'
-    import { useThemeConfig } from '/@/stores/themeConfig'
-    import { useChangeColor } from '/@/utils/theme'
-    import { Local } from '/@/utils/storage'
-    import Watermark from '/@/utils/wartermark'
-    import commonFunction from '/@/utils/commonFunction'
-    import other from '/@/utils/other'
-    import mittBus from '/@/utils/mitt'
-    import { useUserInfo } from '/@/stores/userInfo'
+    import { useThemeConfig } from '@/stores/themeConfig'
+    import { useChangeColor } from '@/utils/theme'
+    import { Local } from '@/utils/storage'
+    import Watermark from '@/utils/wartermark'
+    import commonFunction from '@/utils/commonFunction'
+    import other from '@/utils/other'
+    import mittBus from '@/utils/mitt'
+    import { useUserInfo } from '@/stores/userInfo'
 
     // 定义变量内容
     const { locale } = useI18n()
@@ -667,11 +667,11 @@
                 document.documentElement.style.getPropertyValue('--next-bg-menuBar')
             )
             if (bool)
-                els.setAttribute(
+                {els.setAttribute(
                     'style',
                     `background:linear-gradient(to bottom left , ${color}, ${getLightColor(color, 0.6)}) !important;`
-                )
-            else els.setAttribute('style', ``)
+                )}
+            else {els.setAttribute('style', ``)}
             setLocalThemeConfig()
         }, 200)
     }

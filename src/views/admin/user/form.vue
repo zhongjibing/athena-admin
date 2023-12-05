@@ -110,14 +110,14 @@
 </template>
 
 <script lang="ts" name="systemUserDialog" setup>
-    import { addObj, getObj, putObj, validatePhone, validateUsername } from '/@/api/admin/user'
-    import { list as roleList } from '/@/api/admin/role'
-    import { list as postList } from '/@/api/admin/post'
-    import { deptTree } from '/@/api/admin/dept'
-    import { useDict } from '/@/hooks/dict'
+    import { addObj, getObj, putObj, validatePhone, validateUsername } from '@/api/admin/user'
+    import { list as roleList } from '@/api/admin/role'
+    import { list as postList } from '@/api/admin/post'
+    import { deptTree } from '@/api/admin/dept'
+    import { useDict } from '@/hooks/dict'
     import { useI18n } from 'vue-i18n'
-    import { useMessage } from '/@/hooks/message'
-    import { rule } from '/@/utils/validate'
+    import { useMessage } from '@/hooks/message'
+    import { rule } from '@/utils/validate'
 
     const { t } = useI18n()
 

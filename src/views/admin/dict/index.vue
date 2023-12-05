@@ -87,15 +87,15 @@
 </template>
 
 <script lang="ts" name="systemDic" setup>
-    import { delObj, fetchList, refreshCache } from '/@/api/admin/dict'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { delObj, fetchList, refreshCache } from '@/api/admin/dict'
+    import { useMessage, useMessageBox } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
-    import { downBlobFile } from '/@/utils/other'
+    import { downBlobFile } from '@/utils/other'
 
     // 引入组件
     const DicDialog = defineAsyncComponent(() => import('./form.vue'))
     const DictItemDialog = defineAsyncComponent(() => import('./dictItem/index.vue'))
-    const QueryTree = defineAsyncComponent(() => import('/@/components/QueryTree/index.vue'))
+    const QueryTree = defineAsyncComponent(() => import('@/components/QueryTree/index.vue'))
 
     const { t } = useI18n()
     // 定义变量内容

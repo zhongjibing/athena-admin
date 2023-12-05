@@ -35,12 +35,12 @@
 </template>
 
 <script setup lang="ts" name="role-permession">
-    import { fetchRoleTree, permissionUpd } from '/@/api/admin/role'
-    import { pageList } from '/@/api/admin/menu'
-    import { useMessage } from '/@/hooks/message'
+    import { fetchRoleTree, permissionUpd } from '@/api/admin/role'
+    import { pageList } from '@/api/admin/menu'
+    import { useMessage } from '@/hooks/message'
     import { Ref } from 'vue'
     import { useI18n } from 'vue-i18n'
-    import other from '/@/utils/other'
+    import other from '@/utils/other'
     import { CheckboxValueType } from 'element-plus'
 
     const { t } = useI18n()

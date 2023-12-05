@@ -45,8 +45,8 @@
 
 <script setup lang="ts" name="systemDeptDialog">
     import { useI18n } from 'vue-i18n'
-    import { getObj, deptTree, addObj, putObj } from '/@/api/admin/dept'
-    import { useMessage } from '/@/hooks/message'
+    import { getObj, deptTree, addObj, putObj } from '@/api/admin/dept'
+    import { useMessage } from '@/hooks/message'
 
     // 定义子组件向父组件传值/事件
     const emit = defineEmits(['refresh'])

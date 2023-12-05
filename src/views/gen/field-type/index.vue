@@ -86,9 +86,9 @@
 </template>
 
 <script lang="ts" name="systemFieldType" setup>
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { delObj, fetchList } from '/@/api/gen/fieldtype'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { delObj, fetchList } from '@/api/gen/fieldtype'
+    import { useMessage, useMessageBox } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
 
     // 引入组件

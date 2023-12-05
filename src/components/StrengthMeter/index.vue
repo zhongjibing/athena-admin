@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts" name="StrengthMeter">
-    import { verifyPasswordStrength } from '/@/utils/toolsValidate'
+    import { verifyPasswordStrength } from '@/utils/toolsValidate'
     const props = defineProps({
         value: {
             type: String

@@ -124,18 +124,18 @@
 </template>
 
 <script setup lang="ts" name="personal">
-    import { useUserInfo } from '/@/stores/userInfo'
-    import { editInfo, getObj, password, UnbindingUser } from '/@/api/admin/user'
-    import { useMessage } from '/@/hooks/message'
-    import { rule } from '/@/utils/validate'
-    import other from '/@/utils/other'
-    import { Session } from '/@/utils/storage'
+    import { useUserInfo } from '@/stores/userInfo'
+    import { editInfo, getObj, password, UnbindingUser } from '@/api/admin/user'
+    import { useMessage } from '@/hooks/message'
+    import { rule } from '@/utils/validate'
+    import other from '@/utils/other'
+    import { Session } from '@/utils/storage'
     import { useI18n } from 'vue-i18n'
 
     const { t } = useI18n()
 
-    const ImageUpload = defineAsyncComponent(() => import('/@/components/Upload/Image.vue'))
-    const StrengthMeter = defineAsyncComponent(() => import('/@/components/StrengthMeter/index.vue'))
+    const ImageUpload = defineAsyncComponent(() => import('@/components/Upload/Image.vue'))
+    const StrengthMeter = defineAsyncComponent(() => import('@/components/StrengthMeter/index.vue'))
 
     const visible = ref(false)
 
@@ -342,7 +342,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import '/@/theme/mixins/index.scss';
+    @import '@/theme/mixins/index.scss';
 
     .personal {
         .personal-user {

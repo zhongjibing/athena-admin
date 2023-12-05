@@ -64,11 +64,11 @@
 
 <script lang="ts" name="SysPublicParamDialog" setup>
     // 定义子组件向父组件传值/事件
-    import { useDict } from '/@/hooks/dict'
-    import { useMessage } from '/@/hooks/message'
-    import { addObj, getObj, putObj, validateParamsCode, validateParamsName } from '/@/api/admin/param'
+    import { useDict } from '@/hooks/dict'
+    import { useMessage } from '@/hooks/message'
+    import { addObj, getObj, putObj, validateParamsCode, validateParamsName } from '@/api/admin/param'
     import { useI18n } from 'vue-i18n'
-    import { rule } from '/@/utils/validate'
+    import { rule } from '@/utils/validate'
 
     const emit = defineEmits(['refresh'])
 

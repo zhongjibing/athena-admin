@@ -34,11 +34,11 @@
 
 <script lang="ts" name="GenTemplateDialog" setup>
     // 定义子组件向父组件传值/事件
-    import { useMessage } from '/@/hooks/message'
-    import { addObj, getObj, putObj } from '/@/api/gen/template'
+    import { useMessage } from '@/hooks/message'
+    import { addObj, getObj, putObj } from '@/api/gen/template'
     import { useI18n } from 'vue-i18n'
 
-    const CodeEditor = defineAsyncComponent(() => import('/@/components/CodeEditor/index.vue'))
+    const CodeEditor = defineAsyncComponent(() => import('@/components/CodeEditor/index.vue'))
     const emit = defineEmits(['refresh'])
 
     const { t } = useI18n()

@@ -53,9 +53,9 @@
 </template>
 
 <script setup lang="ts" name="upload-excel">
-    import { useMessage } from '/@/hooks/message'
-    import other from '/@/utils/other'
-    import { Session } from '/@/utils/storage'
+    import { useMessage } from '@/hooks/message'
+    import other from '@/utils/other'
+    import { Session } from '@/utils/storage'
 
     const emit = defineEmits(['sizeChange', 'refreshDataList'])
     const prop = defineProps({

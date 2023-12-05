@@ -58,9 +58,9 @@
 </template>
 
 <script setup lang="ts" name="upload-file">
-    import { useMessage } from '/@/hooks/message'
-    import { Session } from '/@/utils/storage'
-    import other from '/@/utils/other'
+    import { useMessage } from '@/hooks/message'
+    import { Session } from '@/utils/storage'
+    import other from '@/utils/other'
     const props = defineProps({
         modelValue: [String, Array],
         // 数量限制

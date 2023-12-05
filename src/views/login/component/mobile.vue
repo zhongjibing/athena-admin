@@ -53,10 +53,10 @@
 </template>
 
 <script setup lang="ts" name="loginMobile">
-    import { sendMobileCode } from '/@/api/login'
-    import { useMessage } from '/@/hooks/message'
-    import { useUserInfo } from '/@/stores/userInfo'
-    import { rule } from '/@/utils/validate'
+    import { sendMobileCode } from '@/api/login'
+    import { useMessage } from '@/hooks/message'
+    import { useUserInfo } from '@/stores/userInfo'
+    import { rule } from '@/utils/validate'
     import { useI18n } from 'vue-i18n'
 
     const { t } = useI18n()

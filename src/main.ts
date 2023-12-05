@@ -1,32 +1,32 @@
 import { createApp } from 'vue'
-import pinia from '/@/stores/index'
+import pinia from '@/stores/index'
 import App from './App.vue'
 import router from './router'
-import { directive } from '/@/directive'
-import { i18n } from '/@/i18n'
-import other from '/@/utils/other'
+import { directive } from '@/directive'
+import { i18n } from '@/i18n'
+import other from '@/utils/other'
 
 import ElementPlus from 'element-plus'
-import '/@/theme/tailwind.css'
+import '@/theme/tailwind.css'
 import 'element-plus/dist/index.css'
-import '/@/theme/index.scss'
+import '@/theme/index.scss'
 
 import {
+    DelWrap,
+    DictTag,
+    Editor,
     ElementIcons,
     Pagination,
     RightToolbar,
-    DictTag,
+    Tip,
     UploadExcel,
     UploadFile,
-    UploadImg,
-    Editor,
-    Tip,
-    DelWrap
-} from '/@/components/index'
-import { parseTime, parseDate, dateTimeStr, dateStr, timeStr } from '/@/utils/formatTime'
+    UploadImg
+} from '@/components/index'
+import { dateStr, dateTimeStr, parseDate, parseTime, timeStr } from '@/utils/formatTime'
 
 // 布局工具
-import { Splitpanes, Pane } from 'splitpanes'
+import { Pane, Splitpanes } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 
 const app = createApp(App)

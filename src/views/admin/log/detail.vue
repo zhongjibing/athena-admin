@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts" name="log-detail">
-    const CodeEditor = defineAsyncComponent(() => import('/@/components/CodeEditor/index.vue'))
+    const CodeEditor = defineAsyncComponent(() => import('@/components/CodeEditor/index.vue'))
 
     const visible = ref(false)
 

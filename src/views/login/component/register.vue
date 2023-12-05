@@ -62,16 +62,16 @@
 </template>
 
 <script setup lang="ts" name="register">
-    import { registerUser, validateUsername, validatePhone } from '/@/api/admin/user'
-    import { useMessage } from '/@/hooks/message'
+    import { registerUser, validateUsername, validatePhone } from '@/api/admin/user'
+    import { useMessage } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
-    import { rule } from '/@/utils/validate'
+    import { rule } from '@/utils/validate'
 
     // 注册生命周期事件
     const emit = defineEmits(['afterSuccess'])
 
     // 按需加载组件
-    const StrengthMeter = defineAsyncComponent(() => import('/@/components/StrengthMeter/index.vue'))
+    const StrengthMeter = defineAsyncComponent(() => import('@/components/StrengthMeter/index.vue'))
 
     // 使用i18n
     const { t } = useI18n()

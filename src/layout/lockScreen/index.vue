@@ -63,12 +63,12 @@
 
 <script setup lang="ts" name="layoutLockScreen">
     import { nextTick, onMounted, reactive, ref, onUnmounted } from 'vue'
-    import { formatDate } from '/@/utils/formatTime'
-    import { Local } from '/@/utils/storage'
+    import { formatDate } from '@/utils/formatTime'
+    import { Local } from '@/utils/storage'
     import { storeToRefs } from 'pinia'
-    import { useThemeConfig } from '/@/stores/themeConfig'
-    import { checkPassword } from '/@/api/admin/user'
-    import { useUserInfo } from '/@/stores/userInfo'
+    import { useThemeConfig } from '@/stores/themeConfig'
+    import { checkPassword } from '@/api/admin/user'
+    import { useUserInfo } from '@/stores/userInfo'
     // 定义变量内容
     const layoutLockScreenDateRef = ref<HtmlType>()
     const layoutLockScreenInputRef = ref()
@@ -243,7 +243,7 @@
     }
     .layout-lock-screen-img {
         @extend .layout-lock-screen-fixed;
-        background-image: url('/@/assets/lockScreen.png');
+        background-image: url('@/assets/lockScreen.png');
         background-size: 100% 100%;
         z-index: 9999991;
     }

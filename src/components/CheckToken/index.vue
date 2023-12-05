@@ -2,7 +2,7 @@
     <div></div>
 </template>
 <script setup lang="ts" name="check-token">
-    import { checkToken } from '/@/api/login'
+    import { checkToken } from '@/api/login'
 
     const refreshLock = ref(false)
     const refreshTime = ref()

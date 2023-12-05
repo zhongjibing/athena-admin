@@ -94,10 +94,10 @@
 </template>
 
 <script setup lang="ts" name="systemDatasourceConfDialog">
-    import { useMessage } from '/@/hooks/message'
-    import { getObj, addObj, putObj } from '/@/api/gen/datasource'
+    import { useMessage } from '@/hooks/message'
+    import { getObj, addObj, putObj } from '@/api/gen/datasource'
     import { useI18n } from 'vue-i18n'
-    import { useDict } from '/@/hooks/dict'
+    import { useDict } from '@/hooks/dict'
 
     // 定义子组件向父组件传值/事件
     const emit = defineEmits(['refresh'])

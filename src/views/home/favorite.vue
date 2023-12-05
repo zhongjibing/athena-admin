@@ -16,8 +16,8 @@
 </template>
 
 <script setup lang="ts" name="SysFavoriteDashboard">
-    import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes'
-    import shortcutCard from '/@/components/ShortcutCard/index.vue'
+    import { useTagsViewRoutes } from '@/stores/tagsViewRoutes'
+    import shortcutCard from '@/components/ShortcutCard/index.vue'
 
     /**
      * 获取路由对象的实例。

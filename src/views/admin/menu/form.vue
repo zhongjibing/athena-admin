@@ -95,14 +95,14 @@
 
 <script setup lang="ts" name="systemMenuDialog">
     import { useI18n } from 'vue-i18n'
-    import { info, pageList, putObj, addObj } from '/@/api/admin/menu'
-    import { useMessage } from '/@/hooks/message'
+    import { info, pageList, putObj, addObj } from '@/api/admin/menu'
+    import { useMessage } from '@/hooks/message'
 
     // 定义子组件向父组件传值/事件
     const emit = defineEmits(['refresh'])
     const { t } = useI18n()
     // 引入组件
-    const IconSelector = defineAsyncComponent(() => import('/@/components/IconSelector/index.vue'))
+    const IconSelector = defineAsyncComponent(() => import('@/components/IconSelector/index.vue'))
 
     // 定义变量内容
     const visible = ref(false)

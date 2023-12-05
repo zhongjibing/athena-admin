@@ -22,8 +22,8 @@
 </template>
 
 <script setup lang="ts" name="currentUser">
-    import { useUserInfo } from '/@/stores/userInfo'
-    import { getObj } from '/@/api/admin/user'
+    import { useUserInfo } from '@/stores/userInfo'
+    import { getObj } from '@/api/admin/user'
 
     const { proxy } = getCurrentInstance()
     const date = ref(new Date())

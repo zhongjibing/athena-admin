@@ -85,9 +85,9 @@
 </template>
 
 <script lang="ts" setup>
-    import { putObj, useTableApi } from '/@/api/gen/table'
-    import { list as groupList } from '/@/api/gen/group'
-    import { Local } from '/@/utils/storage'
+    import { putObj, useTableApi } from '@/api/gen/table'
+    import { list as groupList } from '@/api/gen/group'
+    import { Local } from '@/utils/storage'
 
     const props = defineProps({
         tableName: {

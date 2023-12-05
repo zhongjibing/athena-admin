@@ -15,8 +15,8 @@
 </template>
 
 <script setup lang="ts" name="SysLogDashboard">
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { pageList } from '/@/api/admin/log'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { pageList } from '@/api/admin/log'
 
     const router = useRouter()
 

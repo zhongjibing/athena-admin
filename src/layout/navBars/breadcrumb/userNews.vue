@@ -21,7 +21,7 @@
 
 <script setup lang="ts" name="layoutBreadcrumbUserNews">
     // 定义变量内容
-    import { useMsg } from '/@/stores/msg'
+    import { useMsg } from '@/stores/msg'
 
     const newsList = computed(() => {
         return useMsg().getAllMsg()

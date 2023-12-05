@@ -74,23 +74,23 @@
 </template>
 
 <script setup lang="ts" name="layoutBreadcrumbUser">
-    import { logout } from '/@/api/login'
+    import { logout } from '@/api/login'
     import { ElMessageBox, ElMessage } from 'element-plus'
     import screenfull from 'screenfull'
     import { useI18n } from 'vue-i18n'
-    import { useUserInfo } from '/@/stores/userInfo'
-    import { useThemeConfig } from '/@/stores/themeConfig'
-    import other from '/@/utils/other'
-    import mittBus from '/@/utils/mitt'
-    import { Session, Local } from '/@/utils/storage'
-    import { formatAxis } from '/@/utils/formatTime'
-    import { useMsg } from '/@/stores/msg'
+    import { useUserInfo } from '@/stores/userInfo'
+    import { useThemeConfig } from '@/stores/themeConfig'
+    import other from '@/utils/other'
+    import mittBus from '@/utils/mitt'
+    import { Session, Local } from '@/utils/storage'
+    import { formatAxis } from '@/utils/formatTime'
+    import { useMsg } from '@/stores/msg'
 
     // 引入组件
-    const GlobalWebsocket = defineAsyncComponent(() => import('/@/components/Websocket/index.vue'))
-    const UserNews = defineAsyncComponent(() => import('/@/layout/navBars/breadcrumb/userNews.vue'))
-    const Search = defineAsyncComponent(() => import('/@/layout/navBars/breadcrumb/search.vue'))
-    const PersonalDrawer = defineAsyncComponent(() => import('/@/views/admin/user/personal.vue'))
+    const GlobalWebsocket = defineAsyncComponent(() => import('@/components/Websocket/index.vue'))
+    const UserNews = defineAsyncComponent(() => import('@/layout/navBars/breadcrumb/userNews.vue'))
+    const Search = defineAsyncComponent(() => import('@/layout/navBars/breadcrumb/search.vue'))
+    const PersonalDrawer = defineAsyncComponent(() => import('@/views/admin/user/personal.vue'))
 
     // 定义变量内容
     const { locale, t } = useI18n()

@@ -75,12 +75,12 @@
 </template>
 
 <script lang="ts" name="systemTable" setup>
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { fetchList, useSyncTableApi, useTableApi } from '/@/api/gen/table'
-    import { list } from '/@/api/gen/datasource'
-    import { useMessage } from '/@/hooks/message'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { fetchList, useSyncTableApi, useTableApi } from '@/api/gen/table'
+    import { list } from '@/api/gen/datasource'
+    import { useMessage } from '@/hooks/message'
     import { useI18n } from 'vue-i18n'
-    import { validateNull } from '/@/utils/validate'
+    import { validateNull } from '@/utils/validate'
 
     // 定义变量内容
     const router = useRouter()

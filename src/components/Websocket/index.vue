@@ -3,7 +3,7 @@
 </template>
 <script setup lang="ts" name="global-websocket">
     import { ElNotification } from 'element-plus'
-    import { Session } from '/@/utils/storage'
+    import { Session } from '@/utils/storage'
 
     const emit = defineEmits(['rollback'])
 

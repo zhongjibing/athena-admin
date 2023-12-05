@@ -1,8 +1,8 @@
-import request from '/@/utils/request'
-import { Session } from '/@/utils/storage'
-import { validateNull } from '/@/utils/validate'
-import { useUserInfo } from '/@/stores/userInfo'
-import other from '/@/utils/other'
+import request from '@/utils/request'
+import { Session } from '@/utils/storage'
+import { validateNull } from '@/utils/validate'
+import { useUserInfo } from '@/stores/userInfo'
+import other from '@/utils/other'
 
 /**
  * https://www.ietf.org/rfc/rfc6749.txt

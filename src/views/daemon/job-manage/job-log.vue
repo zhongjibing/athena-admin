@@ -72,11 +72,11 @@
 </template>
 
 <script setup lang="ts" name="job-log">
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { fetchList, delObjs } from '/@/api/daemon/job-log'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { fetchList, delObjs } from '@/api/daemon/job-log'
     import { useI18n } from 'vue-i18n'
-    import { useDict } from '/@/hooks/dict'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
+    import { useDict } from '@/hooks/dict'
+    import { useMessage, useMessageBox } from '@/hooks/message'
 
     const { t } = useI18n()
     const visible = ref(false)

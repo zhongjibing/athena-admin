@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { Session } from '/@/utils/storage'
+import { Session } from '@/utils/storage'
 
 /**
  * TagsView 路由列表
@@ -20,10 +20,10 @@ export const useTagsViewRoutes = defineStore('tagsViewRoutes', {
             Session.set('isTagsViewCurrenFull', bool)
             this.isTagsViewCurrenFull = bool
         },
-        async setFavoriteRoutes(item) {
+        async setFavoriteRoutes(item: RouteItem) {
             this.favoriteRoutes.push(item)
         },
-        async delFavoriteRoutes(item) {
+        async delFavoriteRoutes(item: any) {
             this.favoriteRoutes.splice(this.favoriteRoutes.indexOf(item), 1)
         }
     },

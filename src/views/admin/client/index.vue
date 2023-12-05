@@ -137,10 +137,10 @@
 </template>
 
 <script lang="ts" name="systemSysOauthClientDetails" setup>
-    import { BasicTableProps, useTable } from '/@/hooks/table'
-    import { delObj, fetchList, refreshCache } from '/@/api/admin/client'
-    import { useMessage, useMessageBox } from '/@/hooks/message'
-    import { useDict } from '/@/hooks/dict'
+    import { BasicTableProps, useTable } from '@/hooks/table'
+    import { delObj, fetchList, refreshCache } from '@/api/admin/client'
+    import { useMessage, useMessageBox } from '@/hooks/message'
+    import { useDict } from '@/hooks/dict'
     import { useI18n } from 'vue-i18n'
 
     // 引入组件
