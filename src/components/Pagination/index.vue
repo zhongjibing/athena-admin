@@ -1,104 +1,52 @@
 <template>
-    <div :class="{ hidden: hidden }" class="pagination-container">
-        <el-pagination
-            :background="background"
-            v-model:current-page="currentPage"
-            v-model:page-size="pageSize"
-            :layout="layout"
-            :page-sizes="pageSizes"
-            :pager-count="pagerCount"
-            :total="total"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-        />
-    </div>
+    <el-pagination
+        @size-change="sizeChangeHandle"
+        @current-change="currentChangeHandle"
+        class="mt15"
+        :pager-count="5"
+        :page-sizes="props.pageSizes"
+        :current-page="props.current"
+        background
+        :page-size="props.size"
+        :layout="props.layout"
+        :total="props.total"
+    >
+    </el-pagination>
 </template>
 
-<script setup>
-    import { scrollTo } from '@/utils/scroll-to'
+<script setup lang="ts" name="pagination">
+    const emit = defineEmits(['sizeChange', 'currentChange'])
 
     const props = defineProps({
-        total: {
-            required: true,
-            type: Number
-        },
-        page: {
+        current: {
             type: Number,
             default: 1
         },
-        limit: {
+        size: {
             type: Number,
-            default: 20
+            default: 10
+        },
+        total: {
+            type: Number,
+            default: 0
         },
         pageSizes: {
-            type: Array,
-            default() {
-                return [10, 20, 30, 50]
+            type: Array as () => number[],
+            default: () => {
+                return [1, 10, 20, 50, 100, 200]
             }
-        },
-        // 移动端页码按钮的数量端默认值5
-        pagerCount: {
-            type: Number,
-            default: document.body.clientWidth < 992 ? 5 : 7
         },
         layout: {
             type: String,
             default: 'total, sizes, prev, pager, next, jumper'
-        },
-        background: {
-            type: Boolean,
-            default: true
-        },
-        autoScroll: {
-            type: Boolean,
-            default: true
-        },
-        hidden: {
-            type: Boolean,
-            default: false
         }
     })
-
-    const emit = defineEmits()
-    const currentPage = computed({
-        get() {
-            return props.page
-        },
-        set(val) {
-            emit('update:page', val)
-        }
-    })
-    const pageSize = computed({
-        get() {
-            return props.limit
-        },
-        set(val) {
-            emit('update:limit', val)
-        }
-    })
-    function handleSizeChange(val) {
-        if (currentPage.value * val > props.total) {
-            currentPage.value = 1
-        }
-        emit('pagination', { page: currentPage.value, limit: val })
-        if (props.autoScroll) {
-            scrollTo(0, 800)
-        }
+    // 分页改变
+    const sizeChangeHandle = (val: number) => {
+        emit('sizeChange', val)
     }
-    function handleCurrentChange(val) {
-        emit('pagination', { page: val, limit: pageSize.value })
-        if (props.autoScroll) {
-            scrollTo(0, 800)
-        }
+    // 分页改变
+    const currentChangeHandle = (val: number) => {
+        emit('currentChange', val)
     }
 </script>
-
-<style scoped>
-    .pagination-container {
-        background: #fff;
-        padding: 32px 16px;
-    }
-    .pagination-container.hidden {
-        display: none;
-    }
-</style>

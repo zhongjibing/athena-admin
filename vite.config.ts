@@ -73,7 +73,6 @@ export default defineConfig(({ command, mode }) => {
             }
         },
         css: { preprocessorOptions: { css: { charset: false } } },
-        define: {
-        }
+        define: {}
     }
 })
