@@ -21,7 +21,8 @@ export default defineConfig(({ command, mode }) => {
         resolve: {
             alias: {
                 '@': fileURLToPath(new URL('./src', import.meta.url))
-            }
+            },
+            extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
         },
         plugins: [
             vue(), // Vue 插件
@@ -73,12 +74,6 @@ export default defineConfig(({ command, mode }) => {
         },
         css: { preprocessorOptions: { css: { charset: false } } },
         define: {
-            __APP_ENV__: JSON.stringify(env.APP_ENV),
-            __VUE_I18N_LEGACY_API__: JSON.stringify(false),
-            __VUE_I18N_FULL_INSTALL__: JSON.stringify(false),
-            __INTLIFY_PROD_DEVTOOLS__: JSON.stringify(false),
-            __VERSION__: JSON.stringify(process.env.npm_package_version),
-            __NEXT_NAME__: JSON.stringify(process.env.npm_package_name)
         }
     }
 })
