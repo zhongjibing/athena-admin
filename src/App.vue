@@ -40,7 +40,8 @@
 
     // 获取全局组件大小
     const getGlobalComponentSize = computed(() => {
-        return other.globalComponentSize()
+        const size = (other.globalComponentSize() || '').toLowerCase()
+        return ['default', 'large', 'small'].includes(size) ? size : 'default'
     })
     // 获取全局 i18n
     const getGlobalI18n = computed(() => {

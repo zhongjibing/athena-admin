@@ -127,8 +127,8 @@
         () => props.dropdown,
         ({ x }) => {
             if (x + 117 > document.documentElement.clientWidth)
-                {state.arrowLeft = 117 - (document.documentElement.clientWidth - x)}
-            else {state.arrowLeft = 10}
+                state.arrowLeft = 117 - (document.documentElement.clientWidth - x)
+            else state.arrowLeft = 10
         },
         {
             deep: true

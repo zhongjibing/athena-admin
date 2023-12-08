@@ -8,7 +8,9 @@
                             <el-form-item prop="avatar">
                                 <ImageUpload v-model:imageUrl="formData.avatar" borderRadius="50%">
                                     <template #empty>
-                                        <el-icon><Avatar /></el-icon>
+                                        <el-icon>
+                                            <Avatar />
+                                        </el-icon>
                                         <span>请上传头像</span>
                                     </template>
                                 </ImageUpload>
@@ -42,7 +44,7 @@
                         </el-col>
                         <el-col :span="24" class="mb20">
                             <el-form-item>
-                                <el-button type="primary" @click="handleSaveUser"> 更新个人信息 </el-button>
+                                <el-button type="primary" @click="handleSaveUser"> 更新个人信息</el-button>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -91,33 +93,11 @@
                         </el-col>
                         <el-col :span="24" class="mb20">
                             <el-form-item>
-                                <el-button type="primary" @click="handleChangePassword"> 修改密码 </el-button>
+                                <el-button type="primary" @click="handleChangePassword"> 修改密码</el-button>
                             </el-form-item>
                         </el-col>
                     </el-row>
                 </el-form>
-            </el-tab-pane>
-            <el-tab-pane label="第三方账号">
-                <el-table :data="socialList" class="mt10">
-                    <el-table-column type="index" label="序号" width="80"></el-table-column>
-                    <el-table-column prop="name" label="平台"></el-table-column>
-                    <el-table-column label="状态">
-                        <template #default="scope">
-                            <el-tag v-if="scope.row.openId"> 已绑定 </el-tag>
-                            <el-tag v-else> 未绑定 </el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="action" label="操作">
-                        <template #default="scope">
-                            <el-button @click="Unbinding(scope.row.type)" text type="primary" v-if="scope.row.openId">
-                                解绑
-                            </el-button>
-                            <el-button @click="handleClick(scope.row.type)" text type="primary" v-else>
-                                绑定
-                            </el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
             </el-tab-pane>
         </el-tabs>
     </el-drawer>
@@ -207,7 +187,7 @@
 
     const score = ref(0)
 
-    const passwordScore = e => {
+    const passwordScore = (e: any) => {
         score.value = e
     }
 
@@ -254,25 +234,6 @@
         })
     }
 
-    const handleClick = (thirdpart: string) => {
-        let appid, client_id, redirect_uri, url
-        redirect_uri = encodeURIComponent(window.location.origin + '/#/authredirect')
-        if (thirdpart === 'wechat') {
-            appid = 'wxd1678d3f83b1d83a'
-            url = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${redirect_uri}&state=WX-BIND&response_type=code&scope=snsapi_login#wechat_redirect`
-        } else if (thirdpart === 'tencent') {
-            client_id = '101322838'
-            url = `https://graph.qq.com/oauth2.0/authorize?response_type=code&state=QQ-BIND&client_id=${client_id}&redirect_uri=${redirect_uri}`
-        } else if (thirdpart === 'gitee') {
-            client_id = '0c29cfd9cb1e0037fc837521bc08c1a7483d8fd9b3e123d46beec59a5544a881'
-            url = `https://gitee.com/oauth/authorize?response_type=code&state=GITEE-BIND&client_id=${client_id}&redirect_uri=${redirect_uri}`
-        } else if (thirdpart === 'osc') {
-            client_id = 'neIIqlwGsjsfsA6uxNqD'
-            url = `https://www.oschina.net/action/oauth2/authorize?response_type=code&client_id=${client_id}&state=OSC-BIND&redirect_uri=${redirect_uri}`
-        }
-        other.openWindow(url, thirdpart, 540, 540)
-    }
-
     const open = () => {
         visible.value = true
         const data = useUserInfo().userInfos
@@ -286,52 +247,12 @@
         getObj(userId)
             .then(res => {
                 formData.value = res.data
-                initSocialList()
             })
             .catch(err => {
                 useMessage().error(err.msg)
             })
             .finally(() => {
                 loading.value = false
-            })
-    }
-    const socialList = ref([] as any)
-
-    const initSocialList = () => {
-        socialList.value = [
-            {
-                name: '微信公众号',
-                type: 'wechat',
-                openId: formData.value.wxOpenid
-            },
-            {
-                name: 'QQ',
-                type: 'tencent',
-                openId: formData.value.qqOpenid
-            },
-            {
-                name: 'gitee',
-                type: 'gitee',
-                openId: formData.value.giteeOpenId
-            },
-            {
-                name: '开源中国',
-                type: 'osc',
-                openId: formData.value.oscOpenId
-            }
-        ]
-    }
-
-    const Unbinding = type => {
-        UnbindingUser(type)
-            .then(() => {
-                useMessage().success('解绑成功')
-            })
-            .catch(err => {
-                useMessage().error(err.msg)
-            })
-            .finally(() => {
-                initUserInfo(formData.value.userId)
             })
     }
 

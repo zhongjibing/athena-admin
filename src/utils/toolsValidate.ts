@@ -243,9 +243,9 @@ export function verifyPasswordPowerful(val: string) {
             val
         )
     )
-        {return false}
+        return false
     // true: 强密码正确
-    else {return true}
+    else return true
 }
 
 /**
@@ -268,7 +268,7 @@ export function verifyPasswordStrength(val: string) {
             val
         )
     )
-        {v = '3'}
+        v = '3'
     // 返回结果
     return v
 }
@@ -285,9 +285,9 @@ export function verifyIPAddress(val: string) {
             val
         )
     )
-        {return false}
+        return false
     // true: IP地址正确
-    else {return true}
+    else return true
 }
 
 /**
@@ -302,9 +302,9 @@ export function verifyEmail(val: string) {
             val
         )
     )
-        {return false}
+        return false
     // true: 邮箱正确
-    else {return true}
+    else return true
 }
 
 /**
@@ -355,9 +355,9 @@ export function verifyUrl(val: string) {
             val
         )
     )
-        {return false}
+        return false
     // true: url正确
-    else {return true}
+    else return true
 }
 
 /**
@@ -372,7 +372,7 @@ export function verifyCarNum(val: string) {
             val
         )
     )
-        {return false}
+        return false
     // true：车牌号正确
-    else {return true}
+    else return true
 }

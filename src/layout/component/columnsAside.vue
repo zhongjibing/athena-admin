@@ -164,7 +164,7 @@
 
     // 使用递归查询对应的父级路由
     const searchParent = (routesList: any, path: string) => {
-        let route
+        let route = undefined
         routesList.forEach(item => {
             if (item.path === path) {
                 route = item

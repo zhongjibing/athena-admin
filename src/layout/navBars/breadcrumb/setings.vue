@@ -667,11 +667,11 @@
                 document.documentElement.style.getPropertyValue('--next-bg-menuBar')
             )
             if (bool)
-                {els.setAttribute(
+                els.setAttribute(
                     'style',
                     `background:linear-gradient(to bottom left , ${color}, ${getLightColor(color, 0.6)}) !important;`
-                )}
-            else {els.setAttribute('style', ``)}
+                )
+            else els.setAttribute('style', ``)
             setLocalThemeConfig()
         }, 200)
     }

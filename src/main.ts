@@ -12,21 +12,21 @@ import 'element-plus/dist/index.css'
 import '@/theme/index.scss'
 
 import {
-    DelWrap,
-    DictTag,
-    Editor,
     ElementIcons,
     Pagination,
     RightToolbar,
-    Tip,
+    DictTag,
     UploadExcel,
     UploadFile,
-    UploadImg
+    UploadImg,
+    Editor,
+    Tip,
+    DelWrap
 } from '@/components/index'
-import { dateStr, dateTimeStr, parseDate, parseTime, timeStr } from '@/utils/formatTime'
+import { parseTime, parseDate, dateTimeStr, dateStr, timeStr } from '@/utils/formatTime'
 
 // 布局工具
-import { Pane, Splitpanes } from 'splitpanes'
+import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 
 const app = createApp(App)

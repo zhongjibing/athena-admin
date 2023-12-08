@@ -1,13 +1,13 @@
 <template>
     <div>
         <template v-for="(item, index) in props.options">
-            <template v-if="values.includes(item.value)">
+            <template v-if="values.includes(item.value || item)">
                 <span
                     v-if="item.elTagType == 'default' || item.elTagType == ''"
                     :key="index"
                     :index="index"
                     :class="item.elTagClass"
-                    >{{ item.label }}</span
+                    >{{ item.label || item }}</span
                 >
                 <el-tag
                     v-else
@@ -16,7 +16,7 @@
                     :index="index"
                     :type="item.elTagType === 'primary' ? '' : item.elTagType"
                     :class="item.elTagClass"
-                    >{{ item.label }}</el-tag
+                    >{{ item.label || item }}</el-tag
                 >
             </template>
         </template>

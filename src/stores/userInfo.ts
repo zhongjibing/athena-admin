@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { Session } from '@/utils/storage'
-import { getUserInfo, login, loginByMobile, loginBySocial, refreshTokenApi } from '@/api/login/index'
+import { getUserInfo, login, loginByMobile, loginBySocial, refreshTokenApi } from '@/api/login'
 import other from '@/utils/other'
 import { useMessage } from '@/hooks/message'
 
@@ -53,7 +53,7 @@ export const useUserInfo = defineStore('userInfo', {
          * @param {Object} data - 登录数据
          * @returns {Promise<Object>}
          */
-        async loginByMobile(data) {
+        async loginByMobile(data: { mobile: string; code: string }) {
             return new Promise((resolve, reject) => {
                 loginByMobile(data.mobile, data.code)
                     .then(res => {
@@ -77,7 +77,7 @@ export const useUserInfo = defineStore('userInfo', {
          * @param {string} code - 代码
          * @returns {Promise<Object>}
          */
-        async loginBySocial(state, code) {
+        async loginBySocial(state: string, code: string) {
             return new Promise((resolve, reject) => {
                 loginBySocial(state, code)
                     .then(res => {

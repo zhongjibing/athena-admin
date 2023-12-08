@@ -3,8 +3,8 @@
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2022年5月20日21:46:29
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: 
+ * @LastEditTime: 
 -->
 
 <template>
@@ -115,7 +115,6 @@
         border: 1px solid #ddd;
         line-height: 150%;
     }
-
     .code-editor:deep(.CodeMirror) {
         height: 100%;
     }

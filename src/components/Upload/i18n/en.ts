@@ -10,6 +10,8 @@ export default {
         pleaseUpload: 'please upload',
         size: 'size not exceeding',
         format: 'format',
-        file: 'file'
+        file: 'file',
+        sizeErrorText: 'file size error, max ',
+        typeErrorText: 'file type error, upload '
     }
 }

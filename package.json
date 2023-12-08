@@ -57,6 +57,7 @@
         "@tsconfig/node18": "^18.2.2",
         "@types/node": "^18.19.2",
         "@types/nprogress": "^0.2.3",
+        "@types/sm-crypto": "^0.3.4",
         "@types/sortablejs": "^1.15.7",
         "@typescript-eslint/eslint-plugin": "^6.13.1",
         "@typescript-eslint/parser": "^6.13.1",

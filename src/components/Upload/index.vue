@@ -11,7 +11,8 @@
             :limit="limit"
             :on-error="handleUploadError"
             :on-remove="handleRemove"
-            :data="data"
+            :on-preview="handlePreview"
+            :data="formData"
             :auto-upload="autoUpload"
             :on-success="handleUploadSuccess"
             class="upload-file-uploader"
@@ -47,7 +48,7 @@
             :auto-upload="autoUpload"
             :on-error="handleUploadError"
             :on-remove="handleRemove"
-            :data="data"
+            :data="formData"
             :on-success="handleUploadSuccess"
             class="upload-file-uploader"
             multiple
@@ -61,6 +62,8 @@
     import { useMessage } from '@/hooks/message'
     import { Session } from '@/utils/storage'
     import other from '@/utils/other'
+    import { useI18n } from 'vue-i18n'
+
     const props = defineProps({
         modelValue: [String, Array],
         // 数量限制
@@ -94,7 +97,12 @@
             }
         },
         data: {
-            type: Object
+            type: Object,
+            default: {}
+        },
+        dir: {
+            type: String,
+            default: ''
         },
         autoUpload: {
             type: Boolean,
@@ -108,12 +116,19 @@
     const fileList = ref([]) as any
     const uploadList = ref([]) as any
     const fileUpload = ref()
+    const { t } = useI18n()
 
+    // 请求头处理
     const headers = computed(() => {
         return {
             Authorization: 'Bearer ' + Session.get('token'),
             'TENANT-ID': Session.getTenant()
         }
+    })
+
+    // 请求参数处理
+    const formData = computed(() => {
+        return Object.assign(props.data, { dir: props.dir })
     })
 
     // 上传前校检格式和大小
@@ -124,7 +139,7 @@
             const fileExt = fileName[fileName.length - 1]
             const isTypeOk = props.fileType.indexOf(fileExt) >= 0
             if (!isTypeOk) {
-                useMessage().error(`文件格式不正确, 请上传${props.fileType.join('/')}格式文件!`)
+                useMessage().error(`${t('excel.typeErrorText')} ${props.fileType.join('/')}!`)
                 return false
             }
         }
@@ -132,7 +147,7 @@
         if (props.fileSize) {
             const isLt = file.size / 1024 / 1024 < props.fileSize
             if (!isLt) {
-                useMessage().error(`上传文件大小不能超过 ${props.fileSize} MB!`)
+                useMessage().error(`${t('excel.sizeErrorText')} ${props.fileSize} MB!`)
                 return false
             }
         }
@@ -143,7 +158,7 @@
     // 上传成功回调
     function handleUploadSuccess(res: any, file: any) {
         if (res.code === 0) {
-            uploadList.value.push({ name: res.data.fileName, url: res.data.url })
+            uploadList.value.push({ name: file.name, url: res.data.url })
             uploadedSuccessfully()
         } else {
             number.value--
@@ -168,6 +183,10 @@
         fileList.value = fileList.value.filter(f => !(f === file.url))
         emit('change', listToString(fileList.value))
         emit('update:modelValue', listToString(fileList.value))
+    }
+
+    const handlePreview = (file: any) => {
+        other.downBlobFile(file.url, {}, file.name)
     }
 
     /**

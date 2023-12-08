@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router'
 import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '@/router/index'
 import { baseRoutes, notFoundAndNoPower } from '@/router/route'
 import pinia from '@/stores/index'

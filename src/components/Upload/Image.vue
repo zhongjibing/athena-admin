@@ -20,15 +20,15 @@
                 <div class="upload-handle" @click.stop>
                     <div class="handle-icon" @click="editImg" v-if="!self_disabled">
                         <el-icon :size="props.iconSize"><Edit /></el-icon>
-                        <span v-if="!props.iconSize">编辑</span>
+                        <span v-if="!props.iconSize">{{ $t('common.editBtn') }}</span>
                     </div>
                     <div class="handle-icon" @click="imgViewVisible = true">
                         <el-icon :size="props.iconSize"><ZoomIn /></el-icon>
-                        <span v-if="!props.iconSize">查看</span>
+                        <span v-if="!props.iconSize">{{ $t('common.viewBtn') }}</span>
                     </div>
                     <div class="handle-icon" @click="deleteImg" v-if="!self_disabled">
                         <el-icon :size="props.iconSize"><Delete /></el-icon>
-                        <span v-if="!props.iconSize">删除</span>
+                        <span v-if="!props.iconSize">{{ $t('common.delBtn') }}</span>
                     </div>
                 </div>
             </template>
@@ -71,6 +71,7 @@
         width?: string // 组件宽度 ==> 非必传（默认为 150px）
         borderRadius?: string // 组件边框圆角 ==> 非必传（默认为 8px）
         iconSize?: number
+        dir?: string // 文件目录
     }
 
     // 接受父组件参数
@@ -83,7 +84,8 @@
         fileType: () => ['image/jpeg', 'image/png', 'image/gif'],
         height: '150px',
         width: '150px',
-        borderRadius: '8px'
+        borderRadius: '8px',
+        dir: ''
     })
 
     // 生成组件唯一id
@@ -111,6 +113,7 @@
     const handleHttpUpload = async (options: UploadRequestOptions) => {
         let formData = new FormData()
         formData.append('file', options.file)
+        formData.append('dir', props.dir)
         try {
             const { data } = await request({
                 url: props.uploadFileUrl,
@@ -151,19 +154,19 @@
         const imgSize = rawFile.size / 1024 / 1024 < props.fileSize
         const imgType = props.fileType.includes(rawFile.type as File.ImageMimeType)
         if (!imgType)
-            {ElNotification({
+            ElNotification({
                 title: '温馨提示',
                 message: '上传图片不符合所需的格式！',
                 type: 'warning'
-            })}
+            })
         if (!imgSize)
-            {setTimeout(() => {
+            setTimeout(() => {
                 ElNotification({
                     title: '温馨提示',
                     message: `上传图片大小不能超过 ${props.fileSize}M！`,
                     type: 'warning'
                 })
-            }, 0)}
+            }, 0)
         return imgType && imgSize
     }
 

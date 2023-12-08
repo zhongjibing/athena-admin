@@ -5,7 +5,7 @@ import router from '@/router/index'
 import pinia from '@/stores/index'
 import { storeToRefs } from 'pinia'
 import { useThemeConfig } from '@/stores/themeConfig'
-import { i18n } from '@/i18n/index'
+import { i18n } from '@/i18n'
 import { Local } from '@/utils/storage'
 import { verifyUrl } from '@/utils/toolsValidate'
 import request from '@/utils/request'
@@ -122,15 +122,9 @@ export function deepClone(obj: EmptyObjectType) {
  * 判断是否是移动端
  */
 export function isMobile() {
-    if (
-        navigator.userAgent.match(
-            /('phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone')/i
-        )
-    ) {
-        return true
-    } else {
-        return false
-    }
+    return !!navigator.userAgent.match(
+        /('phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone')/i
+    )
 }
 
 /**
@@ -206,7 +200,7 @@ export const openWindow = (url: string, title: string, w: number, h: number) => 
 export function encryption(src: string, keyWord: string) {
     const key = CryptoJS.enc.Utf8.parse(keyWord)
     // 加密
-    let encrypted = CryptoJS.AES.encrypt(src, key, {
+    var encrypted = CryptoJS.AES.encrypt(src, key, {
         iv: key,
         mode: CryptoJS.mode.CFB,
         padding: CryptoJS.pad.NoPadding
@@ -216,19 +210,20 @@ export function encryption(src: string, keyWord: string) {
 
 /**
  *  解密
- * @param {*} params 参数列表
  * @returns 明文
+ * @param src
+ * @param keyWord
  */
 export function decryption(src: string, keyWord: string) {
     const key = CryptoJS.enc.Utf8.parse(keyWord)
     // 解密逻辑
-    let decryptd = CryptoJS.AES.decrypt(src, key, {
+    const decrypted = CryptoJS.AES.decrypt(src, key, {
         iv: key,
         mode: CryptoJS.mode.CFB,
         padding: CryptoJS.pad.NoPadding
     })
 
-    return decryptd.toString(CryptoJS.enc.Utf8)
+    return decrypted.toString(CryptoJS.enc.Utf8)
 }
 
 /**
@@ -290,7 +285,7 @@ export function handleBlobFile(response: any, fileName: string) {
     const link = document.createElement('a')
 
     // 兼容一下 入参不是 File Blob 类型情况
-    let binaryData = [] as any
+    var binaryData = [] as any
     binaryData.push(response)
     link.href = window.URL.createObjectURL(new Blob(binaryData))
     link.download = fileName
