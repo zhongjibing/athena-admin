@@ -5,5 +5,5 @@ export default {
         refresh: 'refresh',
         print: 'print',
         view: 'view'
-    }
-}
+    },
+};
